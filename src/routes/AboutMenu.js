@@ -15,16 +15,20 @@ class AboutMenu extends Component{
              <h1 style={{textAlign:"center"}}>Menus</h1>
              <div id="menus" style={{margin:"20px", textAlign:"center"}}>
               {this.state.foods.map(food=>(
-                  <span key={food.id} style={{margin:"20px", width:"250px", display:"inline-block",border:"2px solid #C6C6C6", borderRadius:"10px"}}>
-                      <img src={food.foodImgs} alt={food.id} style={{width:"200px",height:"200px"}}></img><br></br>
-                      <b>{food.name}</b> <br></br>
-                      {food.price}원 <br></br>
-                      누적판매량: {food.hotpoint} <br></br>
-                      누적매출액: {food.ownSales} 
-                  </span>
+                  <Card key={food.id} style={{margin:"20px", width:"230px", display:"inline-block",border:"2px solid #C6C6C6", borderRadius:"10px"}}>
+                    <Card.Img variant="top" src={food.foodImgs[0]} style={{width:"150px",height:"150px"}}></Card.Img>
+                    <Card.Body>
+              <Card.Title>{food.name}</Card.Title>
+              <Card.Text>
+                {food.price}원 <br></br>
+                누적판매량: {food.hotpoint} <br></br>
+                누적매출액: {food.ownSales} 
+              </Card.Text>
+                    </Card.Body>
+                  </Card>
               ))}
-              <Button variant="info">메뉴 추가</Button>
              </div>
+             <Button variant="info" id="addMenuBtn">메뉴 추가</Button>
            </div>
        );
    }

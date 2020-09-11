@@ -6,7 +6,7 @@ function NavBar(){
     const test=true;
    return(
     <div id="NavBar">
-    <Navbar className="HomeNav" style={{backgroundColor:"#FFDC6C"}} variant="light">
+    <Navbar className="HomeNav" style={{backgroundColor:"#D8D8D8"}} variant="light">
          <Navbar.Brand href="#">
              <img 
              src={logo}
@@ -17,6 +17,7 @@ function NavBar(){
              <b>Restaurant Management</b>
          </Navbar.Brand>
          <Nav className="mr-auto">
+         <Nav.Link href="#Order">order</Nav.Link>
         <Nav.Link href="#AboutMenu">about</Nav.Link>
         <Nav.Link href="/">test</Nav.Link>
          {test?(<></>):(<Nav.Link href="#">관리자만 볼수있도록</Nav.Link>)}

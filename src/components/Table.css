@@ -4,11 +4,17 @@
     height:150px;
     color: #fff;
     background-color: #754C00;
-    border-color: #754C00;
+    border-color: #835602;
     border-radius:30px;
 }
 
 #foodImg{
     width: 100px;
     height: 100px;
+}
+
+#modal-foot{
+    justify-content: unset;
+    display:unset;
+    position: relative;
 }

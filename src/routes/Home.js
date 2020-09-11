@@ -8,7 +8,7 @@ import Table from "../components/Table";
 
 function Home(){
     return(
-      <div id="Home" style={{backgroundColor:"#FFFFCD",borderRadius:"20px"}}>
+      <div id="Home" style={{backgroundColor:"#FFFFFF",borderRadius:"20px"}}>
            {tables.tables.map(table=>(
                <span className="tables" key={table.id}>
                 <Table tableName={table.name}></Table>

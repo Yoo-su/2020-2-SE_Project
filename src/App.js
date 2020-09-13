@@ -1,7 +1,7 @@
 import React from 'react';
 import {HashRouter as Router, Route} from 'react-router-dom'
 import NavBar from "./components/NavBar";
-import Order from "./routes/Home";
+import Order from "./routes/Order";
 import Login from "./routes/Login";
 import Signup from "./routes/Signup";
 import AboutMenu from "./routes/AboutMenu";

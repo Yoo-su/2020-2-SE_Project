@@ -1,21 +1,18 @@
 import React, {useState} from 'react';
-import {Button, Modal,Alert,Badge} from "react-bootstrap";
-import Popup from 'reactjs-popup'
+import {Button, Modal,Alert} from "react-bootstrap";
 import TestFoods from "../testApi/foods.json";
 import "./Table.css";
 
 const Table=({tableName})=>{
-    const testFoods=TestFoods;
     const [show,setShow]=useState(false);
     const [pickFoods,setpickFoods]=useState([]);
     const [totalPrice,setPrice]=useState(0);
-    const [readyTime,setready]=useState(0);
     const [spendTime,setSpend]=useState(Date.now());
     const [isorder,setIsorder]=useState(false);
     const [showOrderAlert,setOrderAlert]=useState(false);
     const [showPayAlert,setPayAlert]=useState(false);
     const [showCancleAlert,setCancleAlert]=useState(false);
-    
+
     const autoOrderAlertRM=()=>{
        setTimeout(()=>{
            setOrderAlert(false);
@@ -39,6 +36,7 @@ const Table=({tableName})=>{
             setpickFoods([]);
             setPrice(0);
             setIsorder(false);
+            setShow(false);
         },1500)
     };
 
@@ -47,34 +45,37 @@ const Table=({tableName})=>{
     function resetOrder(){setpickFoods([]); setPrice(0);}
     return(
         <span>
-         <Button id="tableBtn" size="lg" onClick={handleShow}>{tableName}</Button>
+         <Button id="tableBtn" onClick={handleShow}>{tableName}</Button>
 
-         <Modal size="lg" show={show} onHide={handleHide}>
+         <Modal size="lg" show={show} onHide={()=>{handleHide(); setCancleAlert(false);}}>
          <Modal.Header closeButton>
          <Modal.Title><b>{tableName}</b></Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
          <div className="selectedFoods" style={{float:"left",width:"45%",border:"2px solid",borderRadius:"10px",flex:"1"}}>
-           <h2 style={{textAlign:"center"}}>Ordered List</h2>
+           <h2 style={{textAlign:"center",borderBottom:"1px solid"}}>Ordered List</h2>
            <div>
               {pickFoods.map(food=>(
                   <div key={Math.random()} id={food.id} style={{textAlign:"center"}}>
-                  <label>{food.name} / {food.price}원</label><br></br>
+                  <b>{food.name} / {food.price}원<button onClick={()=>{
+                      setpickFoods(pickFoods.filter(cur=>cur.key!==food.key));
+                      setPrice(totalPrice-food.price);
+                  }}>X</button></b><br></br>
                   </div>
               ))}
            </div>
               <div id="total" style={{textAlign:"center",float:"bottom"}}>
-                  <b>합계: {totalPrice}원</b>
+                  <b>합계: {totalPrice}원</b><br></br>
              </div>
          </div>
          <div className="servingFoods" style={{float:"right",width:"50%",border:"2px solid",borderRadius:"10px"}}>
-             <h2 style={{textAlign:"center"}}>Foods</h2>
+             <h2 style={{textAlign:"center",borderBottom:"1px solid"}}>Foods</h2>
              <div style={{margin:"8px",textAlign:"center"}}>
-             {testFoods.foods.map(food=>(
+             {TestFoods.foods.map(food=>(
                  <button key={Math.random()} id={food.id} style={{backgroundColor:"white",border:"1px solid #C6C6C6"}} onClick={()=>{
-                    console.log(pickFoods);
                      setpickFoods(pickFoods.concat({
+                         key:Math.random(),
                          id:food.id,
                          name:food.name,
                          price:food.price
@@ -96,10 +97,15 @@ const Table=({tableName})=>{
                   }} style={{height:"50px", marginRight:"5px"}}>cancle</Button>
 
                {isorder?(<></>):(<Button variant="primary" style={{height:"50px"}} onClick={()=>{
-                setSpend(Date.now());
-                afterOrder();
-                setOrderAlert(true);
-                autoOrderAlertRM();
+                   if(pickFoods.length===0){
+                       alert("선택된 음식이 없습니다");
+                   }
+                   else{
+                    setSpend(Date.now());
+                    afterOrder();
+                    setOrderAlert(true);
+                    autoOrderAlertRM();
+                   }
             }}>Order Complete</Button>)}
             {isorder?(<Button variant="danger" onClick={()=>{
                 console.log("고객이 머무른 시간:",(Date.now()-spendTime)/1000,"초");
@@ -115,11 +121,12 @@ const Table=({tableName})=>{
                 resetOrder();
                 handleHide();
                 setIsorder(false);
+                setCancleAlert(false);
              }}>O</Button><Button style={{ borderRadius:"10px"}} variant="danger" onClick={()=>{
                  setCancleAlert(false);
              }}>X</Button></b></Alert>
-             <Alert show={showOrderAlert} variant="success">주문 완료!</Alert>
-             <Alert show={showPayAlert} variant="success">결제 완료!</Alert>
+             <Alert show={showOrderAlert} variant="success"><b>주문 완료!</b></Alert>
+             <Alert show={showPayAlert} variant="success"><b>결제 완료!</b></Alert>
        </div>
         </Modal.Footer>
        </Modal>      

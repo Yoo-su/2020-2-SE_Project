@@ -1,9 +1,24 @@
-#orderContent{
-    margin:30px;
+#tables{
     font-size:20px;
     text-align: center;
+    margin-left:15px;
+    margin-right:15px;
+    margin-top:20px;
+}
+ 
+#order{
+  text-align: center;
 }
 
-.tables{
+#takeOut{
+  position: relative;
+}
 
+#addTable{
+   margin-right:20px;
+   margin-top:20px;
+   float:right;
+   background-color:#EAEAEA;
+   border:1px solid #D8D8D8;
+   color:black;
 }

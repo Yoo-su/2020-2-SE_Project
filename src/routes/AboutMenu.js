@@ -21,8 +21,8 @@ class AboutMenu extends Component{
               <Card.Title>{food.name}</Card.Title>
               <Card.Text>
                 {food.price}원 <br></br>
-                누적판매량: {food.hotpoint} <br></br>
-                누적매출액: {food.ownSales} 
+                누적판매량: <b>{food.hotpoint}</b> <br></br>
+                누적매출액: <b>{food.ownSales}</b> 
               </Card.Text>
                     </Card.Body>
                   </Card>

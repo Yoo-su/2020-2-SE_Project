@@ -1,0 +1,26 @@
+#main{
+  margin-left:20px;
+  margin-right:20px;
+  margin-top:10px;
+  margin-bottom: 10px;
+}
+#Carousels{
+  border:3px solid;
+  border-radius: 30px;
+  padding:10px;
+  margin-left: 250px;
+  width:65%;
+}
+
+#Carousel1{
+}
+
+#Carousel2{
+  float:right;
+  width:240px;
+}
+
+.w-100{
+  height:650px;
+  border-radius: 20px;
+}

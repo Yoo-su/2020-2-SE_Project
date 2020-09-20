@@ -6,6 +6,7 @@ import Login from "./routes/Login";
 import Signup from "./routes/Signup";
 import AboutMenu from "./routes/AboutMenu";
 import Main from "./routes/Main";
+import Cook from "./routes/Cook";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
       <Route exact path="/" component={Main}></Route>
       <Route exact path="/Order" component={Order}></Route>
       <Route exact path="/AboutMenu" component={AboutMenu}></Route>
+      <Route exact path="/Cook" component={Cook}></Route>
       <Route exact path="/Login" component={Login}></Route>
       <Route exact path="/Signup" component={Signup}></Route>
     </Router>

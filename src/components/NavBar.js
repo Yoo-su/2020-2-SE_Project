@@ -17,9 +17,9 @@ function NavBar(){
              <b>Restaurant Management</b>
          </Navbar.Brand>
          <Nav className="mr-auto">
-         <Nav.Link href="#Order">order</Nav.Link>
-        <Nav.Link href="#AboutMenu">about</Nav.Link>
-        <Nav.Link href="/">test</Nav.Link>
+         <Nav.Link href="#Order">Order</Nav.Link>
+        <Nav.Link href="#AboutMenu">Menu</Nav.Link>
+        <Nav.Link href="#Cook">Cook</Nav.Link>
          {test?(<></>):(<Nav.Link href="#">관리자만 볼수있도록</Nav.Link>)}
         </Nav>
         <Nav className="user">

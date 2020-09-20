@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Modal,Alert} from "react-bootstrap";
+import {Button, Modal,Alert,Spinner} from "react-bootstrap";
 import TestFoods from "../testApi/foods.json";
 import "./Table.css";
 
@@ -8,7 +8,9 @@ const Table=({tableName})=>{
     const [pickFoods,setpickFoods]=useState([]);
     const [totalPrice,setPrice]=useState(0);
     const [spendTime,setSpend]=useState(Date.now());
+    const [showOrderBtn,setOrderBtn]=useState(true);
     const [isorder,setIsorder]=useState(false);
+    const [showPayBtn,setPayBtn]=useState(false);
     const [showOrderAlert,setOrderAlert]=useState(false);
     const [showPayAlert,setPayAlert]=useState(false);
     const [showCancleAlert,setCancleAlert]=useState(false);
@@ -26,16 +28,28 @@ const Table=({tableName})=>{
     };
 
     const afterOrder=()=>{
+        setIsorder(true);
+        setOrderBtn(false);
         setTimeout(()=>{
-          setIsorder(true);
+          setPayBtn(true);
         },1500);
+    }
+ 
+    const countSales=()=>{
+        for(let i=0;i<pickFoods.length;i++){
+            TestFoods.foods.find(food=>food.name===pickFoods[i].name).hotpoint+=1;
+            TestFoods.foods.find(food=>food.name===pickFoods[i].name).ownSales+=pickFoods[i].price;
+        }
     }
 
     const afterPay=()=>{
+        setPayBtn(false);
+        setIsorder(false);
         setTimeout(()=>{
+            countSales();
             setpickFoods([]);
             setPrice(0);
-            setIsorder(false);
+            setOrderBtn(true);
             setShow(false);
         },1500)
     };
@@ -45,7 +59,16 @@ const Table=({tableName})=>{
     function resetOrder(){setpickFoods([]); setPrice(0);}
     return(
         <span>
-         <Button id="tableBtn" onClick={handleShow}>{tableName}</Button>
+         <Button id="tableBtn" onClick={handleShow}>{tableName}<br></br>{isorder?(
+             <><Button variant="primary" style={{borderRadius:"35px"}} disabled>Cooking..<br></br>
+             <Spinner
+               as="span"
+               animation="border"
+               size="sm"
+               role="status"
+               aria-hidden="true"
+             /></Button></>
+         ):(<></>)}</Button>
 
          <Modal size="lg" show={show} onHide={()=>{handleHide(); setCancleAlert(false);}}>
          <Modal.Header closeButton>
@@ -96,7 +119,7 @@ const Table=({tableName})=>{
                   setCancleAlert(true);
                   }} style={{height:"50px", marginRight:"5px"}}>cancle</Button>
 
-               {isorder?(<></>):(<Button variant="primary" style={{height:"50px"}} onClick={()=>{
+               {showOrderBtn?((<Button variant="primary" style={{height:"50px"}} onClick={()=>{
                    if(pickFoods.length===0){
                        alert("선택된 음식이 없습니다");
                    }
@@ -106,8 +129,8 @@ const Table=({tableName})=>{
                     setOrderAlert(true);
                     autoOrderAlertRM();
                    }
-            }}>Order Complete</Button>)}
-            {isorder?(<Button variant="danger" onClick={()=>{
+            }}>Order Complete</Button>)):(<></>)}
+            {showPayBtn?(<Button variant="danger" onClick={()=>{
                 console.log("고객이 머무른 시간:",(Date.now()-spendTime)/1000,"초");
                 afterPay();
                 setPayAlert(true);

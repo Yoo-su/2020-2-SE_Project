@@ -1,0 +1,20 @@
+#takeOutBtn{
+    position:relative;
+    left:65px;
+    margin-top:20px;
+    width:350px;
+    height:70px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+#foodImg{
+    width: 100px;
+    height: 100px;
+}
+
+#modal-foot{
+    justify-content: unset;
+    display:unset;
+    position: relative;
+}

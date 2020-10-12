@@ -1,0 +1,24 @@
+#WorkerList{
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 10px;
+    border:2px solid rgba(245, 245, 245, 0.123);
+    border-radius: 20px;
+    background-color: white;
+    min-height: 650px;
+}
+
+#mwTitle{
+    font-size: 30px;
+}
+
+#manageContent{
+    margin-left:20px;
+    margin-right:20px;
+    margin-top:10px;
+    margin-bottom: 10px;
+}
+
+#workerList{
+    border-top:2px solid gray;
+}

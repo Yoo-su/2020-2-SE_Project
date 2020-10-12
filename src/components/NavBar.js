@@ -1,9 +1,9 @@
 import React from 'react';
 import {Navbar, Nav} from 'react-bootstrap';
+import { connect } from 'react-redux';
 import logo from "../icons/logo2.png";
 
-function NavBar(){
-    const test=true;
+function NavBar({userRole}){
    return(
     <div id="NavBar">
     <Navbar className="HomeNav" style={{backgroundColor:"#D8D8D8"}} variant="light">
@@ -17,10 +17,14 @@ function NavBar(){
              <b>Restaurant Management</b>
          </Navbar.Brand>
          <Nav className="mr-auto">
-         <Nav.Link href="#Order">Order</Nav.Link>
-        <Nav.Link href="#AboutMenu">Menu</Nav.Link>
-        <Nav.Link href="#Cook">Cook</Nav.Link>
-         {test?(<></>):(<Nav.Link href="#">관리자만 볼수있도록</Nav.Link>)}
+             {userRole===1?(<>
+                <Nav.Link href="#Order">Order</Nav.Link>
+                <Nav.Link href="#AboutMenu">Menu</Nav.Link>
+             </>):(<></>)}
+             {userRole===2?(<>
+             <Nav.Link href="#Cook">Cook</Nav.Link>
+             <Nav.Link href="#Manage">Manage</Nav.Link>
+             </>):(<></>)}
         </Nav>
         <Nav className="user">
             <Nav.Link href="#Login">Sign In</Nav.Link>
@@ -31,5 +35,11 @@ function NavBar(){
    );
 };
 
-export default NavBar;
+function mapStateToProps(state){
+    return {userRole:state.userRole};
+}
+
+
+
+export default connect(mapStateToProps,null) (NavBar);
 

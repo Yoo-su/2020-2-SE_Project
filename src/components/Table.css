@@ -1,11 +1,14 @@
 #tableBtn{
     margin:60px;
+    padding-left:30px;
+    padding-right: 30px;
     width: 150px;
     height:150px;
     color: #484848;
     background-color: #EAEAEA;
     border-color: #D8D8D8;
     border-radius:30px;
+    text-align: center;
 }
 
 #foodImg{
@@ -13,7 +16,17 @@
     height: 100px;
 }
 
-#preparing{
+#curState{
+  width:100%;
+  height:50px;
+  margin-top:20px;
+  background-color: #3292f8;
+  color:white;
+  border-radius: 20px;
+}
+
+.modal-dialog{
+    top:70px;
 }
 
 #modal-foot{

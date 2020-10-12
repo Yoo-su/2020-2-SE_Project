@@ -10,6 +10,7 @@ const Table=({tableName})=>{
     const [spendTime,setSpend]=useState(Date.now());
     const [showOrderBtn,setOrderBtn]=useState(true);
     const [isorder,setIsorder]=useState(false);
+    const [foodIsReady,setFoodReady]=useState(false);
     const [showPayBtn,setPayBtn]=useState(false);
     const [showOrderAlert,setOrderAlert]=useState(false);
     const [showPayAlert,setPayAlert]=useState(false);
@@ -56,18 +57,25 @@ const Table=({tableName})=>{
 
     function handleHide(){setShow(false);};
     function handleShow(){setShow(true);};
-    function resetOrder(){setpickFoods([]); setPrice(0);}
+    function resetOrder(){
+        setpickFoods([]); 
+        setPrice(0);
+        setOrderBtn(true);
+        setPayBtn(false);
+        setIsorder(false);
+        setCancleAlert(false);
+    }
     return(
         <span>
          <Button id="tableBtn" onClick={handleShow}>{tableName}<br></br>{isorder?(
-             <><Button variant="primary" style={{borderRadius:"35px"}} disabled>Cooking..<br></br>
+             <><div id="curState">Cooking..<br></br>
              <Spinner
                as="span"
-               animation="border"
+               animation="grow"
                size="sm"
                role="status"
                aria-hidden="true"
-             /></Button></>
+             /></div></>
          ):(<></>)}</Button>
 
          <Modal size="lg" show={show} onHide={()=>{handleHide(); setCancleAlert(false);}}>
@@ -141,10 +149,8 @@ const Table=({tableName})=>{
              <Alert show={showCancleAlert} variant="danger"><b>주문을 삭제하시겠습니까? <Button variant="danger" style={{marginRight:"5px",
              borderRadius:"10px"}}
              onClick={()=>{
-                resetOrder();
                 handleHide();
-                setIsorder(false);
-                setCancleAlert(false);
+                resetOrder();
              }}>O</Button><Button style={{ borderRadius:"10px"}} variant="danger" onClick={()=>{
                  setCancleAlert(false);
              }}>X</Button></b></Alert>

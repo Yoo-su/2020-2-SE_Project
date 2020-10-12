@@ -3,8 +3,8 @@ import {configureStore,createSlice} from "@reduxjs/toolkit";
 const userState=createSlice({
     name:"user",
     initialState:{
-        isLogin:false,
-        userRole:2
+        isLogin:true,
+        userRole:0
     },
     reducers:{
         printCurUser:(state,action)=>{console.log("현재 유저 Role: ",state.userRole);}

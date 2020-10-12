@@ -8,6 +8,9 @@ function AboutMenu(){
   const [foods,setFoods]=useState(TestFoods.foods);
   const [show,setShow]=useState(false);
  
+  const modalOff=()=>{
+    setShow(false);
+  }
   return(
            <div id="menuPage">
              <br></br>
@@ -30,7 +33,7 @@ function AboutMenu(){
              <Button variant="info" id="addMenuBtn" onClick={()=>{
                setShow(!show);
              }}>메뉴 추가</Button>
-             <AddFoodal show={show} setShow={setShow}></AddFoodal>
+             <AddFoodal show={show} setShow={modalOff}></AddFoodal>
            </div>
        );
 }

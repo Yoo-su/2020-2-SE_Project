@@ -27,7 +27,7 @@ function AddFoodal({show,setShow}){
                 </Form>
              </Modal.Body> 
              <Modal.Footer>
-                 <Button variant="danger" onClick={()=>{setShow()}}>cancle</Button>
+                 <Button variant="danger" onClick={setShow}>cancle</Button>
                  <Button variant="primary">Add!</Button>
              </Modal.Footer>
             </Modal>

@@ -11,6 +11,10 @@
     text-align: center;
 }
 
+#modalContent{
+    position: relative;
+}
+
 #foodImg{
     width: 100px;
     height: 100px;

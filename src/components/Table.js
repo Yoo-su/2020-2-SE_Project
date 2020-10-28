@@ -66,7 +66,7 @@ const Table=({tableName})=>{
         setCancleAlert(false);
     }
     return(
-        <span>
+        <span id="aTable">
          <Button id="tableBtn" onClick={handleShow}>{tableName}<br></br>{isorder?(
              <><div id="curState">Cooking..<br></br>
              <Spinner
@@ -84,6 +84,7 @@ const Table=({tableName})=>{
         </Modal.Header>
 
         <Modal.Body>
+         <div id="modalContent">
          <div className="selectedFoods" style={{float:"left",width:"45%",border:"2px solid",borderRadius:"10px",flex:"1"}}>
            <h2 style={{textAlign:"center",borderBottom:"1px solid"}}>Ordered List</h2>
            <div>
@@ -118,6 +119,7 @@ const Table=({tableName})=>{
                  </button>
              ))}
              </div>
+         </div>
          </div>
         </Modal.Body>
 

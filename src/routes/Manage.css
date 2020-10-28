@@ -1,8 +1,6 @@
 #WorkerList{
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-top: 10px;
-    border:2px solid rgba(245, 245, 245, 0.123);
+    position: relative;
+    margin:10px;
     border-radius: 20px;
     background-color: white;
     min-height: 650px;
@@ -13,10 +11,8 @@
 }
 
 #manageContent{
-    margin-left:20px;
-    margin-right:20px;
-    margin-top:10px;
-    margin-bottom: 10px;
+    position: relative;
+    padding:20px;
 }
 
 #workerList{

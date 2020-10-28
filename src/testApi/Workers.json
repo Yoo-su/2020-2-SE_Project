@@ -3,18 +3,21 @@
         {
             "id":1,
             "name":"둘리",
+            "email":"dooley@naver.com",
             "role":1,
             "pay":8580
         },
         {
             "id":2,
             "name":"또치",
+            "email":"duck@daum.net",
             "role":2,
             "pay":8350
         },
         {
             "id":3,
             "name":"도우너",
+            "email":"shipbaby@nate.com",
             "role":1,
             "pay":8800
         }

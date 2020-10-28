@@ -8,26 +8,30 @@ function Employeedal({show,setShow}){
              show={show}
              onHide={setShow}
             >
-             <Modal.Header><b>직원 추가</b></Modal.Header>
+             <Modal.Header><b style={{fontSize:"30px"}}>직원 추가</b></Modal.Header>
               <Modal.Body>
                 <Form>
                    <Form.Group controlId="formBasicName">
-                     <Form.Label>직원 이름</Form.Label>
-                     <Form.Control type="text" placeholder="Enter Employee Name" />
+                     <Form.Label><b>직원 이름</b></Form.Label>
+                     <Form.Control type="text" placeholder="Enter name.." />
                    </Form.Group>
 
                     <Form.Group controlId="formBasicEmail">
-                     <Form.Label>직원 이메일</Form.Label>
-                     <Form.Control type="text" placeholder="Enter Employee Email" />
+                     <Form.Label><b>직원 이메일</b></Form.Label>
+                     <Form.Control type="text" placeholder="Enter email.." />
                    </Form.Group>
 
                    <Form.Group controlId="formBasicPassword">
-                       <Form.Label>직원 비밀번호</Form.Label>
-                      <Form.Control type="text" placeholder="Enter Employee PW" />
+                       <Form.Label><b>직원 비밀번호</b></Form.Label>
+                      <Form.Control type="text" placeholder="Enter pw.." />
                    </Form.Group>
                    <Form.Group controlId="formBasicPay">
-                     <Form.Label>직원 시급</Form.Label>
-                     <Form.Control type="number" placeholder="Enter Employee Pay" />
+                     <Form.Label><b>직원 시급</b></Form.Label>
+                     <Form.Control type="number" placeholder="Enter pay.." />
+                   </Form.Group>
+                   <Form.Group controlId="formBasicPay">
+                     <Form.Label>직원타입</Form.Label>
+                     <Form.Check label="요리사"></Form.Check> <Form.Check label="점원"></Form.Check>
                    </Form.Group>
                 </Form>
              </Modal.Body> 

@@ -7,6 +7,7 @@ import AboutMenu from "./routes/AboutMenu";
 import Main from "./routes/Main";
 import Cook from "./routes/Cook";
 import Manage from "./routes/Manage";
+import ManageEmp from "./routes/ManageEmp";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { connect } from 'react-redux';
 
@@ -21,6 +22,7 @@ function App({userRole,isLogin}) {
       </>)}
       {userRole===0?(<>
         <Route exact path="/Manage" component={Manage}></Route>
+        <Route exact path="/Manage/:id" component={ManageEmp}></Route>
         <Route exact path="/AboutMenu" component={AboutMenu}></Route>
       </>):(null)}
       {userRole===1?(<>
@@ -28,8 +30,7 @@ function App({userRole,isLogin}) {
       </>):(<></>)}
       {userRole===2?(<>
         <Route exact path="/Cook" component={Cook}></Route>
-      </>):(<></>)}
-      
+      </>):(<></>)}   
     </Router>
     </div>
   );

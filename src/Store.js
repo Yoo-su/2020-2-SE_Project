@@ -11,7 +11,6 @@ const userState=createSlice({
     }
 });
 
-console.log(userState);
 const store=configureStore({reducer:userState.reducer});
 
 

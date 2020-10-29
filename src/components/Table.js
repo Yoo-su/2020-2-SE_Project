@@ -103,7 +103,7 @@ const Table=({tableName})=>{
          </div>
          <div className="servingFoods" style={{float:"right",width:"50%",border:"2px solid",borderRadius:"10px"}}>
              <h2 style={{textAlign:"center",borderBottom:"1px solid"}}>Foods</h2>
-             <div style={{margin:"8px",textAlign:"center"}}>
+             <div style={{margin:"8px",textAlign:"center",position:"relative"}}>
              {TestFoods.foods.map(food=>(
                  <button key={Math.random()} id={food.id} style={{backgroundColor:"white",border:"1px solid #C6C6C6"}} onClick={()=>{
                      setpickFoods(pickFoods.concat({

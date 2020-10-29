@@ -1,26 +1,27 @@
-#tables{
-    position:relative;
-    font-size:20px;
-    text-align: center;
-    margin-left:15px;
-    margin-right:15px;
-    margin-top:20px;
-}
- 
 #order{
-  position:relative;
+  position: relative;
+  background-color: white;
+  margin:10px;
+  display: table;
+  border-radius: 10px;
+}
+
+#tables{
+  width:50%;
+  float:left;
   text-align: center;
+  border-right: 2px dotted rgba(117, 116, 116, 0.822);
 }
 
 #takeOut{
-  position: relative;
+  width:50%;
+  float:right;
+  text-align: center;
 }
 
-#addTable{
-   margin-right:20px;
-   margin-top:20px;
-   float:right;
-   background-color:#EAEAEA;
-   border:1px solid #D8D8D8;
-   color:black;
+#toOrders{
+  justify-content: center;
+  position: relative;
+  display:flex;
+  flex-wrap: wrap;
 }

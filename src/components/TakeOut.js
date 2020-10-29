@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Button, Modal,Alert} from "react-bootstrap";
 import TestFoods from "../testApi/foods.json";
-import "./TakeOutOrder.css";
+import "./TakeOut.css";
 
 const TakeOutOrder=({tableName})=>{
     const [show,setShow]=useState(false);

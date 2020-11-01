@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Form,Button,Modal} from 'react-bootstrap';
 
 function AddFoodal({show,setShow}){
@@ -8,7 +8,7 @@ function AddFoodal({show,setShow}){
              show={show}
              onHide={setShow}
             >
-             <Modal.Header><b>음식 추가</b></Modal.Header>
+             <Modal.Header><b style={{fontSize:"30px"}}>음식 추가</b></Modal.Header>
               <Modal.Body>
                 <Form>
                     <b>Food Image</b><br></br>

@@ -1,5 +1,4 @@
 import React,{useState} from "react";
-import axios from "axios";
 import "./Order.css";
 import tablesj from "../testApi/tables.json";
 import takeOutOj from "../testApi/takeOutOrders.json";
@@ -20,7 +19,7 @@ function Order(){
               ))}
          </div>
          <div id="takeOut">
-           <TakeOut tableName={"TakeOut"}></TakeOut>
+           <TakeOut tableName={"TakeOut"}></TakeOut><br></br><br></br>
            <div id="toOrders">
            {takeOutOrders.map(tOO=>(
              <TakeOutOrders key={tOO.id} orderNum={tOO.orderNum} foods={tOO.foods} state={tOO.state}></TakeOutOrders>

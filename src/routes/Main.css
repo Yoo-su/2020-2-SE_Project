@@ -1,7 +1,6 @@
 #main{
   position: relative;
   margin:10px;
-  
 }
 #Carousels{
   position: relative;
@@ -15,4 +14,5 @@
 
 .w-100{
   max-height: 650px;
+  border-radius: 20px;
 }

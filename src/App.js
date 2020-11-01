@@ -8,6 +8,7 @@ import Main from "./routes/Main";
 import Cook from "./routes/Cook";
 import Manage from "./routes/Manage";
 import ManageEmp from "./routes/ManageEmp";
+import ManageStock from "./routes/ManageStock";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { connect } from 'react-redux';
 
@@ -20,16 +21,17 @@ function App({userRole,isLogin}) {
       {isLogin===true?(null):(<>
         <Route exact path="/Login" component={Login}></Route>
       </>)}
-      {userRole===0?(<>
-        <Route exact path="/Manage" component={Manage}></Route>
-        <Route exact path="/Manage/:id" component={ManageEmp}></Route>
+      {userRole===1?(<>
+        <Route exact path="/ManageEmp" component={Manage}></Route>
+        <Route exact path="/ManageEmp/:id" component={ManageEmp}></Route>
         <Route exact path="/AboutMenu" component={AboutMenu}></Route>
       </>):(null)}
       {userRole===1?(<>
         <Route exact path="/Order" component={Order}></Route>
       </>):(<></>)}
-      {userRole===2?(<>
+      {userRole===1?(<>
         <Route exact path="/Cook" component={Cook}></Route>
+        <Route exact path="/ManageStock" component={ManageStock}></Route>
       </>):(<></>)}   
     </Router>
     </div>

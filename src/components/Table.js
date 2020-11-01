@@ -10,7 +10,6 @@ const Table=({tableName})=>{
     const [spendTime,setSpend]=useState(Date.now());
     const [showOrderBtn,setOrderBtn]=useState(true);
     const [isorder,setIsorder]=useState(false);
-    const [foodIsReady,setFoodReady]=useState(false);
     const [showPayBtn,setPayBtn]=useState(false);
     const [showOrderAlert,setOrderAlert]=useState(false);
     const [showPayAlert,setPayAlert]=useState(false);
@@ -68,7 +67,7 @@ const Table=({tableName})=>{
     return(
         <span id="aTable">
          <Button id="tableBtn" onClick={handleShow}>{tableName}<br></br>{isorder?(
-             <><div id="curState">Cooking..<br></br>
+             <><div id="curState"><b>Cooking..</b><br></br>
              <Spinner
                as="span"
                animation="grow"

@@ -4,13 +4,15 @@
   margin:10px;
   display: table;
   border-radius: 10px;
+  min-height: 670px;
 }
 
 #tables{
   width:50%;
   float:left;
   text-align: center;
-  border-right: 2px dotted rgba(117, 116, 116, 0.822);
+  border-right: 2px solid #EAEAEA;
+  min-height:670px;
 }
 
 #takeOut{
@@ -20,6 +22,7 @@
 }
 
 #toOrders{
+  border-top:2px solid  #EAEAEA;
   justify-content: center;
   position: relative;
   display:flex;

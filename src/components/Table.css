@@ -4,8 +4,8 @@
     padding-right: 10px;
     width: 130px;
     height:130px;
-    color: #484848;
-    background-color: #EAEAEA;
+    color: white;
+    background-color: #816C5B;
     border-color: #D8D8D8;
     border-radius:30px;
     text-align: center;
@@ -28,8 +28,8 @@
   width:100%;
   height:50px;
   margin-top:20px;
-  background-color: #3292f8;
-  color:white;
+  background-color: #B1DDA1;
+  color:#668d3c;
   border-radius: 20px;
 }
 

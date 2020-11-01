@@ -1,9 +1,10 @@
-import React,{useState} from 'react';
+import React from 'react';
 import {Button, Modal,Form} from 'react-bootstrap';
+import "./Employeedal.css";
 
 function Employeedal({show,setShow}){
     return(
-    <div>
+    <div id="addEmpDal">
         <Modal
              show={show}
              onHide={setShow}

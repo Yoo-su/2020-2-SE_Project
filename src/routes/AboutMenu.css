@@ -1,4 +1,14 @@
+#menuPage{
+    position:relative;
+    margin:10px;
+    border-radius: 20px;
+    padding:30px;
+    background-color: white;
+    min-height: 670px;
+}
+
+
 #addMenuBtn{
     position: relative;
-    left:47%;
+    
 }

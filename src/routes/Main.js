@@ -1,9 +1,7 @@
-import React,{useState} from 'react';
-import {Carousel, Button} from 'react-bootstrap';
+import React from 'react';
+import {Carousel} from 'react-bootstrap';
 import image1 from "../imgs/image1.jpg";
 import image2 from "../imgs/image2.jpg";
-import image3 from "../imgs/image3.jpg";
-import image4 from "../imgs/image4.jpg"
 import "./Main.css";
 
 function Main(){
@@ -11,7 +9,7 @@ function Main(){
         <div id="main">
           <div id="Carousels">
         <div id="Carousel1">
-        <Carousel>
+        <Carousel style={{borderRadius:"30px"}}>
   <Carousel.Item>
     <img
       className="d-block w-100"
@@ -19,7 +17,7 @@ function Main(){
       alt="first slide"
     />
     <Carousel.Caption>
-      <h1>Restaurant automation</h1>
+      <h1>레스토랑 자동화</h1>
     </Carousel.Caption>
   </Carousel.Item>
 

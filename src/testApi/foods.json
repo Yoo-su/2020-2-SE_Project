@@ -6,35 +6,40 @@
           "price":13000,
           "foodImgs":[],
           "hotpoint":0,
-          "ownSales":0
+          "ownSales":0,
+          "stock":13
       },{
           "id":2,
           "name":"menu2",
           "price":5000,
           "foodImgs":[],
           "hotpoint":0,
-          "ownSales":0
+          "ownSales":0,
+          "stock":10
       },{
           "id":3,
           "name":"menu3",
           "price":20000,
           "foodImgs":[],
           "hotpoint":0,
-          "ownSales":0
+          "ownSales":0,
+          "stock":22
       },{
           "id":4,
           "name":"menu4",
           "price":500,
           "foodImgs":[],
           "hotpoint":0,
-          "ownSales":0
+          "ownSales":0,
+          "stock":30
       },{
           "id":5,
           "name":"menu5",
           "price":1000,
           "foodImgs":[],
           "hotpoint":0,
-          "ownSales":0
+          "ownSales":0,
+          "stock":50
       }
   ]
 }

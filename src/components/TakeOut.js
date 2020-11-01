@@ -53,7 +53,7 @@ const TakeOutOrder=({tableName})=>{
     function resetOrder(){setpickFoods([]); setPrice(0);}
     return(
         <span>
-         <Button id="takeOutBtn" onClick={handleShow}><b>Take Out Order !</b></Button>
+         <Button id="takeOutBtn" onClick={handleShow}><b>테이크아웃</b></Button>
 
          <Modal size="lg" show={show} onHide={()=>{handleHide(); setCancleAlert(false);}}>
          <Modal.Header closeButton>

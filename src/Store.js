@@ -4,7 +4,7 @@ const userState=createSlice({
     name:"user",
     initialState:{
         isLogin:true,
-        userRole:1
+        userRole:0
     },
     reducers:{
         printCurUser:(state,action)=>{console.log("현재 유저 Role: ",state.userRole);}

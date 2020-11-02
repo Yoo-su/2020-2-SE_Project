@@ -42,7 +42,7 @@ function Manage(){
                   <td>{ant.role===1?("점원"):("요리사")}</td>
                   <td>{ant.pay}원</td>
                   <td><Link to={{
-                    pathname:`/Manage/${ant.email}`,
+                    pathname:`/ManageEmp/${ant.email}`,
                     state:{
                       id:ant.id,
                       name:ant.name,

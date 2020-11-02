@@ -17,14 +17,14 @@ function NavBar({userRole,isLogin}){
              <b>Restaurant Management</b>
          </Navbar.Brand>
          <Nav className="mr-auto">
-             {userRole===1?(<>
+             {userRole===0?(<>
                 <Nav.Link href="#ManageEmp">Manage</Nav.Link>
                 <Nav.Link href="#AboutMenu">Menu</Nav.Link>
              </>):(null)}
              {userRole===1?(<>
                 <Nav.Link href="#Order">Order</Nav.Link>
              </>):(<></>)}
-             {userRole===1?(<>
+             {userRole===2?(<>
              <Nav.Link href="#Cook">Cook</Nav.Link>
              <Nav.Link href="#ManageStock">Stock</Nav.Link>
              </>):(<></>)}

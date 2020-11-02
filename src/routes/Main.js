@@ -1,15 +1,21 @@
-import React from 'react';
+import Axios from 'axios';
+import React,{useEffect} from 'react';
 import {Carousel} from 'react-bootstrap';
 import image1 from "../imgs/image1.jpg";
 import image2 from "../imgs/image2.jpg";
+import axios from "axios";
 import "./Main.css";
 
 function Main(){
+  const getTest=()=>{
+    axios.get("/").then(res=>console.log("받았다요"));
+  }
+  useEffect(getTest(),null);
     return(
         <div id="main">
           <div id="Carousels">
         <div id="Carousel1">
-        <Carousel style={{borderRadius:"30px"}}>
+        <Carousel>
   <Carousel.Item>
     <img
       className="d-block w-100"

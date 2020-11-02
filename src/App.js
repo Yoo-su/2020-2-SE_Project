@@ -21,7 +21,7 @@ function App({userRole,isLogin}) {
       {isLogin===true?(null):(<>
         <Route exact path="/Login" component={Login}></Route>
       </>)}
-      {userRole===1?(<>
+      {userRole===0?(<>
         <Route exact path="/ManageEmp" component={Manage}></Route>
         <Route exact path="/ManageEmp/:id" component={ManageEmp}></Route>
         <Route exact path="/AboutMenu" component={AboutMenu}></Route>
@@ -29,7 +29,7 @@ function App({userRole,isLogin}) {
       {userRole===1?(<>
         <Route exact path="/Order" component={Order}></Route>
       </>):(<></>)}
-      {userRole===1?(<>
+      {userRole===2?(<>
         <Route exact path="/Cook" component={Cook}></Route>
         <Route exact path="/ManageStock" component={ManageStock}></Route>
       </>):(<></>)}   

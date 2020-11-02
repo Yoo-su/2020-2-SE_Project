@@ -7,10 +7,11 @@ import axios from "axios";
 import "./Main.css";
 
 function Main(){
-  const getTest=()=>{
-    axios.get("/").then(res=>console.log("받았다요"));
-  }
-  useEffect(getTest(),null);
+  let test=null;
+    useEffect(()=>{
+      axios.get("/").then(res=>{test=res.test});
+    },null);
+    console.log(test);
     return(
         <div id="main">
           <div id="Carousels">

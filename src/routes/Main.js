@@ -9,7 +9,7 @@ import "./Main.css";
 function Main(){
   let test=null;
     useEffect(()=>{
-      axios.get("http://localhost:3000/").then(res=>{test=res; console.log(res);})
+      axios.get("/",{withCredentials:true}).then(res=>{test=res; console.log(res);})
     },null);
     console.log(test);
     return(

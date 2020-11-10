@@ -38,11 +38,19 @@ function App({userRole,isLogin}) {
   );
 }
 
-function mapDispatchToProps(state){
+function mapStateToProps(state){
    return {
      userRole:state.userRole,
      isLogin:state.isLogin
     };
 }
 
-export default connect(mapDispatchToProps,null) (App);
+function mapDispatchToProps(dispatch,ownProps){
+   return(
+     {
+       logOut:()=>{dispatch()}
+     }
+   );
+}
+
+export default connect(mapStateToProps,null) (App);

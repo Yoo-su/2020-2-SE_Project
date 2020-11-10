@@ -1,9 +1,10 @@
 import React from 'react';
 import {Navbar, Nav,Button} from 'react-bootstrap';
 import { connect } from 'react-redux';
+import {logOut} from "../Store";
 import logo from "../icons/logo2.png";
 
-function NavBar({userRole,isLogin}){
+function NavBar({userRole,isLogin,logOut}){
    return(
     <div id="NavBar">
     <Navbar className="HomeNav" style={{backgroundColor:"#F4DCB5"}} variant="light">
@@ -31,7 +32,7 @@ function NavBar({userRole,isLogin}){
         </Nav>
         {isLogin===true?(<>
          <Button variant="danger" size="sm" onClick={()=>{
-
+           logOut();
          }}>Logout</Button>
         </>):(
             <Nav className="sign">
@@ -49,9 +50,13 @@ function mapStateToProps(state){
     };
 }
 
-function mapDispatchToProps(){
-    
-}
+function mapDispatchToProps(dispatch,ownProps){
+    return(
+      {
+        logOut:()=>{dispatch(logOut());}
+      }
+    );
+ }
 
-export default connect(mapStateToProps,null) (NavBar);
+export default connect(mapStateToProps,mapDispatchToProps) (NavBar);
 

@@ -7,12 +7,15 @@ const userState=createSlice({
         userRole:0
     },
     reducers:{
-        printCurUser:(state,action)=>{console.log("현재 유저 Role: ",state.userRole);}
+        logOut:(state,action)=>{
+            state.isLogin=false;
+            state.userRole=-1;
+        }
     }
 });
 
 const store=configureStore({reducer:userState.reducer});
 
 
-export const {printCurUser}=userState.actions;
+export const {logOut}=userState.actions;
 export default store;

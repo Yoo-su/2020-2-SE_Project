@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import {HashRouter as Router, Route} from 'react-router-dom'
 import NavBar from "./components/NavBar";
 import Order from "./routes/Order";
@@ -9,6 +9,7 @@ import Cook from "./routes/Cook";
 import Manage from "./routes/Manage";
 import ManageEmp from "./routes/ManageEmp";
 import ManageStock from "./routes/ManageStock";
+import Account from "./routes/Account";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { connect } from 'react-redux';
 
@@ -25,6 +26,7 @@ function App({userRole,isLogin}) {
         <Route exact path="/ManageEmp" component={Manage}></Route>
         <Route exact path="/ManageEmp/:id" component={ManageEmp}></Route>
         <Route exact path="/AboutMenu" component={AboutMenu}></Route>
+        <Route exact path="/Account" component={Account}></Route>
       </>):(null)}
       {userRole===1?(<>
         <Route exact path="/Order" component={Order}></Route>
@@ -43,14 +45,6 @@ function mapStateToProps(state){
      userRole:state.userRole,
      isLogin:state.isLogin
     };
-}
-
-function mapDispatchToProps(dispatch,ownProps){
-   return(
-     {
-       logOut:()=>{dispatch()}
-     }
-   );
 }
 
 export default connect(mapStateToProps,null) (App);

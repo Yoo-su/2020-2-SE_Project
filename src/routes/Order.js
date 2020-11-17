@@ -7,6 +7,8 @@ import TakeOut from "../components/TakeOut";
 import TakeOutOrders from "../components/TakeOutOrders";
 
 function Order(){
+  //할것: axios.get을 통해 테이블정보, 테이크아웃주문 정보 불러오기 구현
+
   const [tables,setTables]=useState(tablesj.tables);
   const [takeOutOrders,setTakeOutOrders]=useState(takeOutOj.takeOutOrders);
     return(

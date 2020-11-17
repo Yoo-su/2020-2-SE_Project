@@ -26,7 +26,7 @@ function NavBar({userRole,isLogin,logOut}){
              {userRole===1?(<>
                 <Nav.Link href="#Order">Order</Nav.Link>
              </>):(<></>)}
-             {userRole===2?(<>
+             {userRole===1?(<>
              <Nav.Link href="#Cook">Cook</Nav.Link>
              <Nav.Link href="#ManageStock">Stock</Nav.Link>
              </>):(<></>)}

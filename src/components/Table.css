@@ -24,13 +24,18 @@
     height: 100px;
 }
 
-#curState{
+#curState1{
   width:100%;
   height:50px;
   margin-top:20px;
-  background-color: #B1DDA1;
-  color:#668d3c;
+  background-color: #F7DC6F;
+  color:#7D6608;
   border-radius: 20px;
+}
+
+#curState2{
+    background-color: #B1DDA1;
+    color:#668d3c;
 }
 
 .modal-dialog{

@@ -4,7 +4,7 @@ const userState=createSlice({
     name:"user",
     initialState:{
         isLogin:true,
-        userRole:0
+        userRole:1
     },
     reducers:{
         logOut:(state,action)=>{

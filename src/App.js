@@ -31,7 +31,7 @@ function App({userRole,isLogin}) {
       {userRole===1?(<>
         <Route exact path="/Order" component={Order}></Route>
       </>):(<></>)}
-      {userRole===2?(<>
+      {userRole===1?(<>
         <Route exact path="/Cook" component={Cook}></Route>
         <Route exact path="/ManageStock" component={ManageStock}></Route>
       </>):(<></>)}   

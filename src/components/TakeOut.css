@@ -5,6 +5,9 @@
     height:70px;
     border-radius: 20px;
     font-weight: bold;
+    background-color: #74D5DD;
+    border-color: #74D5DD;
+    color:#2F66A9;
 }
 
 #foodImg{

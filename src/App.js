@@ -14,6 +14,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { connect } from 'react-redux';
 
 function App({userRole,isLogin}) {
+  /*App 컴포넌트 마운트 할 때마다 로컬스토리지에서 로그인 유저 정보 확인,
+    유저존재하면 store isLogin state를 true로 ..*/
+  useEffect(()=>{
+     console.log("App 컴포넌트 렌더링 확인");
+  });
   return (
     <div className="App">
       <NavBar />
@@ -22,7 +27,7 @@ function App({userRole,isLogin}) {
       {isLogin===true?(null):(<>
         <Route exact path="/Login" component={Login}></Route>
       </>)}
-      {userRole===0?(<>
+      {userRole===1?(<>
         <Route exact path="/ManageEmp" component={Manage}></Route>
         <Route exact path="/ManageEmp/:id" component={ManageEmp}></Route>
         <Route exact path="/AboutMenu" component={AboutMenu}></Route>

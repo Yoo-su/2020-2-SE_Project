@@ -1,9 +1,12 @@
 import React from 'react';
+import "./Account.css";
 
 function Account(){
     return(
-        <div>
-            <b>회계관리</b>
+        <div id="Account">
+            <div id="AccountContent">
+              에잇~ 씨팔!
+            </div>
         </div>
     );
 }

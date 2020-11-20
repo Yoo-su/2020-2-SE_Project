@@ -6,12 +6,18 @@
     min-height: 650px;
 }
 
+#Content{
+    position:relative; 
+    padding:40px;
+}
+
+
 #empDetailTitle{
     padding-bottom: 10px;
     border-bottom: 2px solid;
+    font-size: 35px;
 }
 
-#detailContent{
-    position:relative; 
-    padding:20px;
+#empDetailContent{
+    font-size: 25px;
 }

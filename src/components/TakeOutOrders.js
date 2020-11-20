@@ -20,7 +20,7 @@ function TakeOutOrders({id,orderNum,foods,state}){
       height:'13rem',
       border:'5px solid #668D3C' 
     }
-
+    const [orderState,setOrderState]=useState("");
     const applyStyle=state==="cooking"?cookingStyle:preparedStyle;
 
     return(

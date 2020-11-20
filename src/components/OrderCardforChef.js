@@ -4,14 +4,27 @@ import OrderDal from "../components/OrderDal";
 
 function OrderCardforChef({orderNum,foods,type}){
     const [showOrderDal,setShowOrderDal]=useState(false);
+    const [orderState,setOrderState]=useState("");
 
     function orderDalOnOff(){
       setShowOrderDal(!showOrderDal);
     }
+    
+    const cookingStyle={
+       width:"10rem",
+       margin:"30px",
+    };
+
+    const preparedStyle={
+      width:"10rem",
+      margin:"30px",
+      opacity:'0.5'
+    }
+    const applyStyle=orderState==="cooking"?cookingStyle:preparedStyle;
 
     return(
         <div>
-            <Card key={Math.random()} style={{width:"10rem",margin:"30px"}}>
+            <Card key={Math.random()} style={applyStyle}>
                  <Card.Header onClick={()=>{setShowOrderDal(true);}}>
                      <b>주문번호: {orderNum}</b><br></br>
                      <b style={{color:"#C0392B"}}>{type}</b>
@@ -35,7 +48,8 @@ function OrderCardforChef({orderNum,foods,type}){
               </Card.Text>
              </Card.Body>
              <Card.Footer style={{textAlign:"center"}}>
-               <Button variant="success">준비완료</Button>
+               {orderState==="cooking"?(<Button variant="success">준비완료</Button>):(<Button variant="info">대기중</Button>)}
+               
              </Card.Footer>
              <OrderDal show={showOrderDal} setShow={orderDalOnOff} orderNum={orderNum} foods={foods}></OrderDal>
                </Card>

@@ -34,8 +34,12 @@
 }
 
 #curState2{
-    background-color: #B1DDA1;
-    color:#668d3c;
+  width:100%;
+  height:50px;
+  margin-top:20px;
+  background-color: #B1DDA1;
+  color:#668d3c;
+  border-radius: 20px;
 }
 
 .modal-dialog{
@@ -46,4 +50,14 @@
     justify-content: unset;
     display:unset;
     position: relative;
+}
+
+#deleteFromAdd{
+    margin-left:5px;
+    background-color: #99aab5;
+    border-color: #99aab5;
+    color:black;
+    height:20px;
+    padding:5px;
+    font-size: 10px;
 }

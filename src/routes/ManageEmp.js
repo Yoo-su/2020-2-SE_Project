@@ -6,15 +6,19 @@ function ManageEmp({location}){
     const emp=location.state;
    return(
     <div id="aboutEmp">
-        <div id="detailContent">
+        <div id="Content">
             <div id="empDetailTitle">
-              <b style={{fontSize:"30px"}}>직원명: {emp.name}</b>
-              <Button variant="danger" size="sm" style={{float:"right"}}>삭제</Button>
+              <b>직원명: {emp.name}</b>
+              <Button variant="danger"  style={{float:"right"}}>삭제</Button>
             </div>
           <br></br>
-          <b style={{fontSize:"20px"}}>역할: {emp.role===1?("점원"):("요리사")}</b><br></br>
-          <b style={{fontSize:"20px"}}>이메일: {emp.email}</b><br></br>
-          <b style={{fontSize:"20px"}}>시급: {emp.pay}</b> 
+          <div id="empDetailContent">
+          <b style={{borderBottom:"2px solid #99aab5"}}>역할: {emp.role===1?("점원"):("요리사")}</b><br></br><br></br>
+          <b style={{borderBottom:"2px solid #99aab5"}}>이메일: {emp.email}</b><br></br><br></br>
+          <b style={{borderBottom:"2px solid #99aab5"}}>시급: {emp.pay}원</b><Button style={{marginLeft:"20px"}}>시급변경</Button><br></br><br></br>
+          <b style={{borderBottom:"2px solid #99aab5"}}>총 근무시간: 1시간</b><br></br><br></br>
+          <b style={{borderBottom:"2px solid #99aab5"}}>지불할 임금: 150000원</b><br></br>
+          </div>
           </div>
     </div>
    );

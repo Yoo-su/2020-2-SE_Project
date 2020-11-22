@@ -56,7 +56,7 @@ function TakeOutOrders({id,orderNum,foods,state}){
                        role="status"
                        aria-hidden="true"></Spinner>
                   </div>
-              ):(<><b style={{color:"#668D3C"}}>Prepared!<br></br> Ѷ</b></>)}
+              ):(<><b style={{color:"#668D3C"}}>Prepared!<br></br> 😃</b></>)}
             </Card.Footer>
             <TakeOutDetaildal show={showDetail} setShow={detailOnOff} orderNum={orderNum} foods={foods} state={state}></TakeOutDetaildal>
           </Card>

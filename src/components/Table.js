@@ -4,10 +4,11 @@ import axios from "axios";
 import "./Table.css";
 import io from "socket.io-client";
 
-const Table=({tableName,TestFoods})=>{
-    /*앞으로 할것: 테이블 id를 통해 서버에 get요청해서 테이블 관련 order 정보 가져온다.
-    빈 테이블인 경우 음식을 담고 주문버튼을 누르면, order정보를 order api에 전송.
-    */
+const Table=({tableId,TestFoods})=>{
+    /* Table.js에서 할거 정리-> 컴포넌트 마운트될 때 딱 한번 서버로부터 테이블 관련 주문정보전부 가져오도록
+    하고, 소켓 연결해서 'cook'이벤트 발생 시 다시 주문정보 가져오게 한다. 그리고 테이블에서 order버튼을
+    통한 주문 발생 또는 Add버튼을 통한 추가주문 발생 시 소켓 'aboutOrder' 이벤트 발생시켜서 cook페이지에서
+    반영할 수 있도록 한다. cancle버튼 또한 연결되서 cook에서 반영하도록.  */
 
     const [show,setShow]=useState(false);
     const [tableEmpty,setTableEmpty]=useState(true);
@@ -16,14 +17,15 @@ const Table=({tableName,TestFoods})=>{
     const [addedContents,setAddedContents]=useState([]);
     const [totalPrice,setPrice]=useState(0);
     const [addedPrice,setAddedPrice]=useState(0);
-    const [spendTime,setSpend]=useState(null);
 
-    const [showOrderBtn,setOrderBtn]=useState(true);
-    const [showPayBtn,setPayBtn]=useState(false);
     const [showOrderAlert,setOrderAlert]=useState(false);
     const [showPayAlert,setPayAlert]=useState(false);
     const [showCancleAlert,setCancleAlert]=useState(false);
     const [showAddAlert,setAddAlert]=useState(false);
+
+    useEffect(()=>{
+      
+    },[]);
 
     const autoOrderAlertRM=()=>{
        setTimeout(()=>{
@@ -46,31 +48,18 @@ const Table=({tableName,TestFoods})=>{
     const afterOrder=()=>{
         setOrderContents(addedContents);
         setAddedContents([]);
-        setOrderBtn(false);
         setTableEmpty(false);
         setOrderState("cooking");
-        setTimeout(()=>{
-          setPayBtn(true);
-        },1500);
     }
  
-    const countSales=()=>{
-        for(let i=0;i<orderContents.length;i++){
-            TestFoods.foods.find(food=>food.name===orderContents[i].name).hotpoint+=1;
-            TestFoods.foods.find(food=>food.name===orderContents[i].name).ownSales+=orderContents[i].price;
-        }
-    }
 
     const afterPay=()=>{
         setTimeout(()=>{
-            countSales();
             setOrderContents([]);
             setAddedContents([]);
             setTableEmpty(true);
             setPrice(0);
             setOrderState("");
-            setPayBtn(false);
-            setOrderBtn(true);
             setShow(false);
         },1500)
     };
@@ -84,13 +73,11 @@ const Table=({tableName,TestFoods})=>{
         setPrice(0);
         setAddedPrice(0);
         setOrderState("");
-        setOrderBtn(true);
-        setPayBtn(false);
         setCancleAlert(false);
     }
     return(
         <span id="aTable">
-         <Button id="tableBtn" onClick={handleShow}>{tableName}<br></br>{orderState==="cooking"?(
+         <Button id="tableBtn" onClick={handleShow}>{tableId}<br></br>{orderState==="cooking"?(
              <div id="curState1"><b>Cooking..</b><br></br>
              <Spinner
                as="span"
@@ -100,16 +87,24 @@ const Table=({tableName,TestFoods})=>{
                aria-hidden="true"
              /></div>
          ):(<></>)}
+
          {orderState==="prepared"?(<>
           <div id="curState2"><b>Prepared!</b><br></br>
           Ѷ
           </div>
          </>):(<></>)}
+
+         {orderState==="served"?(<>
+         <div id="curState3">
+          <b>Served</b><br></br>
+          😊
+         </div>
+         </>):(<></>)}
          </Button>
 
          <Modal size="lg" show={show} onHide={()=>{handleHide(); setCancleAlert(false); setAddedContents([]); setAddedPrice(0)}}>
          <Modal.Header closeButton>
-         <Modal.Title><b>{tableName}</b></Modal.Title>
+         <Modal.Title><b>{tableId}</b></Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
@@ -180,12 +175,11 @@ const Table=({tableName,TestFoods})=>{
                   }} style={{height:"50px", marginRight:"5px"}}>cancle</Button>):(<></>)}
                   
 
-               {showOrderBtn?((<Button variant="primary" style={{height:"50px"}} onClick={()=>{
+               {tableEmpty===true?((<Button variant="primary" style={{height:"50px"}} onClick={()=>{
                    if(addedContents.length===0){
                        alert("선택된 음식이 없습니다");
                    }
                    else{
-                    setSpend(Date.now());
                     setPrice(addedPrice);
                     setAddedPrice(0);
                     afterOrder();
@@ -194,22 +188,23 @@ const Table=({tableName,TestFoods})=>{
                    }
             }}>Order Complete</Button>)):(<></>)}
 
-            {tableEmpty===false&&addedContents.length!==0?(<>
+            {!tableEmpty&&orderState==="prepared"?( 
+            <Button variant='warning' style={{height:"50px",marginRight:"5px"}} onClick={()=>{
+                setOrderState("served");
+            }}>서빙</Button>):(<></>)}
+
+            {tableEmpty===false&&addedContents.length!==0?(
                 <Button variant='info' style={{height:"50px",marginRight:"5px"}} onClick={()=>{
-                if(addedContents.length===0){
-                    alert("추가된 음식이 없습니다");
-                }else{
                 setOrderContents(orderContents.concat(addedContents));
                 setPrice(totalPrice+addedPrice);
                 setAddedContents([]);
                 setAddedPrice(0);
                 setAddAlert(true);
-                autoAddAlertRM();}
+                autoAddAlertRM();
             }}>add</Button> 
-            </>):(<></>)}
+            ):(<></>)}
 
-            {showPayBtn&&addedContents.length===0?(<Button variant="danger" onClick={()=>{
-                console.log("고객이 머무른 시간:",(Date.now()-spendTime)/1000,"초");
+            {tableEmpty===false&&addedContents.length===0?(<Button variant="danger" onClick={()=>{
                 afterPay();
                 setPayAlert(true);
                 autoPayAlertRM();

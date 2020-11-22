@@ -19,7 +19,6 @@ function Manage(){
            setShowAddEmp(!showAddEmp);
          }}>직원 추가</Button>
          <Employeedal show={showAddEmp} setShow={addEmpModalOff}></Employeedal>
-         <br></br>
          <div id="workerList">
              <br></br>
              <Table striped borderless hover variant="dark" style={{borderRadius:"10px"}}>

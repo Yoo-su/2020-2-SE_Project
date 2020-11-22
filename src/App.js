@@ -18,7 +18,7 @@ function App({userRole,isLogin}) {
     유저존재하면 store isLogin state를 true로 ..*/
   useEffect(()=>{
      console.log("App 컴포넌트 렌더링 확인");
-  });
+  },[]);
   return (
     <div className="App">
       <NavBar />

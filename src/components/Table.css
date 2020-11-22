@@ -37,8 +37,17 @@
   width:100%;
   height:50px;
   margin-top:20px;
+  background-color: #81CBF8;
+  color:#004159;
+  border-radius: 20px;
+}
+
+#curState3{
+  width:100%;
+  height:50px;
+  margin-top:20px;
   background-color: #B1DDA1;
-  color:#668d3c;
+  color:#3d5324;
   border-radius: 20px;
 }
 

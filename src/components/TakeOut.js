@@ -3,92 +3,123 @@ import {Button, Modal,Alert} from "react-bootstrap";
 import TestFoods from "../testApi/foods.json";
 import "./TakeOut.css";
 
-const TakeOutOrder=({tableName})=>{
+const TakeOutOrder=({tableId})=>{
     const [show,setShow]=useState(false);
-    const [pickFoods,setpickFoods]=useState([]);
+    const [tableEmpty,setTableEmpty]=useState(true);
+    const [orderContents,setOrderContents]=useState([]);
+    const [addedContents,setAddedContents]=useState([]);
     const [totalPrice,setPrice]=useState(0);
-    const [spendTime,setSpend]=useState(Date.now());
-    const [isorder,setIsorder]=useState(false);
+    const [addedPrice,setAddedPrice]=useState(0);
+
     const [showOrderAlert,setOrderAlert]=useState(false);
     const [showPayAlert,setPayAlert]=useState(false);
     const [showCancleAlert,setCancleAlert]=useState(false);
+    const [showAddAlert,setAddAlert]=useState(false);
 
     const autoOrderAlertRM=()=>{
-       setTimeout(()=>{
-           setOrderAlert(false);
-       },1500);
-    };
-
-    const autoPayAlertRM=()=>{
         setTimeout(()=>{
-            setPayAlert(false);
-          },1500);
-    };
-
-    const afterOrder=()=>{
-        setTimeout(()=>{
-          setIsorder(true);
+            setOrderAlert(false);
         },1500);
-    }
+     };
  
-    const countSales=()=>{
-        for(let i=0;i<pickFoods.length;i++){
-            TestFoods.foods.find(food=>food.name===pickFoods[i].name).hotpoint+=1;
-            TestFoods.foods.find(food=>food.name===pickFoods[i].name).ownSales+=pickFoods[i].price;
-        }
-    }
+     const autoPayAlertRM=()=>{
+         setTimeout(()=>{
+             setPayAlert(false);
+           },1500);
+     };
+ 
+     const autoAddAlertRM=()=>{
+         setTimeout(()=>{
+             setAddAlert(false);
+           },1500);
+     };
+ 
+     const afterOrder=()=>{
+         setOrderContents(addedContents);
+         setAddedContents([]);
+         setTableEmpty(false);
+     }
+  
+ 
+     const afterPay=()=>{
+         setTimeout(()=>{
+             setOrderContents([]);
+             setAddedContents([]);
+             setTableEmpty(true);
+             setPrice(0);
+             setShow(false);
+         },1500)
+     };
+ 
+     function handleHide(){setShow(false);};
+     function handleShow(){setShow(true);};
+     function resetOrder(){
+         setOrderContents([]);
+         setAddedContents([]);
+         setTableEmpty(true);
+         setPrice(0);
+         setAddedPrice(0);
+         setCancleAlert(false);
+     }
+     return(
+        <span id="aTable">
+         <Button id="takeOutBtn" onClick={handleShow}>테이크아웃<br></br></Button>
 
-    const afterPay=()=>{
-        setTimeout(()=>{
-            countSales();
-            setpickFoods([]);
-            setPrice(0);
-            setIsorder(false);
-            setShow(false);
-        },1500)
-    };
-
-    function handleHide(){setShow(false);};
-    function handleShow(){setShow(true);};
-    function resetOrder(){setpickFoods([]); setPrice(0);}
-    return(
-        <span>
-         <Button id="takeOutBtn" onClick={handleShow}><b>테이크아웃</b></Button>
-
-         <Modal size="lg" show={show} onHide={()=>{handleHide(); setCancleAlert(false);}}>
+         <Modal size="lg" show={show} onHide={()=>{handleHide(); setCancleAlert(false); setAddedContents([]); setAddedPrice(0)}}>
          <Modal.Header closeButton>
-         <Modal.Title><b>{tableName}</b></Modal.Title>
+         <Modal.Title><b>테이크아웃</b></Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
+         <div id="modalContent">
          <div className="selectedFoods" style={{float:"left",width:"45%",border:"2px solid",borderRadius:"10px",flex:"1"}}>
-           <h2 style={{textAlign:"center",borderBottom:"1px solid"}}>Ordered List</h2>
-           <div>
-              {pickFoods.map(food=>(
+           <h2 style={{textAlign:"center",borderBottom:"1px solid"}}>주문 리스트</h2>
+           {tableEmpty===true?(
+               <div>
+                     {addedContents.map(food=>(
                   <div key={Math.random()} id={food.id} style={{textAlign:"center"}}>
-                  <b>{food.name} / {food.price}원<button onClick={()=>{
-                      setpickFoods(pickFoods.filter(cur=>cur.key!==food.key));
-                      setPrice(totalPrice-food.price);
-                  }}>X</button></b><br></br>
+                  <b style={{color:"#668d3c"}}>{food.name} / {food.price}원<Button id="deleteFromAdd" onClick={()=>{
+                      setAddedContents(addedContents.filter(cur=>cur.key!==food.key));
+                      setAddedPrice(addedPrice-food.price);
+                  }}>X</Button></b><br></br>
                   </div>
               ))}
-           </div>
+               </div>
+           ):(
+               <div>
+                   {orderContents.map(food=>(
+                  <div key={Math.random()} id={food.id} style={{textAlign:"center"}}>
+                  <b>{food.name} / {food.price}원</b><br></br>
+                  </div>
+              ))}
+
+                  {addedContents.map(food=>(     
+                  <div key={Math.random()} id={food.id} style={{textAlign:"center"}}>
+                  <b style={{color:"#668d3c"}}>{food.name} / {food.price}원<Button id="deleteFromAdd" onClick={()=>{
+                      setAddedContents(addedContents.filter(cur=>cur.key!==food.key));
+                      setAddedPrice(addedPrice-food.price);
+                  }}>X</Button></b><br></br>
+                  </div>
+              ))}
+               </div>
+               
+           )}
               <div id="total" style={{textAlign:"center",float:"bottom"}}>
-                  <b>합계: {totalPrice}원</b><br></br>
+                  <b>합계: {tableEmpty===true?(addedPrice):(totalPrice+addedPrice)}원</b><br></br>
              </div>
          </div>
          <div className="servingFoods" style={{float:"right",width:"50%",border:"2px solid",borderRadius:"10px"}}>
-             <h2 style={{textAlign:"center",borderBottom:"1px solid"}}>Foods</h2>
-             <div style={{margin:"8px",textAlign:"center"}}>
+             <h2 style={{textAlign:"center",borderBottom:"1px solid"}}>메뉴</h2>
+             <div style={{margin:"8px",textAlign:"center",position:"relative"}}>
              {TestFoods.foods.map(food=>(
                  <button key={Math.random()} id={food.id} style={{backgroundColor:"white",border:"1px solid #C6C6C6"}} onClick={()=>{
-                     setpickFoods(pickFoods.concat({
+                     setAddedContents(addedContents.concat({
                          key:Math.random(),
                          id:food.id,
                          name:food.name,
                          price:food.price
                      }));
-                    setPrice(totalPrice+food.price);
+                    setAddedPrice(addedPrice+food.price);
                  }}>
                  <img id="foodImg" src={food.foodImgs[0]} alt={food.id}></img><br></br>
                  <b>{food.name}</b><br></br><label>{food.price}원</label>
@@ -96,29 +127,47 @@ const TakeOutOrder=({tableName})=>{
              ))}
              </div>
          </div>
+         </div>
         </Modal.Body>
 
         <Modal.Footer id="modal-foot">
             <div style={{float:"right"}}>
-              <Button variant="secondary" onClick={()=>{
+                  {tableEmpty===false?(
+                  <Button variant="secondary" onClick={()=>{
                   setCancleAlert(true);
-                  }} style={{height:"50px", marginRight:"5px"}}>cancle</Button>
+                  }} style={{height:"50px", marginRight:"5px"}}>cancle</Button>):(<></>)}
+                  
 
-               {isorder?(<></>):(<Button variant="primary" style={{height:"50px"}} onClick={()=>{
-                   if(pickFoods.length===0){
+               {tableEmpty?((<Button variant="primary" style={{height:"50px"}} onClick={()=>{
+                   if(addedContents.length===0){
                        alert("선택된 음식이 없습니다");
                    }
                    else{
-                    setSpend(Date.now());
+                    setPrice(addedPrice);
+                    setAddedPrice(0);
                     afterOrder();
                     setOrderAlert(true);
                     autoOrderAlertRM();
                    }
-            }}>Order Complete</Button>)}
-            {isorder?(<Button variant="danger" onClick={()=>{
-                console.log("고객이 머무른 시간:",(Date.now()-spendTime)/1000,"초");
-                afterPay();
+            }}>Order Complete</Button>)):(<></>)}
+
+            {tableEmpty===false&&addedContents.length!==0?(<>
+                <Button variant='info' style={{height:"50px",marginRight:"5px"}} onClick={()=>{
+                if(addedContents.length===0){
+                    alert("추가된 음식이 없습니다");
+                }else{
+                setOrderContents(orderContents.concat(addedContents));
+                setPrice(totalPrice+addedPrice);
+                setAddedContents([]);
+                setAddedPrice(0);
+                setAddAlert(true);
+                autoAddAlertRM();}
+            }}>add</Button> 
+            </>):(<></>)}
+
+            {!tableEmpty&&addedContents.length===0?(<Button variant="danger" onClick={()=>{
                 setPayAlert(true);
+                afterPay();
                 autoPayAlertRM();
             }} style={{height:"50px"}}>Pay</Button>):(<></>)}
             </div>
@@ -126,15 +175,14 @@ const TakeOutOrder=({tableName})=>{
              <Alert show={showCancleAlert} variant="danger"><b>주문을 삭제하시겠습니까? <Button variant="danger" style={{marginRight:"5px",
              borderRadius:"10px"}}
              onClick={()=>{
-                resetOrder();
                 handleHide();
-                setIsorder(false);
-                setCancleAlert(false);
+                resetOrder();
              }}>O</Button><Button style={{ borderRadius:"10px"}} variant="danger" onClick={()=>{
                  setCancleAlert(false);
              }}>X</Button></b></Alert>
              <Alert show={showOrderAlert} variant="success"><b>주문 완료!</b></Alert>
              <Alert show={showPayAlert} variant="success"><b>결제 완료!</b></Alert>
+             <Alert show={showAddAlert} variant="success"><b>추가 완료!</b></Alert>
        </div>
         </Modal.Footer>
        </Modal>      

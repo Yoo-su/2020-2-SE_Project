@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import {Button, Modal,Alert} from "react-bootstrap";
-import TestFoods from "../testApi/foods.json";
+import io from 'socket.io-client';
+import axios from 'axios';
 import "./TakeOut.css";
 
-const TakeOutOrder=({tableId})=>{
+const TakeOutOrder=({tableId,menu})=>{
     const [show,setShow]=useState(false);
     const [tableEmpty,setTableEmpty]=useState(true);
     const [orderContents,setOrderContents]=useState([]);
@@ -15,6 +16,7 @@ const TakeOutOrder=({tableId})=>{
     const [showPayAlert,setPayAlert]=useState(false);
     const [showCancleAlert,setCancleAlert]=useState(false);
     const [showAddAlert,setAddAlert]=useState(false);
+    const socket=io("http://localhost:3002");
 
     const autoOrderAlertRM=()=>{
         setTimeout(()=>{
@@ -78,7 +80,7 @@ const TakeOutOrder=({tableId})=>{
                <div>
                      {addedContents.map(food=>(
                   <div key={Math.random()} id={food.id} style={{textAlign:"center"}}>
-                  <b style={{color:"#668d3c"}}>{food.name} / {food.price}원<Button id="deleteFromAdd" onClick={()=>{
+                  <b style={{color:"#668d3c"}}>{food.menuName} / {food.price}원<Button id="deleteFromAdd" onClick={()=>{
                       setAddedContents(addedContents.filter(cur=>cur.key!==food.key));
                       setAddedPrice(addedPrice-food.price);
                   }}>X</Button></b><br></br>
@@ -88,14 +90,14 @@ const TakeOutOrder=({tableId})=>{
            ):(
                <div>
                    {orderContents.map(food=>(
-                  <div key={Math.random()} id={food.id} style={{textAlign:"center"}}>
-                  <b>{food.name} / {food.price}원</b><br></br>
+                  <div key={Math.random()} style={{textAlign:"center"}}>
+                  <b>{food.menuName} / {food.price}원</b><br></br>
                   </div>
               ))}
 
                   {addedContents.map(food=>(     
                   <div key={Math.random()} id={food.id} style={{textAlign:"center"}}>
-                  <b style={{color:"#668d3c"}}>{food.name} / {food.price}원<Button id="deleteFromAdd" onClick={()=>{
+                  <b style={{color:"#668d3c"}}>{food.menuName} / {food.price}원<Button id="deleteFromAdd" onClick={()=>{
                       setAddedContents(addedContents.filter(cur=>cur.key!==food.key));
                       setAddedPrice(addedPrice-food.price);
                   }}>X</Button></b><br></br>
@@ -111,18 +113,17 @@ const TakeOutOrder=({tableId})=>{
          <div className="servingFoods" style={{float:"right",width:"50%",border:"2px solid",borderRadius:"10px"}}>
              <h2 style={{textAlign:"center",borderBottom:"1px solid"}}>메뉴</h2>
              <div style={{margin:"8px",textAlign:"center",position:"relative"}}>
-             {TestFoods.foods.map(food=>(
-                 <button key={Math.random()} id={food.id} style={{backgroundColor:"white",border:"1px solid #C6C6C6"}} onClick={()=>{
+             {menu.map(food=>(
+                 <button key={Math.random()} id={food.menuName} style={{backgroundColor:"white",border:"1px solid #C6C6C6"}} onClick={()=>{
                      setAddedContents(addedContents.concat({
                          key:Math.random(),
-                         id:food.id,
-                         name:food.name,
+                         menuName:food.menuName,
                          price:food.price
                      }));
                     setAddedPrice(addedPrice+food.price);
                  }}>
-                 <img id="foodImg" src={food.foodImgs[0]} alt={food.id}></img><br></br>
-                 <b>{food.name}</b><br></br><label>{food.price}원</label>
+                 <img id="foodImg" src="" alt={food.id}></img><br></br>
+                 <b>{food.menuName}</b><br></br><label>{food.price}원</label>
                  </button>
              ))}
              </div>
@@ -143,13 +144,23 @@ const TakeOutOrder=({tableId})=>{
                        alert("선택된 음식이 없습니다");
                    }
                    else{
+                    function newOrder(){
+                        axios.post("http://localhost:3002/api/newOrder",{
+                            tableId:tableId,
+                            content:addedContents,
+                            total:addedPrice
+                        }).then(res=>{
+                            if(res.data.success===true)socket.emit('orderEvent',(tableId));
+                        });
+                    }
+                    newOrder();
                     setPrice(addedPrice);
                     setAddedPrice(0);
                     afterOrder();
                     setOrderAlert(true);
                     autoOrderAlertRM();
                    }
-            }}>Order Complete</Button>)):(<></>)}
+            }}>주문</Button>)):(<></>)}
 
             {tableEmpty===false&&addedContents.length!==0?(<>
                 <Button variant='info' style={{height:"50px",marginRight:"5px"}} onClick={()=>{
@@ -162,14 +173,14 @@ const TakeOutOrder=({tableId})=>{
                 setAddedPrice(0);
                 setAddAlert(true);
                 autoAddAlertRM();}
-            }}>add</Button> 
+            }}>추가</Button> 
             </>):(<></>)}
 
             {!tableEmpty&&addedContents.length===0?(<Button variant="danger" onClick={()=>{
                 setPayAlert(true);
                 afterPay();
                 autoPayAlertRM();
-            }} style={{height:"50px"}}>Pay</Button>):(<></>)}
+            }} style={{height:"50px"}}>결제</Button>):(<></>)}
             </div>
             <div style={{float:"left"}}>
              <Alert show={showCancleAlert} variant="danger"><b>주문을 삭제하시겠습니까? <Button variant="danger" style={{marginRight:"5px",

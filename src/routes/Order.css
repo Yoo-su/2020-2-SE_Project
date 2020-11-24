@@ -4,6 +4,8 @@
   margin:10px;
   display: table;
   border-radius: 10px;
+  text-align: center;
+  width:99%;
   min-height: 670px;
 }
 

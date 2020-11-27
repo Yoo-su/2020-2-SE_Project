@@ -2,12 +2,14 @@ import React,{useState,useEffect} from 'react';
 import {Card,Button} from "react-bootstrap";
 import axios from 'axios';
 import OrderDal from "../components/OrderDal";
+import io from 'socket.io-client';
 
 function OrderCardforChef({orderId,state}){
     const [showOrderDal,setShowOrderDal]=useState(false);
     const [orderContent,setContent]=useState([]);
     const [orderState,setOrderState]=useState(state);
     const [tableOrTakeOut,setToT]=useState(-1);
+    const socket=io('http://localhost:3002');
 
    function bringOrderDetail(){
      axios.get('http://localhost:3002/api/forOrderCard',{params:{orderId:orderId}}).then(res=>{
@@ -72,6 +74,7 @@ function OrderCardforChef({orderId,state}){
                    })
                  }
                  updateOrder();
+                 socket.emit('cookEvent','cook');
                  window.location.reload();
                }}>준비완료</Button>):(<Button variant="info">대기중</Button>)}
                

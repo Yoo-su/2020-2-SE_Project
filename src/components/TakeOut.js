@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Button, Modal,Alert} from "react-bootstrap";
 import axios from 'axios';
+import io from 'socket.io-client';
 import "./TakeOut.css";
 
 const TakeOutOrder=({tableId,menu})=>{
@@ -15,6 +16,7 @@ const TakeOutOrder=({tableId,menu})=>{
     const [showPayAlert,setPayAlert]=useState(false);
     const [showCancleAlert,setCancleAlert]=useState(false);
     const [showAddAlert,setAddAlert]=useState(false);
+    const socket=io('http://localhost:3002');
 
     const autoOrderAlertRM=()=>{
         setTimeout(()=>{
@@ -160,6 +162,7 @@ const TakeOutOrder=({tableId,menu})=>{
                         });
                     }
                     newOrder();
+                    socket.emit('orderEvent','order');
                     setPrice(addedPrice);
                     setAddedPrice(0);
                     afterOrder();

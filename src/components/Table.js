@@ -1,14 +1,10 @@
 import React, {useState,useEffect} from 'react';
 import {Button, Modal,Alert,Spinner} from "react-bootstrap";
 import axios from "axios";
+import io from 'socket.io-client';
 import "./Table.css";
 
 const Table=({tableId,empty,menu})=>{
-    /* Table.js에서 할거 정리-> 컴포넌트 마운트될 때 딱 한번 서버로부터 테이블 관련 주문정보전부 가져오도록
-    하고, 소켓 연결해서 'cook'이벤트 발생 시 다시 주문정보 가져오게 한다. 그리고 테이블에서 order버튼을
-    통한 주문 발생 또는 Add버튼을 통한 추가주문 발생 시 소켓 'aboutOrder' 이벤트 발생시켜서 cook페이지에서
-    반영할 수 있도록 한다. cancle버튼 또한 연결되서 cook에서 반영하도록.  */
-
     const [show,setShow]=useState(false);
     const [orderId,setOrderId]=useState(0);
     const [tableEmpty,setTableEmpty]=useState(empty);
@@ -22,6 +18,7 @@ const Table=({tableId,empty,menu})=>{
     const [showPayAlert,setPayAlert]=useState(false);
     const [showCancleAlert,setCancleAlert]=useState(false);
     const [showAddAlert,setAddAlert]=useState(false);
+    const socket=io('http://localhost:3002');
 
     function bringTableInfo(){
         axios.get('http://localhost:3002/api/tableInfo',{params:{tableId:tableId}}).then(res=>{
@@ -213,6 +210,7 @@ const Table=({tableId,empty,menu})=>{
                             else{console.log("server error");}
                         });
                     }
+                    socket.emit('orderEvent','order');
                     newOrder();
                     setPrice(addedPrice);
                     setAddedPrice(0);

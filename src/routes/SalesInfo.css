@@ -1,0 +1,12 @@
+#salesInfo{
+    position:relative;
+    margin:10px;
+    background-color: white;
+    border-radius: 10px;
+    min-height: 660px;
+}
+
+#salesContent{
+    padding:30px;
+    
+}

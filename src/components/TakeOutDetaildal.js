@@ -1,11 +1,8 @@
 import React from 'react';
 import {Modal,Form, Button} from "react-bootstrap";
-import io from 'socket.io-client';
 import axios from 'axios';
-import TakeOutOrders from './TakeOutOrders';
 
-function TakeOutDetaildal({show,setShow,orderId,foods,state}){
-  const socket=io("http://localhost:3002",{transports: ['websocket']});
+function TakeOutDetaildal({show,setShow,orderId,foods,state,price}){
     return(
         <div>
             <Modal
@@ -25,13 +22,18 @@ function TakeOutDetaildal({show,setShow,orderId,foods,state}){
                      ))}
                    </Form.Group>                 
                 </Form>
+                <b>총 {price}원</b>
              </Modal.Body> 
              <Modal.Footer>
                  {state==="prepared"?(
                    <Button variant="warning" onClick={()=>{
                      function takeoutEnd(){
-                       axios.get('http://localhost:3002/api/takeOutEnd',{params:{orderId:orderId}}).then(res=>{
-                         if(res.data.success===true){socket.emit('orderEvent',orderId);}
+                       axios.post('http://localhost:3002/api/takeOutEnd',{
+                         orderId:orderId,
+                         price:price,
+                         content:foods
+                       }).then(res=>{
+                         if(res.data.success===true){console.log('gg');window.location.reload();}
                        });
                      }
                      takeoutEnd();

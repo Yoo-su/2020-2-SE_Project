@@ -1,17 +1,26 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import {Link} from 'react-router-dom'
 import {Button,Table} from 'react-bootstrap';
-import workers from "../testApi/Workers.json";
+import axios from 'axios';
 import Employeedal from "../components/Employeedal";
 import "./Manage.css";
 
 function Manage(){
- const [ants,setAnts]=useState(workers.Workers);
+ const [ants,setAnts]=useState([]);
  const [showAddEmp,setShowAddEmp]=useState(false);
+ let number=1;
 
  const addEmpModalOff=()=>{
    setShowAddEmp(false);
  }
+
+ useEffect(()=>{
+   axios.get('http://localhost:3002/api/allWorkers').then(res=>{
+     if(res.data.success===true){
+       setAnts(res.data.users);
+     }else{console.log('failed');}
+   })
+ },[])
  return(
      <div id="WorkerList">
          <div id="manageContent">
@@ -24,7 +33,7 @@ function Manage(){
              <Table striped borderless hover variant="dark" style={{borderRadius:"10px"}}>
               <thead>
                <tr>
-                <th>id</th>
+                <th>-</th>
                 <th>직원명</th>
                 <th>이메일</th>
                 <th>역할</th>
@@ -34,20 +43,19 @@ function Manage(){
               </thead>
               <tbody>
                 {ants.map(ant=>(
-                 <tr key={ant.id}>
-                  <td>{ant.id}</td>
-                  <td>{ant.name}</td>
-                  <th>{ant.email}</th>
+                 <tr key={ant.userEmail}>
+                  <td>{number++}</td>
+                  <td>{ant.nickName}</td>
+                  <th>{ant.userEmail}</th>
                   <td>{ant.role===1?("점원"):("요리사")}</td>
-                  <td>{ant.pay}원</td>
+                  <td>{ant.hourWage}원</td>
                   <td><Link to={{
-                    pathname:`/ManageEmp/${ant.email}`,
+                    pathname:`/ManageEmp/${ant.nickName}`,
                     state:{
-                      id:ant.id,
-                      name:ant.name,
+                      name:ant.nickName,
                       role:ant.role,
-                      pay:ant.pay,
-                      email:ant.email
+                      wage:ant.hourWage,
+                      email:ant.userEmail
                     }
                     }}><Button size="sm">관리</Button></Link></td>
                  </tr>))}

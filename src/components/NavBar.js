@@ -4,40 +4,41 @@ import { connect } from 'react-redux';
 import {logOut} from "../Store";
 import logo from "../icons/logo2.png";
 
-function NavBar({userRole,isLogin,logOut}){
+function NavBar({userRole,isLogin,logOut,curUser}){
    return(
     <div id="NavBar">
-    <Navbar className="HomeNav" style={{backgroundColor:"#F4DCB5"}} variant="light">
-         <Navbar.Brand href="#">
-             <img 
+    <Navbar className="HomeNav" style={{backgroundColor:"#F4DCB5"}}>
+         <Navbar.Brand href="#" style={{paddingBottom:"0px"}}>
+         <img 
              src={logo}
              width="40"
-             height="40"
+             height="45"
              alt="mainlogo">
              </img>{' '}
-             <b>Restaurant Management</b>
+             <label style={{fontSize:"35px",margin:"0px"}}>에브리 레스토랑</label>
          </Navbar.Brand>
-         <Nav className="mr-auto">
-             {userRole===1?(<>
-                <Nav.Link href="#ManageEmp">Manage</Nav.Link>
-                <Nav.Link href="#AboutMenu">Menu</Nav.Link>
-                <Nav.Link href="#Account">Account</Nav.Link>
+         <Nav className="mr-auto" style={{fontSize:"22px"}}>
+             {userRole===0?(<>
+                <Nav.Link href="#ManageEmp">직원관리</Nav.Link>
+                <Nav.Link href="#AboutMenu">메뉴</Nav.Link>
+                <Nav.Link href="#SalesInfo">판매</Nav.Link>
              </>):(null)}
              {userRole===1?(<>
-                <Nav.Link href="#Order">Order</Nav.Link>
+                <Nav.Link href="#Order">주문</Nav.Link>
              </>):(<></>)}
              {userRole===1?(<>
-             <Nav.Link href="#Cook">Cook</Nav.Link>
-             <Nav.Link href="#ManageStock">Stock</Nav.Link>
+             <Nav.Link href="#Cook">요리</Nav.Link>
+             <Nav.Link href="#ManageStock">재고</Nav.Link>
              </>):(<></>)}
         </Nav>
         {isLogin===true?(<>
+        <b style={{fontSize:"20px"}}>{curUser} 님</b>&nbsp;
          <Button variant="danger" size="sm" onClick={()=>{
            logOut();
-         }}>Logout</Button>
+         }}>로그아웃</Button>
         </>):(
             <Nav className="sign">
-              <Nav.Link href="#Login">LogIn</Nav.Link>
+              <Nav.Link href="#Login">로그인</Nav.Link>
             </Nav>)}
         </Navbar>
 </div>
@@ -47,7 +48,8 @@ function NavBar({userRole,isLogin,logOut}){
 function mapStateToProps(state){
     return {
         userRole:state.userRole,
-        isLogin:state.isLogin
+        isLogin:state.isLogin,
+        curUser:state.curUser
     };
 }
 

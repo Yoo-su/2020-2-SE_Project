@@ -1,18 +1,35 @@
 #main{
   position: relative;
   margin:10px;
-}
-#Carousels{
-  position: relative;
-}
-
-#Carousel1{
+  border-radius: 10px;
+  min-height: 660px;
 }
 
-#Carousel2{
+#mainContent{
+  position:relative;
+  min-height:660px;
+  border-radius: 10px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  display:flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
-.w-100{
-  max-height: 660px;
-  border-radius: 20px;
+#insideContent{
+  position:relative;
+  width:40%;
+  
+  border-radius: 1000px;
+  padding:50px;
+  text-align: center;
+  background-color: #ffffff;
+  background-color: rgba( 255, 255, 255, 0.5 );
 }
+
+#mainImg{
+  position:relative;
+  width:200px;
+  height:210px;
+}
+

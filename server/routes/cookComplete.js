@@ -7,7 +7,7 @@ router.get('/',async(req,res)=>{
     try{
     const orderId=req.query.orderId;
 
-    const sql=`update customerorder set state='prepared' where orderId='${orderId}'`;
+    const sql=`update customerorder set state='prepared',preparedTime=now() where orderId='${orderId}'`;
 
     const [rows]=await con.query(sql);
 

@@ -1,9 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Hi+Melody&family=Jua&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Stylish&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Yeon+Sung&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap');
 
 #root{
     font-family: 'Jua', sans-serif;
 }
 
+#main{
+    font-family: 'Yeon Sung', sans-serif;
+}
+
+#NavBar{
+    font-family: 'Yeon Sung', sans-serif;
+}
+
 .modal-content{
-    font-family: 'Jua', sans-serif;
+    font-family: 'Stylish', sans-serif;
 }

@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {Button, Modal,Alert} from "react-bootstrap";
-import io from 'socket.io-client';
 import axios from 'axios';
 import "./TakeOut.css";
 
@@ -16,7 +15,6 @@ const TakeOutOrder=({tableId,menu})=>{
     const [showPayAlert,setPayAlert]=useState(false);
     const [showCancleAlert,setCancleAlert]=useState(false);
     const [showAddAlert,setAddAlert]=useState(false);
-    const socket=io("http://localhost:3002");
 
     const autoOrderAlertRM=()=>{
         setTimeout(()=>{
@@ -50,6 +48,7 @@ const TakeOutOrder=({tableId,menu})=>{
              setTableEmpty(true);
              setPrice(0);
              setShow(false);
+             window.location.reload();
          },1500)
      };
  
@@ -113,19 +112,26 @@ const TakeOutOrder=({tableId,menu})=>{
          <div className="servingFoods" style={{float:"right",width:"50%",border:"2px solid",borderRadius:"10px"}}>
              <h2 style={{textAlign:"center",borderBottom:"1px solid"}}>메뉴</h2>
              <div style={{margin:"8px",textAlign:"center",position:"relative"}}>
-             {menu.map(food=>(
-                 <button key={Math.random()} id={food.menuName} style={{backgroundColor:"white",border:"1px solid #C6C6C6"}} onClick={()=>{
-                     setAddedContents(addedContents.concat({
-                         key:Math.random(),
-                         menuName:food.menuName,
-                         price:food.price
-                     }));
-                    setAddedPrice(addedPrice+food.price);
+             {menu.map(food=>{
+            return food.remainStock!==0?(
+            <button key={Math.random()} id={food.menuName} style={{backgroundColor:"white",border:"1px solid #C6C6C6"}} onClick={()=>{
+                setAddedContents(addedContents.concat({
+                    key:Math.random(),
+                    menuName:food.menuName,
+                    price:food.price
+                }));
+               setAddedPrice(addedPrice+food.price);
+            }}>
+            <img id="foodImg" src={food.imgPath} alt={food.id} style={{width:"70px",height:"70px"}}></img><br></br>
+            <b>{food.menuName}</b><br></br><label>{food.price}원</label>
+            </button>):(
+            <button key={Math.random()} id={food.menuName} style={{backgroundColor:"white",border:"1px solid #C6C6C6",opacity:"0.2"}} onClick={()=>{
+                     alert('품절된 메뉴입니다.')
                  }}>
-                 <img id="foodImg" src="" alt={food.id}></img><br></br>
+                 <img id="foodImg" src={food.imgPath} alt={food.id} style={{width:"70px",height:"70px"}}></img><br></br>
                  <b>{food.menuName}</b><br></br><label>{food.price}원</label>
-                 </button>
-             ))}
+                 </button>)
+                 } )}
              </div>
          </div>
          </div>
@@ -150,7 +156,7 @@ const TakeOutOrder=({tableId,menu})=>{
                             content:addedContents,
                             total:addedPrice
                         }).then(res=>{
-                            if(res.data.success===true)socket.emit('orderEvent',(tableId));
+                            if(res.data.success===true)console.log('gg');
                         });
                     }
                     newOrder();
@@ -200,5 +206,7 @@ const TakeOutOrder=({tableId,menu})=>{
         </span>
     );
 }
+
+
 
 export default TakeOutOrder;

@@ -2,7 +2,6 @@ import React, {useState,useEffect} from 'react';
 import {Button, Modal,Alert,Spinner} from "react-bootstrap";
 import axios from "axios";
 import "./Table.css";
-import io from "socket.io-client";
 
 const Table=({tableId,empty,menu})=>{
     /* Table.js에서 할거 정리-> 컴포넌트 마운트될 때 딱 한번 서버로부터 테이블 관련 주문정보전부 가져오도록
@@ -11,6 +10,7 @@ const Table=({tableId,empty,menu})=>{
     반영할 수 있도록 한다. cancle버튼 또한 연결되서 cook에서 반영하도록.  */
 
     const [show,setShow]=useState(false);
+    const [orderId,setOrderId]=useState(0);
     const [tableEmpty,setTableEmpty]=useState(empty);
     const [orderState,setOrderState]=useState("");
     const [orderContents,setOrderContents]=useState([]);
@@ -22,7 +22,6 @@ const Table=({tableId,empty,menu})=>{
     const [showPayAlert,setPayAlert]=useState(false);
     const [showCancleAlert,setCancleAlert]=useState(false);
     const [showAddAlert,setAddAlert]=useState(false);
-    const socket=io('http://localhost:3002',{transports: ['websocket']});
 
     function bringTableInfo(){
         axios.get('http://localhost:3002/api/tableInfo',{params:{tableId:tableId}}).then(res=>{
@@ -31,6 +30,7 @@ const Table=({tableId,empty,menu})=>{
             }
             else if(res.data.empty===false){
                 setTableEmpty(false);
+                setOrderId(res.data.order[0].orderId);
                 setOrderState(res.data.order[0].state);
                 setOrderContents(res.data.content);
                 setPrice(res.data.total);
@@ -39,10 +39,6 @@ const Table=({tableId,empty,menu})=>{
     }
 
     useEffect(()=>{
-        socket.on('aboutCook',(data)=>{
-            console.log(data);
-            bringTableInfo();
-        })
      if(empty===false){
       bringTableInfo();
     }
@@ -169,19 +165,26 @@ const Table=({tableId,empty,menu})=>{
          <div className="servingFoods" style={{float:"right",width:"50%",border:"2px solid",borderRadius:"10px"}}>
              <h2 style={{textAlign:"center",borderBottom:"1px solid"}}>메뉴</h2>
              <div style={{margin:"8px",textAlign:"center",position:"relative"}}>
-             {menu.map(food=>(
-                 <button key={Math.random()} id={food.menuName} style={{backgroundColor:"white",border:"1px solid #C6C6C6"}} onClick={()=>{
-                     setAddedContents(addedContents.concat({
-                         key:Math.random(),
-                         menuName:food.menuName,
-                         price:food.price
-                     }));
-                    setAddedPrice(addedPrice+food.price);
+             {menu.map(food=>{
+            return food.remainStock!==0?(
+            <button key={Math.random()} id={food.menuName} style={{backgroundColor:"white",border:"1px solid #C6C6C6"}} onClick={()=>{
+                setAddedContents(addedContents.concat({
+                    key:Math.random(),
+                    menuName:food.menuName,
+                    price:food.price
+                }));
+               setAddedPrice(addedPrice+food.price);
+            }}>
+            <img id="foodImg" src={food.imgPath} alt={food.id} style={{width:"70px",height:"70px"}}></img><br></br>
+            <b>{food.menuName}</b><br></br><label>{food.price}원</label>
+            </button>):(
+            <button key={Math.random()} id={food.menuName} style={{backgroundColor:"white",border:"1px solid #C6C6C6",opacity:"0.2"}} onClick={()=>{
+                     alert('품절된 메뉴입니다.')
                  }}>
-                 <img id="foodImg" src="" alt={food.id}></img><br></br>
+                 <img id="foodImg" src={food.imgPath} alt={food.id} style={{width:"70px",height:"70px"}}></img><br></br>
                  <b>{food.menuName}</b><br></br><label>{food.price}원</label>
-                 </button>
-             ))}
+                 </button>)
+                 } )}
              </div>
          </div>
          </div>
@@ -206,8 +209,8 @@ const Table=({tableId,empty,menu})=>{
                             content:addedContents,
                             total:addedPrice
                         }).then(res=>{
-                            if(res.data.success===true)socket.emit('orderEvent',(tableId));
-                            else{console.log("주문을 완료했으나 서버처리 문제 생김");}
+                            if(res.data.success===true){console.log('success');}
+                            else{console.log("server error");}
                         });
                     }
                     newOrder();
@@ -243,9 +246,14 @@ const Table=({tableId,empty,menu})=>{
 
             {tableEmpty===false&&addedContents.length===0?(<Button variant="danger" onClick={()=>{
                 function payProcess(){
-                    axios.get('http://localhost:3002/api/orderPay',{params:{tableId:tableId}}).then(res=>{
+                    axios.post('http://localhost:3002/api/orderPay',{
+                        tableId:tableId,
+                        content:orderContents,
+                        total:totalPrice,
+                        orderId:orderId
+                    }).then(res=>{
                         if(res.data.success===true){
-                            socket.emit('aboutOrder',(tableId));
+                            console.log('success');
                         }
                     })
                 }

@@ -1,12 +1,22 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import {Table,Button} from 'react-bootstrap';
 import StockTD from '../components/StockTD';
-import stockj from "../testApi/stock.json";
+import stockj from "../test/stock.json";
+import axios from "axios";
 import "./ManageStock.css";
 
 function ManageStock(){
     const [stock,setStock]=useState(stockj.stock);
- 
+    const [menu,setMenu]=useState([]);
+    let number=1;
+
+    useEffect(()=>{
+       axios.get('http://localhost:3002/api/menu').then(res=>{
+           if(res.data.success===true){
+               setMenu(res.data.menu);
+           }
+       })
+    },[]);
     return(
         <div id="stockPage">
             <div id="stockPageTitle">
@@ -22,12 +32,12 @@ function ManageStock(){
                 </tr>
               </thead>
               <tbody>
-              {stock.map(oneStock=>(
-               <tr key={oneStock.id}>
-                   <td>{oneStock.id}</td>
-                   <td>{oneStock.name}</td>
-                   <td><StockTD stockRemain={oneStock.remain}></StockTD></td>
-                   <td>{oneStock.price}원</td>
+              {menu.map(one=>(
+               <tr key={++number}>
+                   <td>{number}</td>
+                   <td>{one.menuName}</td>
+                   <td><StockTD menuName={one.menuName} stockRemain={one.remainStock}></StockTD></td>
+                   <td>{one.price}원</td>
                </tr>
           ))}
              </tbody>

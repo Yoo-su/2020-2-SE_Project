@@ -16,13 +16,21 @@ router.post('/',async(req,res)=>{
     const [rows1]=await con.query(sql);
    }
 
-   const randId=Math.random()*(1200-1000)+1000;
-   const sql2=`insert into customerorder values (${randId},'cooking',${total},${tableId})`;
+   let randId=0;
+   const uniqueOrderSql=`select * from customerorder where orderId=${randId}`;
+   while(true){
+    randId=Math.random()*(1200-1000)+1000;
+    const [aleadyExist]=await con.query(uniqueOrderSql);
+    if(aleadyExist.length===0)break;
+   }
+   
+
+   const sql2=`insert into customerorder values (${randId},'cooking',${total},${tableId},now(),'-')`;
 
    const [rows2]=await con.query(sql2);
  
    for(let i=0;i<content.length;i++){
-    const randId2=Math.random()*(3000-2000)+2000;
+    const randId2=Math.random()*(20000-10000)+10000;
     const sql3=`insert into ordercontent values(${randId2},${randId},'${content[i].menuName}')`;
     const [rows3]=await con.query(sql3);
    }

@@ -4,7 +4,7 @@ import TakeOutDetaildal from "../components/TakeOutDetaildal";
 import axios from "axios";
 import "./TakeOutOrders.css";
 
-function TakeOutOrders({orderId,state}){
+function TakeOutOrders({orderId,state,price}){
     const [showDetail,setShowDetail]=useState(false);
     const [content,setContent]=useState([]);
     const [orderState,setOrderState]=useState(state);
@@ -39,7 +39,7 @@ function TakeOutOrders({orderId,state}){
     return(
         <div id="takeOuts">
           <Card style={applyStyle} onClick={detailOnOff}>
-            <Card.Header><b>주문번호: {orderId}</b></Card.Header>
+            <Card.Header style={{maxHeight:"40px", fontSize:"15px"}}><b>주문번호: {orderId}</b></Card.Header>
              <Card.Body style={{padding:"0.5rem"}}>
               <Card.Text>
                 {content.length>3?(
@@ -61,7 +61,7 @@ function TakeOutOrders({orderId,state}){
             <Card.Footer style={{padding:"0.5rem"}}>
               {state==="cooking"?(
                   <div>
-                      Cooking<br></br>
+                      요리중..<br></br>
                       <Spinner
                        as="span"
                        animation="grow"
@@ -69,9 +69,9 @@ function TakeOutOrders({orderId,state}){
                        role="status"
                        aria-hidden="true"></Spinner>
                   </div>
-              ):(<><b style={{color:"#668D3C"}}>Prepared!<br></br> 🍳</b></>)}
+              ):(<div><b style={{color:"#668D3C"}}>준비완료!<br></br>🍳</b></div>)}
             </Card.Footer>
-            <TakeOutDetaildal show={showDetail} setShow={detailOnOff} orderId={orderId} foods={content} state={state}></TakeOutDetaildal>
+            <TakeOutDetaildal show={showDetail} setShow={detailOnOff} orderId={orderId} foods={content} state={state} price={price}></TakeOutDetaildal>
           </Card>
         </div>
     );

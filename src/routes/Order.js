@@ -3,7 +3,6 @@ import "./Order.css";
 import Table from "../components/Table";
 import TakeOut from "../components/TakeOut";
 import TakeOutOrders from "../components/TakeOutOrders";
-import io from "socket.io-client";
 import axios from "axios";
 
 function Order(){
@@ -17,7 +16,6 @@ function Order(){
   const [takeOut,setTakeOut]=useState([]);
   const [takeOutOrders,setTakeOutOrders]=useState([]);
   const [menu,setMenu]=useState([]);
-  const socket=io("http://localhost:3002",{transports: ['websocket']});
   
   const requestTables=axios.get('http://localhost:3002/api/tables');
   const requestMenu=axios.get('http://localhost:3002/api/menu');
@@ -33,16 +31,8 @@ function Order(){
     }))
   };
 
+  
   useEffect(()=>{
-    console.log("order.js 마운트 된 상태");
-    socket.on('aboutCook',(data)=>{
-      axios.get('http://localhost:3002/api/takeOutOrders').then(res=>{
-        setTakeOutOrders(res.data.takeOutOrders);
-      })
-    });
-    socket.on('aboutOrder',(data)=>{
-         window.location.reload();
-    })
     bringDatas();
   },[]);
 
@@ -60,7 +50,7 @@ function Order(){
            <TakeOut tableId={takeOut.sicktakId} menu={menu}></TakeOut><br></br><br></br>
            <div id="toOrders">
            {takeOutOrders.map(tOO=>(
-             <TakeOutOrders key={tOO.orderId} orderId={tOO.orderId} state={tOO.state}></TakeOutOrders>
+             <TakeOutOrders key={tOO.orderId} orderId={tOO.orderId} state={tOO.state} price={tOO.totalPrice}></TakeOutOrders>
            ))}
           </div>
          </div>

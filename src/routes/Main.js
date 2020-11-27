@@ -1,43 +1,19 @@
-import Axios from 'axios';
-import React,{useEffect} from 'react';
-import {Carousel} from 'react-bootstrap';
-import image1 from "../imgs/image1.jpg";
-import image2 from "../imgs/image2.jpg";
-import axios from "axios";
+import React from 'react';
+import mainImg from '../imgs/chefHat.png';
+import mainBack from '../imgs/mainBack.jpg';
 import "./Main.css";
 
 function Main(){
     return(
-        <div id="main">
-          <div id="Carousels">
-        <div id="Carousel1">
-        <Carousel>
-  <Carousel.Item>
-    <img
-      className="d-block w-100"
-      src={image1}
-      alt="first slide"
-    />
-    <Carousel.Caption>
-      <h1>레스토랑 자동화</h1>
-    </Carousel.Caption>
-  </Carousel.Item>
-
-  <Carousel.Item style={{}}>
-    <img
-      className="d-block w-100"
-      src={image2}
-      alt="second slide"
-    />
-    <Carousel.Caption>
-    
-    </Carousel.Caption>
-  </Carousel.Item>
-</Carousel>
-     </div>
-   
-        </div>
-        </div>
+     <div id="main">
+         <div id="mainContent" style={{backgroundImage:`url(${mainBack})`,backgroundSize:"cover"}}>
+           <div id="insideContent">
+          <img id ="mainImg" src={mainImg}></img><br></br><br></br>
+          <b style={{fontSize:"80px"}}>에브리 레스토랑</b>
+          <h1>유준모 서준원 유수현</h1>
+          </div>
+         </div>
+      </div>
     );
 }
 

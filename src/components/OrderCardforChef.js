@@ -2,17 +2,19 @@ import React,{useState,useEffect} from 'react';
 import {Card,Button} from "react-bootstrap";
 import axios from 'axios';
 import OrderDal from "../components/OrderDal";
-import io from 'socket.io-client';
 
 function OrderCardforChef({orderId,state}){
     const [showOrderDal,setShowOrderDal]=useState(false);
     const [orderContent,setContent]=useState([]);
     const [orderState,setOrderState]=useState(state);
-    const socket=io('http://localhost:3002',{transports: ['websocket']});
+    const [tableOrTakeOut,setToT]=useState(-1);
 
    function bringOrderDetail(){
      axios.get('http://localhost:3002/api/forOrderCard',{params:{orderId:orderId}}).then(res=>{
-       if(res.data.success===true){setContent(res.data.content);}
+       if(res.data.success===true){
+         setContent(res.data.content);
+         setToT(res.data.tableId[0].sicktak_sicktakId);
+        }
        else alert('error');
      }) 
    }
@@ -42,7 +44,7 @@ function OrderCardforChef({orderId,state}){
             <Card key={Math.random()} style={applyStyle}>
                  <Card.Header onClick={()=>{setShowOrderDal(true);}}>
                      <b>주문번호: {orderId}</b><br></br>
-                     <b style={{color:"#C0392B"}}>나중에</b>
+                      {tableOrTakeOut===0?(<b style={{color:"#2F66A9"}}>테이크아웃</b>):(<b style={{color:"#865840"}}>테이블{tableOrTakeOut}</b>)}
                      </Card.Header >
                     <Card.Body style={{padding:"0.5rem"}} onClick={()=>{setShowOrderDal(true);}}>
                     <Card.Text>
@@ -66,10 +68,11 @@ function OrderCardforChef({orderId,state}){
                {orderState==="cooking"?(<Button variant="success" onClick={()=>{
                  function updateOrder(){
                    axios.get('http://localhost:3002/api/cookComplete',{params:{orderId:orderId}}).then(res=>{
-                     if(res.data.success===true){socket.emit('cook',orderId);}
+                     console.log(res.data.success);
                    })
                  }
                  updateOrder();
+                 window.location.reload();
                }}>준비완료</Button>):(<Button variant="info">대기중</Button>)}
                
              </Card.Footer>

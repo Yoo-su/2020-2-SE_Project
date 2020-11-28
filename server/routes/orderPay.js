@@ -61,11 +61,13 @@ router.post('/',async(req,res)=>{
    const sql=`delete from ordercontent where order_orderId in (select orderId from customerorder where sicktak_sicktakId=${tableId})`;
    const sql2=`delete from customerorder where sicktak_sicktakId=${tableId}`;
    const sql3=`update sicktak set isEmpty=1 where sicktakId=${tableId}`;
-   
+   const sql4=`insert into account values(date(now()),${totalPrice},0) on duplicate key update salesTotal=salesTotal+${totalPrice}`;
+
    const [rows]=await con.query(recordOrder);
    const [rows2]=await con.query(sql);
    const [rows3]=await con.query(sql2);
    const [rows4]=await con.query(sql3);
+   const [rows5]=await con.query(sql4);
 
    return res.status(200).json({success:true});
   }catch(err){

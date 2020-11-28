@@ -33,6 +33,7 @@ function Order(){
       window.location.reload();
     })
     bringDatas();
+    return ()=>{socket.off('aboutCook');}
   },[]);
 
     return(

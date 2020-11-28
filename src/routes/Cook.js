@@ -19,6 +19,7 @@ function Cook(){
       window.location.reload();
     })
     bringOrders();
+    return ()=>{socket.off('aboutOrder');}
   },[]);
     return(
         <div id="cookPage">

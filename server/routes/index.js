@@ -20,6 +20,9 @@ const allWorkers=require('./allWorkers');
 const updateSalary=require('./updateSalary');
 const removeWorker=require('./removeWorker');
 const newWorker=require('./newWorker');
+const logout=require('./logout');
+const empDetail=require('./empDetail');
+const payForWage=require('./payForWage');
 const router=express.Router();
 
 router.use('/newOrder',newOrder);
@@ -60,6 +63,12 @@ router.use('/updateSalary',updateSalary);
 
 router.use('/removeWorker',removeWorker);
 
+router.use('/logout',logout);
+
 router.use('/newWorker',newWorker);
+
+router.use('/empDetail',empDetail);
+
+router.use('/payForWage',payForWage);
 
 module.exports=router;

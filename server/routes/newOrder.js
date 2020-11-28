@@ -29,8 +29,13 @@ router.post('/',async(req,res)=>{
 
    const [rows2]=await con.query(sql2);
  
+   let randId2=0;
    for(let i=0;i<content.length;i++){
-    const randId2=Math.random()*(20000-10000)+10000;
+    while(true){
+      randId2=Math.random()*(20000-10000)+10000;
+      const [aleadyExist2]=await con.query(`select * from ordercontent where contentId=${randId2}`);
+      if(aleadyExist2.length===0)break;
+    }
     const sql3=`insert into ordercontent values(${randId2},${randId},'${content[i].menuName}')`;
     const [rows3]=await con.query(sql3);
    }

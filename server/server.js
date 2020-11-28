@@ -26,6 +26,7 @@ io.on("connection",(socket)=>{
     });
 
     socket.on('orderEvent',async(data)=>{
+       console.log('orderEvent발생');
        io.sockets.emit('aboutOrder',data);
     })
 })

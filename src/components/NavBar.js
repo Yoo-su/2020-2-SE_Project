@@ -1,6 +1,7 @@
 import React from 'react';
 import {Navbar, Nav,Button} from 'react-bootstrap';
 import { connect } from 'react-redux';
+import axios from "axios";
 import {logOut} from "../Store";
 import logo from "../icons/logo2.png";
 
@@ -34,6 +35,14 @@ function NavBar({userRole,isLogin,logOut,curUser}){
         {isLogin===true?(<>
         <b style={{fontSize:"20px"}}>{curUser} 님</b>&nbsp;
          <Button variant="danger" size="sm" onClick={()=>{
+           function logout(){
+             axios.get('http://localhost:3002/api/logout',{params:{nickName:curUser}}).then(res=>{
+               if(res.data.success===true){
+                 console.log('로그아웃완료');
+               }else alert('오류발생');
+             })
+           }
+           logout();
            logOut();
          }}>로그아웃</Button>
         </>):(

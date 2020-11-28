@@ -1,6 +1,5 @@
 import React, {useState,useEffect} from "react";
 import {Button,Card} from 'react-bootstrap';
-import TestFoods from "../test/foods.json";
 import axios from "axios";
 import AddFoodal from "../components/AddFoodal";
 import "./AboutMenu.css";

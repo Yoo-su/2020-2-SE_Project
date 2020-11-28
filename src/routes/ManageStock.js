@@ -1,12 +1,10 @@
 import React,{useState,useEffect} from 'react';
 import {Table,Button} from 'react-bootstrap';
 import StockTD from '../components/StockTD';
-import stockj from "../test/stock.json";
 import axios from "axios";
 import "./ManageStock.css";
 
 function ManageStock(){
-    const [stock,setStock]=useState(stockj.stock);
     const [menu,setMenu]=useState([]);
     let number=1;
 
@@ -33,11 +31,11 @@ function ManageStock(){
               </thead>
               <tbody>
               {menu.map(one=>(
-               <tr key={++number}>
-                   <td>{number}</td>
+               <tr key={one.menuName}>
+                   <td>{number++}</td>
                    <td>{one.menuName}</td>
-                   <td><StockTD menuName={one.menuName} stockRemain={one.remainStock}></StockTD></td>
-                   <td>{one.price}원</td>
+                   <td><StockTD menuName={one.menuName} stockRemain={one.remainStock} stockPrice={one.stockPrice}></StockTD></td>
+                   <td>{one.stockPrice}원</td>
                </tr>
           ))}
              </tbody>

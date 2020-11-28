@@ -19,7 +19,7 @@ function Account(){
                setSalesHistory(res.data.salesInfo);
                setTTS(res.data.todayTableSales);
                setTTOS(res.data.todayTakeOutSales);
-               setDailyTotal(res.data.dailyTotal);
+               setDailyTotal(res.data.dailyTotal===null?0:res.data.dailyTotal);
                setMonthlyTotal(res.data.monthlyTotal);
                const date=new Date(null);
                const date2=new Date(null);

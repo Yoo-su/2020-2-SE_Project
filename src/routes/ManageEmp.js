@@ -1,5 +1,5 @@
-import React,{useState} from 'react';
-import {Button,InputGroup,FormControl} from 'react-bootstrap';
+import React,{useState,useEffect} from 'react';
+import {Button} from 'react-bootstrap';
 import axios from 'axios';
 import EmpWarning from '../components/EmpWarning';
 import "./ManageEmp.css";
@@ -7,9 +7,25 @@ import "./ManageEmp.css";
 function ManageEmp({location}){
     const emp=location.state;
     const [salary,setSalary]=useState(emp.wage);
-    const [salaryInput,setSalaryInput]=useState(true);
+    const [showInput,setShowInput]=useState(true);
     const [newSalary,setNewSalary]=useState(0);
     const [warningModal,setWarningModal]=useState(false);
+    const [workTime,setWorkTime]=useState('');
+    const [payPrice,setPayPrice]=useState(0);
+    
+
+   function bringMoney(){
+     axios.get('http://localhost:3002/api/empDetail',{params:{email:emp.email,wage:emp.wage}}).then(res=>{
+       if(res.data.success===true){
+          setWorkTime(res.data.workTime);
+          setPayPrice(res.data.payPrice);
+       }else{alert('오류발생')};
+     })
+   }
+
+    useEffect(()=>{
+      bringMoney();
+    },[]);
 
     function warningOff(){
       setWarningModal(false);
@@ -23,6 +39,7 @@ function ManageEmp({location}){
         <div id="Content">
             <div id="empDetailTitle">
               <b>직원명: {emp.name}</b>
+              <Button style={{float:"right",marginLeft:"5px"}} onClick={()=>{window.location.href="#ManageEmp"}}>돌아가기</Button>
               <Button variant="danger" style={{float:"right"}} onClick={()=>{
                   setWarningModal(true);
               }}>삭제</Button>
@@ -30,13 +47,13 @@ function ManageEmp({location}){
             </div>
           <br></br>
           <div id="empDetailContent">
-          <b style={{borderBottom:"2px solid #99aab5"}}>역할: {emp.role===1?("점원"):("요리사")}</b><br></br><br></br>
-          <b style={{borderBottom:"2px solid #99aab5"}}>이메일: {emp.email}</b><br></br><br></br>
+          <b style={{borderBottom:"2px solid #99aab5"}}>●역할: {emp.role===1?("점원"):("요리사")}</b><br></br><br></br>
+          <b style={{borderBottom:"2px solid #99aab5"}}>●이메일: {emp.email}</b><br></br><br></br>
 
           <span id="aboutSalary">
 
-            {!salaryInput?(<>
-            <b style={{borderBottom:"2px solid #99aab5"}}>시급:</b>&nbsp;
+            {!showInput?(<>
+            <b style={{borderBottom:"2px solid #99aab5"}}>●시급:</b>&nbsp;
               <input type="number" onChange={handleInput}></input>
             &nbsp;<Button variant='info' onClick={()=>{
               function updateSalary(){
@@ -48,22 +65,35 @@ function ManageEmp({location}){
                   }
                 })
               }
+              if(newSalary<0)alert('변경할 시급을 확인해주세요');
+              else{
               updateSalary();
-              setSalaryInput(!salaryInput);
+              setShowInput(!showInput);
               setSalary(newSalary);
-              setNewSalary(0);
+              setNewSalary(0);}
             }}>적용</Button>
             <Button variant='secondary' onClick={()=>{
-              setSalaryInput(!salaryInput);
+              setShowInput(!showInput);
             }}>취소</Button><br></br>
             </>):(<>
-              <b style={{borderBottom:"2px solid #99aab5"}}>시급: {salary}원</b><Button style={{marginLeft:"20px"}} onClick={()=>{setSalaryInput(!salaryInput)}}>시급변경</Button>
+              <b style={{borderBottom:"2px solid #99aab5"}}>●시급: {salary}원</b>
+              <Button  size="sm" style={{marginLeft:"20px",paddingBottom:"5px"}} onClick={()=>{setShowInput(!showInput)}}>시급변경</Button>
             <br></br></>)}
           </span>
 
           <br></br>
-          <b style={{borderBottom:"2px solid #99aab5"}}>총 근무시간: 1시간</b><br></br><br></br>
-          <b style={{borderBottom:"2px solid #99aab5"}}>지불할 임금: 150000원</b><br></br>
+            <b style={{borderBottom:"2px solid #99aab5"}}>●지불할 임금 액수: {payPrice}원</b>
+            <Button size="sm" style={{marginLeft:"20px",paddingBottom:"5px"}} onClick={()=>{
+              function payforWage(){
+                axios.get('http://localhost:3002/api/payForWage',{params:{userEmail:emp.email,payPrice:payPrice}}).then(res=>{
+                  if(res.data.success===true){
+                    setPayPrice(0);
+                    alert('임금지불 완료')}
+                    else{alert('오류발생');}
+                })
+              }
+              payforWage();
+            }}>지불</Button>
           </div>
           </div>
     </div>

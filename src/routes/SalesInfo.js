@@ -9,8 +9,6 @@ function Account(){
     const [spendAvg,setSpendAvg]=useState('');
     const [todayTableSales,setTTS]=useState(0);
     const [todayTakeOutSales,setTTOS]=useState(0);
-    const [dailyTotal,setDailyTotal]=useState(0);
-    const [monthlyTotal,setMonthlyTotal]=useState(0);
     let number=1;
 
     useEffect(()=>{
@@ -19,8 +17,6 @@ function Account(){
                setSalesHistory(res.data.salesInfo);
                setTTS(res.data.todayTableSales);
                setTTOS(res.data.todayTakeOutSales);
-               setDailyTotal(res.data.dailyTotal===null?0:res.data.dailyTotal);
-               setMonthlyTotal(res.data.monthlyTotal);
                const date=new Date(null);
                const date2=new Date(null);
                date.setSeconds(res.data.waitAvg);
@@ -36,16 +32,15 @@ function Account(){
         <div id="salesInfo">
             <div id="salesContent">
                 <div id="saleSTitle">
-                    <div style={{float:"left",fontSize:"35px"}}>
+                    <div style={{fontSize:"35px"}}>
                      <b>판매정보</b>
                     </div>
-                    <div style={{float:"right"}}>
-                 <b>●평균 주문 준비시간:{waitAvg}&nbsp;&nbsp;&nbsp; ●평균 고객 매장이용시간:{spendAvg}</b><br></br>
-                 <b>●금일 테이블 판매 수: {todayTableSales}&nbsp;&nbsp; ●금일 테이크아웃 판매 수: {todayTakeOutSales} </b><br></br>
-                 <b>●일매출: {dailyTotal}원&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ●월매출: {monthlyTotal}원</b>
+                    <div style={{fontSize:"18px",marginBottom:"5px",float:"right"}}>
+                 <b>●평균 주문 준비시간:{waitAvg}&nbsp;&nbsp;&nbsp; ●평균 고객 매장이용시간:{spendAvg}</b>&nbsp;&nbsp;&nbsp;
+                 <b>●금일 테이블 판매 수: {todayTableSales}&nbsp;&nbsp; ●금일 테이크아웃 판매 수: {todayTakeOutSales} </b>
                  </div>
               </div>
-            <Table striped bordered hover variant="dark">
+            <Table striped bordered hover>
               <thead>
                <tr>
                 <th>-</th>

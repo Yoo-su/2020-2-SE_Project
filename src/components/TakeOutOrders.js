@@ -61,7 +61,7 @@ function TakeOutOrders({orderId,state,price}){
             <Card.Footer style={{padding:"0.5rem"}}>
               {state==="cooking"?(
                   <div>
-                      요리중..<br></br>
+                      준비중..<br></br>
                       <Spinner
                        as="span"
                        animation="grow"

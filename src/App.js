@@ -10,6 +10,7 @@ import Manage from "./routes/Manage";
 import ManageEmp from "./routes/ManageEmp";
 import ManageStock from "./routes/ManageStock";
 import SalesInfo from "./routes/SalesInfo";
+import Account from './routes/Account';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { connect } from 'react-redux';
 import {logIn,logOut} from './Store';
@@ -31,16 +32,17 @@ function App({userRole,isLogin,login,logout}) {
       {isLogin===true?(<></>):(<>
         <Route exact path="/Login" component={Login}></Route>
       </>)}
-      {userRole===0?(<>
+      {userRole===0||userRole===1?(<>
         <Route exact path="/ManageEmp" component={Manage}></Route>
         <Route exact path="/ManageEmp/:id" component={ManageEmp}></Route>
         <Route exact path="/AboutMenu" component={AboutMenu}></Route>
         <Route exact path="/SalesInfo" component={SalesInfo}></Route>
+        <Route exact path="/Account" component={Account}></Route>
       </>):(null)}
-      {userRole===1?(<>
+      {userRole===0||userRole===1?(<>
         <Route exact path="/Order" component={Order}></Route>
       </>):(<></>)}
-      {userRole===1?(<>
+      {userRole===0||userRole===1?(<>
         <Route exact path="/Cook" component={Cook}></Route>
         <Route exact path="/ManageStock" component={ManageStock}></Route>
       </>):(<></>)}   

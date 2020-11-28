@@ -92,7 +92,7 @@ const Table=({tableId,empty,menu})=>{
     return(
         <span id="aTable">
          <Button id="tableBtn" onClick={handleShow}>테이블{tableId}<br></br>{orderState==="cooking"?(
-             <div id="curState1"><b>요리중..</b><br></br>
+             <div id="curState1"><b>준비중..</b><br></br>
              <Spinner
                as="span"
                animation="grow"
@@ -163,7 +163,7 @@ const Table=({tableId,empty,menu})=>{
              <h2 style={{textAlign:"center",borderBottom:"1px solid"}}>메뉴</h2>
              <div style={{margin:"8px",textAlign:"center",position:"relative"}}>
              {menu.map(food=>{
-            return food.remainStock!==0?(
+            return food.activate!==0?(
             <button key={Math.random()} id={food.menuName} style={{backgroundColor:"white",border:"1px solid #C6C6C6"}} onClick={()=>{
                 setAddedContents(addedContents.concat({
                     key:Math.random(),
@@ -176,7 +176,7 @@ const Table=({tableId,empty,menu})=>{
             <b>{food.menuName}</b><br></br><label>{food.price}원</label>
             </button>):(
             <button key={Math.random()} id={food.menuName} style={{backgroundColor:"white",border:"1px solid #C6C6C6",opacity:"0.2"}} onClick={()=>{
-                     alert('품절된 메뉴입니다.')
+                     alert('비활성화된 메뉴입니다.');
                  }}>
                  <img id="foodImg" src={food.imgPath} alt={food.id} style={{width:"70px",height:"70px"}}></img><br></br>
                  <b>{food.menuName}</b><br></br><label>{food.price}원</label>
@@ -242,7 +242,7 @@ const Table=({tableId,empty,menu})=>{
             }}>추가</Button> 
             ):(<></>)}
 
-            {tableEmpty===false&&addedContents.length===0?(<Button variant="danger" onClick={()=>{
+            {tableEmpty===false&&addedContents.length===0&&orderState!=='cooking'?(<Button variant="danger" onClick={()=>{
                 function payProcess(){
                     axios.post('http://localhost:3002/api/orderPay',{
                         tableId:tableId,
@@ -265,6 +265,15 @@ const Table=({tableId,empty,menu})=>{
              <Alert show={showCancleAlert} variant="danger"><b>주문을 삭제하시겠습니까? <Button variant="danger" style={{marginRight:"5px",
              borderRadius:"10px"}}
              onClick={()=>{
+                function orderCancle(){
+                    axios.get('http://localhost:3002/api/orderCancle',{params:{tableId:tableId}}).then(res=>{
+                        if(res.data.success===true){
+                            console.log('주문취소 성공');
+                        }else{alert('취소실패');}
+                    })
+                }
+                orderCancle();
+                socket.emit('orderEvent','order');
                 handleHide();
                 resetOrder();
              }}>O</Button><Button style={{ borderRadius:"10px"}} variant="danger" onClick={()=>{

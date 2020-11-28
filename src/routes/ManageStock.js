@@ -20,7 +20,7 @@ function ManageStock(){
             <div id="stockPageTitle">
             <b style={{fontSize:"35px"}}>재고관리</b>
             </div><br></br>
-           <Table striped borderless hover variant="dark" style={{borderRadius:"10px"}}>
+           <Table striped bordered hover>
               <thead>
                <tr>
                 <th>재고id</th>

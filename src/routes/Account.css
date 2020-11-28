@@ -1,0 +1,10 @@
+#accountPage{
+    margin:10px;
+    background-color: white;
+    min-height: 660px;
+    border-radius: 10px;
+}
+
+#accountContent{
+   padding:20px;
+}

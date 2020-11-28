@@ -12,7 +12,8 @@ router.get('/',async(req,res)=>{
     console.log(minus);
 
     const sql=`update menu set remainStock=remainStock+${newAmount} where menuName='${menuName}'`;
-    const sql2=`insert into account values(date(now()),0,${minus}) on duplicate key update minusTotal=minusTotal+${minus}`
+    const sql2=`insert into account values(date(now()),0,${minus},0,${minus}) on duplicate key 
+    update minusTotal=minusTotal+${minus},stockMinus=stockMinus+${minus}`;
 
     const [rows]=await con.query(sql);
     const [rows2]=await con.query(sql2);

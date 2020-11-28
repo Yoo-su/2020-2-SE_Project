@@ -11,16 +11,12 @@ router.get('/',async(req,res)=>{
 
        const todayTableSalesCount=`select count(*) as ttsc from sales where orderType not in(0) and datediff(now(),orderTime)=0`;
        const todayTakeOutSalesCount=`select count(*) as ttosc from sales where orderType in(0) and datediff(now(),orderTime)=0`;
-       const dailyTotal=`select sum(orderPrice) as dT from sales where datediff(now(),orderTime)=0`;
-       const monthlyTotal=`select sum(orderPrice) as mT from sales where month(now())-month(orderTime)=0`;
 
        const [rows]=await con.query(sql);
        const [rows2]=await con.query(sql2);
        const [rows3]=await con.query(sql3);
        const [rows4]=await con.query(todayTableSalesCount);
        const [rows5]=await con.query(todayTakeOutSalesCount);
-       const [rows6]=await con.query(dailyTotal);
-       const [rows7]=await con.query(monthlyTotal);
 
        return res.status(200).json({
            success:true,
@@ -29,8 +25,6 @@ router.get('/',async(req,res)=>{
            spendAvg:rows3[0].spendTime,
            todayTableSales:rows4[0].ttsc,
            todayTakeOutSales:rows5[0].ttosc,
-           dailyTotal:rows6[0].dT,
-           monthlyTotal:rows7[0].mT
         })
 
    }catch(err){

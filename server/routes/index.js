@@ -23,6 +23,9 @@ const newWorker=require('./newWorker');
 const logout=require('./logout');
 const empDetail=require('./empDetail');
 const payForWage=require('./payForWage');
+const account=require('./account');
+const orderCancle=require('./orderCancle');
+const menuActivate=require('./menuActivate');
 const router=express.Router();
 
 router.use('/newOrder',newOrder);
@@ -70,5 +73,11 @@ router.use('/newWorker',newWorker);
 router.use('/empDetail',empDetail);
 
 router.use('/payForWage',payForWage);
+
+router.use('/account',account);
+
+router.use('/orderCancle',orderCancle);
+
+router.use('/menuActivate',menuActivate);
 
 module.exports=router;

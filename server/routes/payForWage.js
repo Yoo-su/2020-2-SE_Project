@@ -8,7 +8,8 @@ router.get('/',async(req,res)=>{
        const userEmail=req.query.userEmail;
        const minus=req.query.payPrice;
 
-       const sql=`insert into account values(date(now()),0,${minus}) on duplicate key update minusTotal=minusTotal+${minus}`;
+       const sql=`insert into account values(date(now()),0,${minus},${minus},0) on duplicate key 
+       update minusTotal=minusTotal+${minus}, wageMinus=wageMinus+${minus}`;
        const sql2=`delete from workhour where user_userEmail='${userEmail}'`;
 
        const [rows]=await con.query(sql);

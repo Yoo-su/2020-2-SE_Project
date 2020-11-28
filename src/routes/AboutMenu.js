@@ -2,12 +2,14 @@ import React, {useState,useEffect} from "react";
 import {Button,Card} from 'react-bootstrap';
 import axios from "axios";
 import AddFoodal from "../components/AddFoodal";
+import MenuCard from '../components/MenuCard';
 import "./AboutMenu.css";
 
 function AboutMenu(){
   const [foods,setFoods]=useState([]);
   const [show,setShow]=useState(false);
-  let number=1;
+  const [editMode,setEditMode]=useState(false);
+  const [showEditBtn,setEditBtn]=useState(true);
  
   const modalOff=()=>{
     setShow(false);
@@ -23,23 +25,21 @@ function AboutMenu(){
            <div id="menuPage">
              <div id="header" style={{textAlign:"center"}}>
               <b style={{fontSize:"50px"}}>Menus</b><br></br>
-              <Button variant="info" id="addMenuBtn" style={{float:"right"}} onClick={()=>{
+              <Button variant="info" id="addMenuBtn" style={{float:"right",marginLeft:"5px"}} onClick={()=>{
                setShow(!show);
-             }}>메뉴 추가</Button><br></br>
+             }}>메뉴 추가</Button>
+             {showEditBtn?(<Button style={{float:"right"}} onClick={()=>{
+               setEditMode(!editMode);
+               setEditBtn(!showEditBtn);
+             }}>편집</Button>):(<Button variant="success" style={{float:"right"}} onClick={()=>{
+               setEditMode(!editMode);
+               setEditBtn(!showEditBtn);
+             }}>완료</Button>)}
+             <br></br>
              </div>
              <div id="menus" style={{margin:"20px", textAlign:"center"}}>
               {foods.map(food=>(
-                  <Card border="dark" key={number++} style={{margin:"20px", width:"200px", display:"inline-block"}}>
-                    <Card.Img variant="top" src={food.imgPath} style={{width:"150px",height:"150px"}}></Card.Img>
-                    <Card.Body>
-              <Card.Title>{food.menuName}</Card.Title>
-              <Card.Text>
-                {food.price}원 <br></br>
-                누적판매량: <b>{food.sales}</b> <br></br>
-                재고량: <b>{food.remainStock}</b>
-              </Card.Text>
-                    </Card.Body>
-                  </Card>
+                <MenuCard activate={food.activate} menuName={food.menuName} showBtn={editMode} imgPath={food.imgPath} price={food.price} sales={food.sales} remain={food.remainStock}></MenuCard>
               ))}
              </div>
              <AddFoodal show={show} setShow={modalOff}></AddFoodal>

@@ -77,13 +77,13 @@ function ManageEmp({location}){
             }}>취소</Button><br></br>
             </>):(<>
               <b style={{borderBottom:"2px solid #99aab5"}}>●시급: {salary}원</b>
-              <Button  size="sm" style={{marginLeft:"20px",paddingBottom:"5px"}} onClick={()=>{setShowInput(!showInput)}}>시급변경</Button>
+              <Button variant="warning" size="sm" style={{marginLeft:"20px",paddingBottom:"5px"}} onClick={()=>{setShowInput(!showInput)}}>시급변경</Button>
             <br></br></>)}
           </span>
 
           <br></br>
             <b style={{borderBottom:"2px solid #99aab5"}}>●지불할 임금 액수: {payPrice}원</b>
-            <Button size="sm" style={{marginLeft:"20px",paddingBottom:"5px"}} onClick={()=>{
+            <Button variant="warning" size="sm" style={{marginLeft:"20px",paddingBottom:"5px"}} onClick={()=>{
               function payforWage(){
                 axios.get('http://localhost:3002/api/payForWage',{params:{userEmail:emp.email,payPrice:payPrice}}).then(res=>{
                   if(res.data.success===true){

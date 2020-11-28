@@ -50,16 +50,18 @@ router.post('/',async(req,res)=>{
           const [minusStock]=await con.query(`update menu set remainStock=remainStock-1 where menuName='${content[i].menuName}'`);
         }
      
-
         const recordOrder=`insert into sales (serialKey, orderType, orderPrice, orderTime, cookTime, payTime, contentInOrder)
             values ('${serialKey}', ${tableId}, ${total}, (select receiveTime from customerorder where orderId=${orderId}),
-            (select preparedTime from customerorder where orderId=${orderId}), now(),'${contentString}')`;
+            (select preparedTime from customerorder where orderId=${orderId}), (select preparedTime from customerorder where orderId=${orderId}),
+            '${contentString}')`;
         let sql=`delete from ordercontent where order_orderId=${orderId}`;
         const sql2=`delete from customerorder where orderId=${orderId}`;
-
+        const sql3=`insert into account values(date(now()),${total},0,0,0) on duplicate key update salesTotal=salesTotal+${total}`;
+         
         const [rows]=await con.query(recordOrder);
         const [rows2]=await con.query(sql);
         const [rows3]=await con.query(sql2);
+        const [rows4]=await con.query(sql3);
 
         return res.status(200).json({success:true});
 

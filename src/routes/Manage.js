@@ -30,7 +30,7 @@ function Manage(){
          <Employeedal show={showAddEmp} setShow={addEmpModalOff}></Employeedal>
          <div id="workerList">
              <br></br>
-             <Table striped borderless hover variant="dark" style={{borderRadius:"10px"}}>
+             <Table striped bordered hover>
               <thead>
                <tr>
                 <th>-</th>
@@ -57,7 +57,7 @@ function Manage(){
                       wage:ant.hourWage,
                       email:ant.userEmail
                     }
-                    }}><Button size="sm">관리</Button></Link></td>
+                    }}><Button variant='warning' size="sm">관리</Button></Link></td>
                  </tr>))}
               </tbody>
           </Table>

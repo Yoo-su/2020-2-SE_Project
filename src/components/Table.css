@@ -1,5 +1,6 @@
 #tableBtn{
-    margin:50px;
+  position:relative;
+    margin:35px;
     width: 130px;
     height:130px;
     color: white;

@@ -35,7 +35,7 @@ function Account(){
                     <div style={{fontSize:"35px"}}>
                      <b>판매정보</b>
                     </div>
-                    <div style={{fontSize:"18px",marginBottom:"5px",float:"right"}}>
+                    <div style={{fontSize:"18px",marginBottom:"5px",float:"right",color:"#2F66A9"}}>
                  <b>●평균 주문 준비시간:{waitAvg}&nbsp;&nbsp;&nbsp; ●평균 고객 매장이용시간:{spendAvg}</b>&nbsp;&nbsp;&nbsp;
                  <b>●금일 테이블 판매 수: {todayTableSales}&nbsp;&nbsp; ●금일 테이크아웃 판매 수: {todayTakeOutSales} </b>
                  </div>

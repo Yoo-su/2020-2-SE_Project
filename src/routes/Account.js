@@ -24,7 +24,7 @@ function Account(){
              <div id="accountTitle">
                <b style={{fontSize:"35px"}}>회계정보</b>
             </div>
-            <div style={{fontSize:"18px",marginBottom:"5px",float:"right"}}> 
+            <div style={{fontSize:"18px",marginBottom:"5px",float:"right",color:"#2F66A9"}}> 
             <b>●이번달 순이익:&nbsp;{monthly}&nbsp;원</b>
             </div>
           <div>

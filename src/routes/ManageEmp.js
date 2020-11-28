@@ -39,7 +39,7 @@ function ManageEmp({location}){
         <div id="Content">
             <div id="empDetailTitle">
               <b>직원명: {emp.name}</b>
-              <Button style={{float:"right",marginLeft:"5px"}} onClick={()=>{window.location.href="#ManageEmp"}}>돌아가기</Button>
+              <Button variant="secondary" style={{float:"right",marginLeft:"5px"}} onClick={()=>{window.location.href="#ManageEmp"}}>돌아가기</Button>
               <Button variant="danger" style={{float:"right"}} onClick={()=>{
                   setWarningModal(true);
               }}>삭제</Button>

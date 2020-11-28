@@ -104,14 +104,14 @@ const Table=({tableId,empty,menu})=>{
 
          {orderState==="prepared"?(<>
           <div id="curState2"><b>준비완료!</b><br></br>
-          🍳
+          ✓
           </div>
          </>):(<></>)}
 
          {orderState==="served"?(<>
          <div id="curState3">
           <b>서빙완료</b><br></br>
-          😊
+          ✓
          </div>
          </>):(<></>)}
          </Button>

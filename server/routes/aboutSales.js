@@ -6,8 +6,8 @@ const con=require("./database");
 router.get('/',async(req,res)=>{
    try{
        const sql=`select * from sales order by orderTime desc`;
-       const sql2=`select avg(timediff(cookTime,orderTime)) as waitTime from sales;`;
-       const sql3=`select avg(timediff(payTime,orderTime)) as spendTime from sales where orderType not in(0)`;
+       const sql2=`select sec_to_time(avg(timediff(cookTime,orderTime))) as waitTime from sales;`;
+       const sql3=`select sec_to_time(avg(timediff(payTime,orderTime))) as spendTime from sales where orderType not in(0)`;
 
        const todayTableSalesCount=`select count(*) as ttsc from sales where orderType not in(0) and datediff(now(),orderTime)=0`;
        const todayTakeOutSalesCount=`select count(*) as ttosc from sales where orderType in(0) and datediff(now(),orderTime)=0`;

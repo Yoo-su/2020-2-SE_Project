@@ -23,7 +23,7 @@ function ManageStock(){
            <Table striped bordered hover>
               <thead>
                <tr>
-                <th>재고id</th>
+                <th>-</th>
                 <th>재고명</th>
                 <th style={{width:"25%"}}>남은수량</th>
                 <th>가격</th>

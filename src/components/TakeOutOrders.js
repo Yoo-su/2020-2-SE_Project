@@ -69,7 +69,7 @@ function TakeOutOrders({orderId,state,price}){
                        role="status"
                        aria-hidden="true"></Spinner>
                   </div>
-              ):(<div><b style={{color:"#668D3C"}}>준비완료!<br></br>🍳</b></div>)}
+              ):(<div><b style={{color:"#668D3C"}}>준비완료!<br></br>✓</b></div>)}
             </Card.Footer>
             <TakeOutDetaildal show={showDetail} setShow={detailOnOff} orderId={orderId} foods={content} state={state} price={price}></TakeOutDetaildal>
           </Card>

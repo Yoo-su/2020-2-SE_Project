@@ -22,9 +22,9 @@ function AboutMenu(){
     })
   },[])
   return(
-           <div id="menuPage">
+           <div id="menuPage" onLoad={'callbackAfterImageIsDownloaded'}>
              <div id="header" style={{textAlign:"center"}}>
-              <b style={{fontSize:"50px"}}>Menus</b><br></br>
+              <b style={{fontSize:"50px"}}>MENU</b><br></br>
               <Button variant="info" id="addMenuBtn" style={{float:"right",marginLeft:"5px"}} onClick={()=>{
                setShow(!show);
              }}>메뉴 추가</Button>

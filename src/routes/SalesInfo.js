@@ -17,12 +17,10 @@ function Account(){
                setSalesHistory(res.data.salesInfo);
                setTTS(res.data.todayTableSales);
                setTTOS(res.data.todayTakeOutSales);
-               const date=new Date(null);
-               const date2=new Date(null);
-               date.setSeconds(res.data.waitAvg);
-               date2.setSeconds(res.data.spendAvg);
-               setWaitAvg(date.toISOString().substr(11,8));
-               setSpendAvg(date.toISOString().substr(11,8));
+               const wait=res.data.waitAvg.slice(0,8);
+               const spend=res.data.spendAvg.slice(0,8);
+               setWaitAvg(wait);
+               setSpendAvg(spend);
                
            }else{ console.log('failed');}
        })

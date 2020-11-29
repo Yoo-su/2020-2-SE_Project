@@ -5,7 +5,7 @@ import "./Main.css";
 
 function Main(){
     return(
-     <div id="main">
+     <div id="main" onLoad={'callbackAfterImageIsDownloaded'}>
          <div id="mainContent" style={{backgroundImage:`url(${mainBack})`,backgroundSize:"cover"}}>
            <div id="insideContent">
           <img id ="mainImg" src={mainImg}></img><br></br><br></br>

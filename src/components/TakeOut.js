@@ -195,6 +195,15 @@ const TakeOutOrder=({tableId,menu})=>{
              <Alert show={showCancleAlert} variant="danger"><b>주문을 삭제하시겠습니까? <Button variant="danger" style={{marginRight:"5px",
              borderRadius:"10px"}}
              onClick={()=>{
+                function orderCancle(){
+                    axios.get('http://localhost:3002/api/orderCancle',{params:{tableId:tableId}}).then(res=>{
+                        if(res.data.success===true){
+                            console.log('주문취소 성공');
+                        }else{alert('취소실패');}
+                    })
+                }
+                orderCancle();
+                socket.emit('orderEvent','order');
                 handleHide();
                 resetOrder();
              }}>O</Button><Button style={{ borderRadius:"10px"}} variant="danger" onClick={()=>{

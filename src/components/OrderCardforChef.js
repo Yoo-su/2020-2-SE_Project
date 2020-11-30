@@ -4,10 +4,9 @@ import axios from 'axios';
 import OrderDal from "../components/OrderDal";
 import io from 'socket.io-client';
 
-function OrderCardforChef({orderId,state}){
+function OrderCardforChef({orderId,orderTime}){
     const [showOrderDal,setShowOrderDal]=useState(false);
     const [orderContent,setContent]=useState([]);
-    const [orderState,setOrderState]=useState(state);
     const [tableOrTakeOut,setToT]=useState(-1);
     const socket=io('http://localhost:3002');
 
@@ -34,16 +33,9 @@ function OrderCardforChef({orderId,state}){
        margin:"30px",
     };
 
-    const preparedStyle={
-      width:"10rem",
-      margin:"30px",
-      opacity:'0.5'
-    }
-    const applyStyle=orderState==="cooking"?cookingStyle:preparedStyle;
-
     return(
         <div>
-            <Card key={Math.random()} style={applyStyle}>
+            <Card key={Math.random()} style={cookingStyle}>
                  <Card.Header onClick={()=>{setShowOrderDal(true);}}>
                      <b>주문번호: {orderId}</b><br></br>
                       {tableOrTakeOut===0?(<b style={{color:"#2F66A9"}}>테이크아웃</b>):(<b style={{color:"#865840"}}>테이블{tableOrTakeOut}</b>)}
@@ -67,7 +59,7 @@ function OrderCardforChef({orderId,state}){
               </Card.Text>
              </Card.Body>
              <Card.Footer style={{textAlign:"center"}}>
-               {orderState==="cooking"?(<Button variant="success" onClick={()=>{
+              <Button variant="success" onClick={()=>{
                  function updateOrder(){
                    axios.get('http://localhost:3002/api/cookComplete',{params:{orderId:orderId}}).then(res=>{
                      console.log(res.data.success);
@@ -75,10 +67,9 @@ function OrderCardforChef({orderId,state}){
                  }
                  updateOrder();
                  socket.emit('cookEvent','cook');
-               }}>준비완료</Button>):(<Button variant="info">대기중</Button>)}
-               
+               }}>준비완료</Button>
              </Card.Footer>
-             <OrderDal show={showOrderDal} setShow={orderDalOnOff} orderId={orderId} orderContent={orderContent}></OrderDal>
+             <OrderDal show={showOrderDal} setShow={orderDalOnOff} orderId={orderId} orderContent={orderContent} orderTime={orderTime}></OrderDal>
                </Card>
         </div>
     );

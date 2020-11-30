@@ -31,7 +31,7 @@ function Cook(){
           </div>
            <div id="cookContent">
              {orders.map(order=>(
-               <OrderCardforChef key={Math.random()} orderId={order.orderId} state={order.state}></OrderCardforChef>
+               <OrderCardforChef key={Math.random()} orderId={order.orderId} orderTime={order.receiveTime}></OrderCardforChef>
              ))}
            </div>
         </div>

@@ -30,11 +30,6 @@ const TakeOutOrder=({tableId,menu})=>{
            },1500);
      };
  
-     const autoAddAlertRM=()=>{
-         setTimeout(()=>{
-             setAddAlert(false);
-           },1500);
-     };
  
      const afterOrder=()=>{
          setOrderContents(addedContents);
@@ -115,24 +110,25 @@ const TakeOutOrder=({tableId,menu})=>{
              <h2 style={{textAlign:"center",borderBottom:"1px solid"}}>메뉴</h2>
              <div style={{margin:"8px",textAlign:"center",position:"relative"}}>
              {menu.map(food=>{
-            return food.remainStock!==0?(
-            <button key={Math.random()} id={food.menuName} style={{backgroundColor:"white",border:"1px solid #C6C6C6"}} onClick={()=>{
-                setAddedContents(addedContents.concat({
-                    key:Math.random(),
-                    menuName:food.menuName,
-                    price:food.price
-                }));
-               setAddedPrice(addedPrice+food.price);
+            return food.activate===0||orderContents.length>0?(
+            <button key={Math.random()} id={food.menuName} style={{backgroundColor:"white",border:"1px solid #C6C6C6",opacity:"0.2"}} onClick={()=>{
+                alert('결제를 진행해 주세요');
             }}>
             <img id="foodImg" src={food.imgPath} alt={food.id} style={{width:"70px",height:"70px"}}></img><br></br>
             <b>{food.menuName}</b><br></br><label>{food.price}원</label>
-            </button>):(
-            <button key={Math.random()} id={food.menuName} style={{backgroundColor:"white",border:"1px solid #C6C6C6",opacity:"0.2"}} onClick={()=>{
-                     alert('품절된 메뉴입니다.')
-                 }}>
-                 <img id="foodImg" src={food.imgPath} alt={food.id} style={{width:"70px",height:"70px"}}></img><br></br>
-                 <b>{food.menuName}</b><br></br><label>{food.price}원</label>
-                 </button>)
+            </button>
+            ):(
+                <button key={Math.random()} id={food.menuName} style={{backgroundColor:"white",border:"1px solid #C6C6C6"}} onClick={()=>{
+                    setAddedContents(addedContents.concat({
+                        key:Math.random(),
+                        menuName:food.menuName,
+                        price:food.price
+                    }));
+                   setAddedPrice(addedPrice+food.price);
+                }}>
+                <img id="foodImg" src={food.imgPath} alt={food.id} style={{width:"70px",height:"70px"}}></img><br></br>
+                <b>{food.menuName}</b><br></br><label>{food.price}원</label>
+                </button>)
                  } )}
              </div>
          </div>
@@ -170,20 +166,6 @@ const TakeOutOrder=({tableId,menu})=>{
                     autoOrderAlertRM();
                    }
             }}>주문</Button>)):(<></>)}
-
-            {tableEmpty===false&&addedContents.length!==0?(<>
-                <Button variant='info' style={{height:"50px",marginRight:"5px"}} onClick={()=>{
-                if(addedContents.length===0){
-                    alert("추가된 음식이 없습니다");
-                }else{
-                setOrderContents(orderContents.concat(addedContents));
-                setPrice(totalPrice+addedPrice);
-                setAddedContents([]);
-                setAddedPrice(0);
-                setAddAlert(true);
-                autoAddAlertRM();}
-            }}>추가</Button> 
-            </>):(<></>)}
 
             {!tableEmpty&&addedContents.length===0?(<Button variant="danger" onClick={()=>{
                 setPayAlert(true);

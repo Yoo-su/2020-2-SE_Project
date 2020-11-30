@@ -6,7 +6,7 @@ import "./Table.css";
 
 const Table=({tableId,empty,menu})=>{
     const [show,setShow]=useState(false);
-    const [orderId,setOrderId]=useState(0);
+    const [orderIds,setorderIds]=useState([]);
     const [tableEmpty,setTableEmpty]=useState(empty);
     const [orderState,setOrderState]=useState("");
     const [orderContents,setOrderContents]=useState([]);
@@ -22,23 +22,17 @@ const Table=({tableId,empty,menu})=>{
 
     function bringTableInfo(){
         axios.get('http://localhost:3002/api/tableInfo',{params:{tableId:tableId}}).then(res=>{
-            if(res.data.empty===true){
-                setTableEmpty(true);
-            }
-            else if(res.data.empty===false){
+                console.log(res.data);
                 setTableEmpty(false);
-                setOrderId(res.data.order[0].orderId);
-                setOrderState(res.data.order[0].state);
+                setorderIds(res.data.order);
+                setOrderState(res.data.state);
                 setOrderContents(res.data.content);
                 setPrice(res.data.total);
-            }
         })
     }
 
     useEffect(()=>{
-     if(empty===false){
-      bringTableInfo();
-    }
+     if(tableEmpty===false){bringTableInfo();}
     },[]);
 
     const autoOrderAlertRM=()=>{
@@ -224,15 +218,26 @@ const Table=({tableId,empty,menu})=>{
             <Button variant='warning' style={{height:"50px",marginRight:"5px"}} onClick={()=>{
                 function changeToServed(){
                     axios.get('http://localhost:3002/api/served',{params:{tableId:tableId}}).then(res=>{
-                        console.log(JSON.parse(res.data.success));
+                        if(res.data.success===true){
+                            bringTableInfo();
+                        }
                     });
                 }
                 changeToServed();
-                setOrderState("served");
             }}>서빙</Button>):(<></>)}
 
             {tableEmpty===false&&addedContents.length!==0?(
                 <Button variant='info' style={{height:"50px",marginRight:"5px"}} onClick={()=>{
+                    function addOrder(){
+                        axios.post('http://localhost:3002/api/addOrder',{tableId:tableId,content:addedContents,total:addedPrice}).then(res=>{
+                            if(res.data.success===true){
+                                console.log('추가완료');
+                                socket.emit('orderEvent','order');
+                                bringTableInfo();
+                            }
+                        })
+                    }
+                addOrder();
                 setOrderContents(orderContents.concat(addedContents));
                 setPrice(totalPrice+addedPrice);
                 setAddedContents([]);
@@ -242,13 +247,13 @@ const Table=({tableId,empty,menu})=>{
             }}>추가</Button> 
             ):(<></>)}
 
-            {tableEmpty===false&&addedContents.length===0&&orderState!=='cooking'?(<Button variant="danger" onClick={()=>{
+            {tableEmpty===false&&addedContents.length===0&&orderState==='served'?(<Button variant="danger" onClick={()=>{
                 function payProcess(){
                     axios.post('http://localhost:3002/api/orderPay',{
                         tableId:tableId,
                         content:orderContents,
                         total:totalPrice,
-                        orderId:orderId
+                        orderIds:orderIds
                     }).then(res=>{
                         if(res.data.success===true){
                             console.log('success');

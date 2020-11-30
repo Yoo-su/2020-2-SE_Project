@@ -41,7 +41,7 @@ router.post('/',async(req,res)=>{
    const tableId=req.body.tableId;
    const content=req.body.content;
    const totalPrice=req.body.total;
-   const orderId=req.body.orderId;
+   const orderId=req.body.orderIds;
    
 
    let contentString="";
@@ -53,10 +53,17 @@ router.post('/',async(req,res)=>{
 
    const serialKey=GenerateSerialNumber('0000000000-0000000000');
 
-   const recordOrder=`insert into sales (serialKey, orderType, orderPrice, orderTime, cookTime, payTime, contentInOrder)
-   values ('${serialKey}', ${tableId}, ${totalPrice}, (select receiveTime from customerorder where orderId=${orderId}),
-   (select preparedTime from customerorder where orderId=${orderId}), now(),'${contentString}')`;
+   const findFirstOrderTime=`select receiveTime from customerorder where sicktak_sicktakId=${tableId} order by receiveTime asc`;
+   const [receiveTimes]=await con.query(findFirstOrderTime);
+   const firstReceive=receiveTimes[0].receiveTime;
 
+   const findLastPreparedTime=`select preparedTime from customerorder where sicktak_sicktakId=${tableId} order by preparedTime desc`;
+   const [preparedTimes]=await con.query(findLastPreparedTime);
+   const lastPrepared=preparedTimes[0].preparedTime;
+
+   const recordOrder=`insert into sales (serialKey, orderType, orderPrice, orderTime, cookTime, payTime, contentInOrder)
+   values ('${serialKey}', ${tableId}, ${totalPrice}, '${firstReceive}',
+   '${lastPrepared}', now(),'${contentString}')`;
 
    const sql=`delete from ordercontent where order_orderId in (select orderId from customerorder where sicktak_sicktakId=${tableId})`;
    const sql2=`delete from customerorder where sicktak_sicktakId=${tableId}`;

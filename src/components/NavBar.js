@@ -19,16 +19,16 @@ function NavBar({userRole,isLogin,logOut,curUser}){
              <label style={{fontSize:"35px",margin:"0px"}}>에브리 레스토랑</label>
          </Navbar.Brand>
          <Nav className="mr-auto" style={{fontSize:"22px"}}>
-             {userRole===0||userRole===1?(<>
+             {userRole===0?(<>
                 <Nav.Link href="#ManageEmp">직원관리</Nav.Link>
                 <Nav.Link href="#AboutMenu">메뉴</Nav.Link>
                 <Nav.Link href="#SalesInfo">판매</Nav.Link>
                 <Nav.Link href="#Account">회계</Nav.Link>
              </>):(null)}
-             {userRole===0||userRole===1?(<>
+             {userRole===1||userRole===2?(<>
                 <Nav.Link href="#Order">주문</Nav.Link>
              </>):(<></>)}
-             {userRole===0||userRole===1?(<>
+             {userRole===1||userRole===2?(<>
              <Nav.Link href="#Cook">요리</Nav.Link>
              <Nav.Link href="#ManageStock">재고</Nav.Link>
              </>):(<></>)}

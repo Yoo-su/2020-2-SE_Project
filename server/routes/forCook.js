@@ -8,16 +8,12 @@ router.get('/',async(req,res)=>{
     const sql=`select * from customerorder where state='cooking'`;
     const [rows]=await con.query(sql);
     
-    if(rows){
-        return res.status(200).json({
-            success:true,
-            order:rows
-        });
-    }else{
-        return res.status(200).json({
-            success:false
-        })
-    }
+
+    return res.status(200).json({
+       success:true,
+       order:rows
+    });
+    
     }catch(err){
         res.send({success:false});
     }

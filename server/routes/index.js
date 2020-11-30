@@ -26,6 +26,7 @@ const payForWage=require('./payForWage');
 const account=require('./account');
 const orderCancle=require('./orderCancle');
 const menuActivate=require('./menuActivate');
+const addOrder=require('./addOrder');
 const router=express.Router();
 
 router.use('/newOrder',newOrder);
@@ -79,5 +80,7 @@ router.use('/account',account);
 router.use('/orderCancle',orderCancle);
 
 router.use('/menuActivate',menuActivate);
+
+router.use('/addOrder',addOrder);
 
 module.exports=router;

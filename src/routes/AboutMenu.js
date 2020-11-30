@@ -22,7 +22,7 @@ function AboutMenu(){
     })
   },[])
   return(
-           <div id="menuPage" onLoad={'callbackAfterImageIsDownloaded'}>
+           <div id="menuPage">
              <div id="header" style={{textAlign:"center"}}>
               <b style={{fontSize:"50px"}}>MENU</b><br></br>
               <Button variant="info" id="addMenuBtn" style={{float:"right",marginLeft:"5px"}} onClick={()=>{
@@ -39,7 +39,7 @@ function AboutMenu(){
              </div>
              <div id="menus" style={{margin:"20px", textAlign:"center"}}>
               {foods.map(food=>(
-                <MenuCard activate={food.activate} menuName={food.menuName} showBtn={editMode} imgPath={food.imgPath} price={food.price} sales={food.sales} remain={food.remainStock}></MenuCard>
+                <MenuCard key={food.menuName} activate={food.activate} menuName={food.menuName} showBtn={editMode} imgPath={food.imgPath} price={food.price} sales={food.sales} remain={food.remainStock}></MenuCard>
               ))}
              </div>
              <AddFoodal show={show} setShow={modalOff}></AddFoodal>

@@ -75,7 +75,6 @@ function OrderCardforChef({orderId,state}){
                  }
                  updateOrder();
                  socket.emit('cookEvent','cook');
-                 window.location.reload();
                }}>준비완료</Button>):(<Button variant="info">대기중</Button>)}
                
              </Card.Footer>

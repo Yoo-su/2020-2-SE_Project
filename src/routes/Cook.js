@@ -18,6 +18,9 @@ function Cook(){
     socket.on('aboutOrder',(data)=>{
       window.location.reload();
     })
+    socket.on('aboutCook',(data)=>{
+      window.location.reload();
+    })
     bringOrders();
     return ()=>{socket.off('aboutOrder');}
   },[]);

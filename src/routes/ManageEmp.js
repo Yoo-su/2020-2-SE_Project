@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react';
-import {Button} from 'react-bootstrap';
+import {Button,Table} from 'react-bootstrap';
 import axios from 'axios';
 import EmpWarning from '../components/EmpWarning';
 import "./ManageEmp.css";
@@ -10,21 +10,29 @@ function ManageEmp({location}){
     const [showInput,setShowInput]=useState(true);
     const [newSalary,setNewSalary]=useState(0);
     const [warningModal,setWarningModal]=useState(false);
-    const [workTime,setWorkTime]=useState('');
+    const [workInfo,setWorkInfo]=useState([]);
     const [payPrice,setPayPrice]=useState(0);
+    let number=1;
     
 
    function bringMoney(){
      axios.get('http://localhost:3002/api/empDetail',{params:{email:emp.email,wage:emp.wage}}).then(res=>{
        if(res.data.success===true){
-          setWorkTime(res.data.workTime);
           setPayPrice(res.data.payPrice);
        }else{alert('오류발생')};
      })
    }
+   function bringWorkInfo(){
+    axios.get('http://localhost:3002/api/workHistory',{params:{userEmail:emp.email}}).then(res=>{
+      if(res.data.success===true){
+         setWorkInfo(res.data.workInfo);
+      }else{alert('오류발생')};
+    })
+   }
 
     useEffect(()=>{
       bringMoney();
+      bringWorkInfo();
     },[]);
 
     function warningOff(){
@@ -47,8 +55,8 @@ function ManageEmp({location}){
             </div>
           <br></br>
           <div id="empDetailContent">
-          <b style={{borderBottom:"2px solid #99aab5"}}>●역할: {emp.role===1?("점원"):("요리사")}</b><br></br><br></br>
-          <b style={{borderBottom:"2px solid #99aab5"}}>●이메일: {emp.email}</b><br></br><br></br>
+          <label style={{borderBottom:"2px solid #99aab5"}}>●역할: {emp.role===1?("점원"):("요리사")}</label><br></br>
+          <label style={{borderBottom:"2px solid #99aab5"}}>●이메일: {emp.email}</label><br></br>
 
           <span id="aboutSalary">
 
@@ -76,13 +84,11 @@ function ManageEmp({location}){
               setShowInput(!showInput);
             }}>취소</Button><br></br>
             </>):(<>
-              <b style={{borderBottom:"2px solid #99aab5"}}>●시급: {salary}원</b>
+              <label style={{borderBottom:"2px solid #99aab5"}}>●시급: {salary}원</label>
               <Button variant="warning" size="sm" style={{marginLeft:"20px",paddingBottom:"5px"}} onClick={()=>{setShowInput(!showInput)}}>시급변경</Button>
             <br></br></>)}
           </span>
-
-          <br></br>
-            <b style={{borderBottom:"2px solid #99aab5"}}>●지불할 임금 액수: {payPrice}원</b>
+            <label style={{borderBottom:"2px solid #99aab5"}}>●지불할 임금 액수: {payPrice}원</label>
             <Button variant="warning" size="sm" style={{marginLeft:"20px",paddingBottom:"5px"}} onClick={()=>{
               function payforWage(){
                 axios.get('http://localhost:3002/api/payForWage',{params:{userEmail:emp.email,payPrice:payPrice}}).then(res=>{
@@ -93,8 +99,33 @@ function ManageEmp({location}){
                 })
               }
               payforWage();
+              setWorkInfo([]);
             }}>지불</Button>
           </div>
+          {workInfo.length>0?(
+          <div id="workHistory">
+            <br></br>
+            <label style={{fontSize:"25px",borderBottom:"2px solid #99aab5",color:"#2F66A9"}}>●근무 기록</label>
+            <Table striped bordered hover>
+            <thead>
+               <tr>
+                <th>-</th>
+                <th>로그인 시간</th>
+                <th>로그아웃 시간</th>
+                <th>근무 시간</th>
+                </tr>
+              </thead>
+              <tbody>
+                {workInfo.map(info=>(
+                 <tr key={info.workhourId}>
+                  <td>{number++}</td>
+                <td>{info.loginTime}</td>
+                <td>{info.logoutTime}</td>
+                <td>{info.workTime.split('.')[0]}</td>
+                 </tr>))}
+              </tbody>
+            </Table>
+          </div>):(<><label style={{fontSize:"25px",borderBottom:"2px solid #99aab5",color:"#2F66A9"}}>●근무 기록 없음</label></>)}
           </div>
     </div>
    );

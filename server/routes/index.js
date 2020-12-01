@@ -28,6 +28,7 @@ const orderCancle=require('./orderCancle');
 const menuActivate=require('./menuActivate');
 const addOrder=require('./addOrder');
 const allMenu=require('./allMenu');
+const workHistory=require('./workHistory');
 const router=express.Router();
 
 router.use('/newOrder',newOrder);
@@ -85,5 +86,7 @@ router.use('/menuActivate',menuActivate);
 router.use('/allMenu',allMenu);
 
 router.use('/addOrder',addOrder);
+
+router.use('/workHistory',workHistory);
 
 module.exports=router;

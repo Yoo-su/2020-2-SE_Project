@@ -1,6 +1,7 @@
 import React,{useState} from "react";
 import {Button} from 'react-bootstrap';
 import axios from 'axios';
+import {Input} from 'semantic-ui-react';
 import "./Login.css";
 
 export default function Login(){
@@ -16,20 +17,24 @@ export default function Login(){
     }
     return (
             <div className="LoginPage">
+                <div id="head">
+                    <b>Login</b>
+                </div>
+                <div id="loginContent">
             <form>
-                <h3>Sign In</h3>
+                
 
-                <div className="form-group">
-                    <label>Email address</label>
-                    <input type="email" className="form-control" placeholder="Enter email" onChange={handleEmail}/>
+                <div className="form-group" style={{marginBottom:"25px"}}>
+           
+                    <input type="email" className="form-control" placeholder="Email .." onChange={handleEmail}/>
+                </div>
+               
+                <div className="form-group" style={{marginBottom:"25px"}}>
+                 
+                    <input type="password" className="form-control" placeholder="Password .." onChange={handlePW}/>
                 </div>
 
-                <div className="form-group">
-                    <label>Password</label>
-                    <input type="password" className="form-control" placeholder="Enter password" onChange={handlePW}/>
-                </div>
-
-                <Button style={{width:"100%"}} onClick={()=>{
+                <Button style={{width:"100%",backgroundColor:"#CC9966",borderColor:"#CC9966"}} onClick={()=>{
                    axios.post('http://localhost:3002/api/login',{
                        email:inputEmail,
                        password:inputPassWord
@@ -44,6 +49,7 @@ export default function Login(){
                    })
                 }}>Submit</Button><br></br>
             </form>
+            </div>
             </div>
     );
 }

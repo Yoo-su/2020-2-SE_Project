@@ -2,9 +2,21 @@
     width:30%;
     position: relative;
     left:35%;
-    top:100px;
-    padding:40px;
-    border:5px solid;
-    border-radius: 20px;
+    top:110px;
     background-color: white;
+    border-radius: 10px;
+}
+
+#head{
+    text-align: center;
+    background-color: #80604D;
+    min-height: 70px;
+    font-size: 50px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    color:white;
+}
+
+#loginContent{
+    padding:30px;
 }

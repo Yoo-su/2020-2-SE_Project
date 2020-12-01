@@ -16,7 +16,7 @@ function AboutMenu(){
   }
 
   useEffect(()=>{
-    axios.get('http://localhost:3002/api/menu').then(res=>{
+    axios.get('http://localhost:3002/api/allMenu').then(res=>{
       if(res.data.success===true){setFoods(res.data.menu)}
       else console.log('error');
     })

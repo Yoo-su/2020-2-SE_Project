@@ -110,7 +110,7 @@ const TakeOutOrder=({tableId,menu})=>{
              <h2 style={{textAlign:"center",borderBottom:"1px solid"}}>메뉴</h2>
              <div style={{margin:"8px",textAlign:"center",position:"relative"}}>
              {menu.map(food=>{
-            return food.activate===0||orderContents.length>0?(
+            return orderContents.length>0?(
             <button key={Math.random()} id={food.menuName} style={{backgroundColor:"white",border:"1px solid #C6C6C6",opacity:"0.2"}} onClick={()=>{
                 alert('결제를 진행해 주세요');
             }}>

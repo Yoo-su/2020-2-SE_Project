@@ -4,7 +4,7 @@ router.use(express.json());
 const con=require("./database");
 
 router.get('/',async(req,res)=>{
-    let sql=`select * from menu where activate=1`;
+    let sql=`select * from menu order by sales desc`;
 
     const [rows]=await con.query(sql);
 

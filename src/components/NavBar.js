@@ -3,20 +3,19 @@ import {Navbar, Nav,Button} from 'react-bootstrap';
 import { connect } from 'react-redux';
 import axios from "axios";
 import {logOut} from "../Store";
-import logo from "../icons/logo2.png";
+import logo from "../icons/hat.png";
 
 function NavBar({userRole,isLogin,logOut,curUser}){
    return(
     <div id="NavBar">
     <Navbar className="HomeNav" style={{backgroundColor:"#F4DCB5"}}>
          <Navbar.Brand href="#" style={{paddingBottom:"0px"}}>
-         <img 
+             <label style={{fontSize:"32px",margin:"0px"}}><img 
              src={logo}
              width="40"
-             height="45"
+             height="40"
              alt="mainlogo">
-             </img>{' '}
-             <label style={{fontSize:"35px",margin:"0px"}}>에브리 레스토랑</label>
+             </img>{' '}에브리 레스토랑</label>
          </Navbar.Brand>
          <Nav className="mr-auto" style={{fontSize:"22px"}}>
              {userRole===0?(<>

@@ -22,7 +22,10 @@ function Cook(){
       window.location.reload();
     })
     bringOrders();
-    return ()=>{socket.off('aboutOrder');}
+    return ()=>{
+      socket.off('aboutOrder');
+      socket.off('aboutCook');
+    }
   },[]);
     return(
         <div id="cookPage">

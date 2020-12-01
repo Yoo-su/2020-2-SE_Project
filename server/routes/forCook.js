@@ -5,7 +5,7 @@ const con=require("./database");
 
 router.get('/',async(req,res)=>{
     try{
-    const sql=`select * from customerorder where state='cooking' order by receiveTime desc`;
+    const sql=`select * from customerorder where state='cooking' order by receiveTime asc`;
     const [rows]=await con.query(sql);
     
 

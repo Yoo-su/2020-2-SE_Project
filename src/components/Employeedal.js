@@ -7,7 +7,7 @@ function Employeedal({show,setShow}){
   const [newEmail,setEmail]=useState('');
   const [newNickname,setNickname]=useState('');
   const [newPassword,setPassword]=useState('');
-  const [newWage,setWage]=useState(0);
+  const [newWage,setWage]=useState(-1);
   const [newRole,setRole]=useState('');
   const [newRole2,setRole2]=useState('');
 
@@ -53,11 +53,14 @@ function Employeedal({show,setShow}){
                 </Form>
              </Modal.Body> 
              <Modal.Footer>
-                 <Button variant="danger" onClick={setShow}>cancle</Button>
+                 <Button variant="danger" onClick={setShow}>취소</Button>
                  <Button variant="primary" onClick={()=>{
                    if(newRole.checked&&newRole2.checked){
                      alert('직원의 역할은 하나만 골라주세요');
-                   }else{
+                   }else if(newEmail===''||newNickname===''||newPassword===''||newWage===-1||(!newRole.checked&&!newRole2.checked)){
+                     alert('입력 정보를 확인해 주세요')
+                   }
+                   else{
                      axios.post('http://localhost:3002/api/newWorker',{
                        userEmail:newEmail,
                        nickName:newNickname,
@@ -71,7 +74,7 @@ function Employeedal({show,setShow}){
                        }else alert('오류발생');
                      })
                    }
-                 }}>Add!</Button>
+                 }}>추가</Button>
              </Modal.Footer>
             </Modal>
         </div>

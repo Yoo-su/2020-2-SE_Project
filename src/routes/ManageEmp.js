@@ -73,13 +73,13 @@ function ManageEmp({location}){
                   }
                 })
               }
-              if(newSalary<0)alert('변경할 시급을 확인해주세요');
+              if(newSalary<0||newSalary==='-0')alert('변경할 시급을 확인해주세요');
               else{
               updateSalary();
               setShowInput(!showInput);
               setSalary(newSalary);
               setNewSalary(0);}
-            }}>적용</Button>
+            }}>적용</Button>&nbsp;
             <Button variant='secondary' onClick={()=>{
               setShowInput(!showInput);
             }}>취소</Button><br></br>
@@ -104,7 +104,6 @@ function ManageEmp({location}){
           </div>
           {workInfo.length>0?(
           <div id="workHistory">
-            <br></br>
             <label style={{fontSize:"25px",borderBottom:"2px solid #99aab5",color:"#2F66A9"}}>●근무 기록</label>
             <Table striped bordered hover>
             <thead>

@@ -5,8 +5,8 @@ import axios from 'axios';
 function AddFoodal({show,setShow}){
     const [menuImg,setMenuImg]=useState('');
     const [menuName,setMenuName]=useState('');
-    const [menuPrice,setMenuPrice]=useState(0);
-    const [stockPrice,setStockPrice]=useState(0);
+    const [menuPrice,setMenuPrice]=useState(-1);
+    const [stockPrice,setStockPrice]=useState(-1);
     
     function handleImg(e){setMenuImg(e.target.files);}
 
@@ -48,7 +48,6 @@ function AddFoodal({show,setShow}){
              <Modal.Footer>
                  <Button variant="danger" onClick={setShow}>cancle</Button>
                  <Button variant="primary" onClick={()=>{
-                     console.log(typeof(menuImg));
                      function addMenu(){
                          const formData=new FormData();
                          formData.append('menuImg',menuImg[0]);
@@ -62,7 +61,12 @@ function AddFoodal({show,setShow}){
                              }
                              else console.log('failed');})
                      }
-                     addMenu();
+                     if(menuImg===''||menuName===''||menuPrice<0||stockPrice<0){
+                         alert('입력정보를 확인해주세요');
+                     }
+                     else{
+                        addMenu();
+                     }
                      }}>추가!</Button>
              </Modal.Footer>
             </Modal>

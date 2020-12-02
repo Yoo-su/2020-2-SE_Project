@@ -32,7 +32,7 @@ function TakeOutOrders({orderId,state,price}){
     const preparedStyle={
       width:'9rem',
       height:'13rem',
-      border:'5px solid #668D3C' 
+      border:'3px solid #668D3C' 
     }
     const applyStyle=state==="cooking"?cookingStyle:preparedStyle;
 

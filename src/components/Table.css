@@ -5,10 +5,11 @@
     height:130px;
     color: white;
     background-color: #816C5B;
-    border-color: #D8D8D8;
+    border-color: #816C5B;
     border-radius:30px;
     text-align: center;
     box-shadow: 5px 5px #524539;
+    
 }
 
 #modalContent{

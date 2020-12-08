@@ -14,7 +14,7 @@ router.get('/',async(req,res)=>{
    conn.release();
    return res.status(200).json({content:rows});
    }catch(err){
-       console.log(err);
+       console.log(err,'.');
        return res.send(err);
    }
 });

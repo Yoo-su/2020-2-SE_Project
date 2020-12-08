@@ -67,7 +67,7 @@ function ManageEmp({location}){
               function updateSalary(){
                 axios.get('http://localhost:3002/api/updateSalary',{params:{newSalary:newSalary,userEmail:emp.email}}).then(res=>{
                   if(res.data.success===true){
-                     alert('변경 적용되었습니다 :)');
+                     alert('변경 적용되었습니다 😀');
                   }else{
                     console.log('failed');
                   }

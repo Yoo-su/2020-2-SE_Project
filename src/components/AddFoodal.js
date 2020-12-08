@@ -56,7 +56,7 @@ function AddFoodal({show,setShow}){
                          formData.append('stockPrice',stockPrice);
                          axios.post('http://localhost:3002/api/addMenu',formData).then(res=>{
                              if(res.data.success===true){
-                                 alert('메뉴 추가가 완료되었습니다!');
+                                 alert('메뉴 추가가 완료되었습니다');
                                  window.location.reload();
                              }
                              else console.log('failed');})

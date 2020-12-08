@@ -9,10 +9,11 @@
 }
 
 #orderLeft{
+  position: absolute;
+  height:100%;
   width:50%;
-  border-right: 2px solid #EAEAEA;
-  min-height: 670px;
   float:left;
+  border-right: 4px solid #EAEAEA;
   display:table;
 }
 
@@ -29,6 +30,7 @@
 }
 
 #orderRight{
+  position:relative;
   width:50%;
   float:right;
 }

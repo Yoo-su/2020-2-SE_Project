@@ -1,7 +1,6 @@
 import React,{useState} from "react";
 import {Button} from 'react-bootstrap';
 import axios from 'axios';
-import {Input} from 'semantic-ui-react';
 import "./Login.css";
 
 export default function Login(){

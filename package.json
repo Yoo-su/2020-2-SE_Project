@@ -33,7 +33,7 @@
   },
   "scripts": {
     "start": "npm-run-all --parallel start:**",
-    "start:client": "react-scripts start",
+    "start:client": "set PORT=3003 && react-scripts start",
     "start:server": "node ./server/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",

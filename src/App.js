@@ -19,7 +19,6 @@ function App({userRole,isLogin,login,logout}) {
   /*App 컴포넌트 마운트 할 때마다 로컬스토리지에서 로그인 유저 정보 확인,
     유저존재하면 store isLogin state를 true로 ..*/
   useEffect(()=>{
-     console.log("App 컴포넌트 렌더링 확인");
      if(localStorage.getItem('role')){
        login()
      }
@@ -39,10 +38,10 @@ function App({userRole,isLogin,login,logout}) {
         <Route exact path="/SalesInfo" component={SalesInfo}></Route>
         <Route exact path="/Account" component={Account}></Route>
       </>):(null)}
-      {userRole===1||userRole===2?(<>
+      {userRole===1?(<>
         <Route exact path="/Order" component={Order}></Route>
       </>):(<></>)}
-      {userRole===1||userRole===2?(<>
+      {userRole===2?(<>
         <Route exact path="/Cook" component={Cook}></Route>
         <Route exact path="/ManageStock" component={ManageStock}></Route>
       </>):(<></>)}   

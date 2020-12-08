@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from "react";
-import {Button,Card} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
 import axios from "axios";
 import AddFoodal from "../components/AddFoodal";
 import MenuCard from '../components/MenuCard';

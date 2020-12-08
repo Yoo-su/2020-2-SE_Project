@@ -7,17 +7,14 @@ import "./TakeOutOrders.css";
 function TakeOutOrders({orderId,state,price}){
     const [showDetail,setShowDetail]=useState(false);
     const [content,setContent]=useState([]);
-    const [orderState,setOrderState]=useState(state);
-
-    function bringContent(){
-      axios.get('http://localhost:3002/api/takeOutContent',{params:{orderId:orderId}}).then(res=>{
-       setContent(res.data.content);
-      });
-    }
 
     useEffect(()=>{
+      function bringContent(){
+        axios.get('http://localhost:3002/api/takeOutContent',{params:{orderId:orderId}}).then(res=>{
+         setContent(res.data.content);
+        });
+      }
       bringContent();
-      console.log("테이크아웃 주문 카드 렌더 완료");
     },[]); 
 
     function detailOnOff(){

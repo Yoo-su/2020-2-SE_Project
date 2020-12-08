@@ -2,30 +2,38 @@
   position: relative;
   background-color: white;
   margin:10px;
-  display: table;
   border-radius: 10px;
   text-align: center;
-  width:99%;
   min-height: 670px;
+  overflow:hidden;
+}
+
+#orderLeft{
+  width:50%;
+  border-right: 2px solid #EAEAEA;
+  min-height: 670px;
+  float:left;
+  display:table;
 }
 
 #tables{
   position:relative;
-  width:50%;
-  float:left;
   text-align: center;
-  display:flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display:table-cell;
+  table-layout : fixed; 
+  word-break: break-all;
+  width:100%;
   padding-top:20px;
   padding-bottom: 20px;
-  border-right: 2px solid #EAEAEA;
   min-height: 670px;
 }
 
-#takeOut{
+#orderRight{
   width:50%;
   float:right;
+}
+
+#takeOut{
   text-align: center;
 }
 

@@ -15,7 +15,6 @@ const TakeOutOrder=({tableId,menu})=>{
     const [showOrderAlert,setOrderAlert]=useState(false);
     const [showPayAlert,setPayAlert]=useState(false);
     const [showCancleAlert,setCancleAlert]=useState(false);
-    const [showAddAlert,setAddAlert]=useState(false);
     const socket=io('http://localhost:3002');
 
     const autoOrderAlertRM=()=>{
@@ -154,7 +153,7 @@ const TakeOutOrder=({tableId,menu})=>{
                             content:addedContents,
                             total:addedPrice
                         }).then(res=>{
-                            if(res.data.success===true)console.log('gg');
+                            if(res.data.success===true)console.log('테이크아웃 주문 완료');
                         });
                     }
                     newOrder();
@@ -193,7 +192,6 @@ const TakeOutOrder=({tableId,menu})=>{
              }}>X</Button></b></Alert>
              <Alert show={showOrderAlert} variant="success"><b>주문 완료!</b></Alert>
              <Alert show={showPayAlert} variant="success"><b>결제 완료!</b></Alert>
-             <Alert show={showAddAlert} variant="success"><b>추가 완료!</b></Alert>
        </div>
         </Modal.Footer>
        </Modal>      

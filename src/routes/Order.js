@@ -39,6 +39,7 @@ function Order(){
     return(
       <div id="order">
         {tables.length>0&&menu.length>0?(<>
+        <div id="orderLeft">
           <div id="tables">
              {tables.map(table=>(
                <span id="table" key={table.sicktakId}>
@@ -46,6 +47,8 @@ function Order(){
                </span>
               ))}
          </div>
+         </div>
+         <div id="orderRight">
          <div id="takeOut">
            <TakeOut tableId={takeOut.sicktakId} menu={menu}></TakeOut><br></br><br></br>
            <div id="toOrders">
@@ -54,10 +57,10 @@ function Order(){
            ))}
           </div>
          </div>
-        </>):(<div style={{position:"relative",textAlign:"center",marginTop:"200px"}}>
-          <b style={{fontSize:"30px"}}>불러오는 중...</b>
+         </div>
+        </>):(<div style={{position:"relative",textAlign:"center",paddingTop:"200px"}}>
+          <b style={{fontSize:"45px"}}>불러오는 중...</b>
         </div>)}
-         
       </div>
     );
 }

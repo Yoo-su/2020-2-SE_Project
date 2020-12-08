@@ -24,10 +24,10 @@ function NavBar({userRole,isLogin,logOut,curUser}){
                 <Nav.Link href="#SalesInfo">판매</Nav.Link>
                 <Nav.Link href="#Account">회계</Nav.Link>
              </>):(null)}
-             {userRole===1||userRole===2?(<>
+             {userRole===1?(<>
                 <Nav.Link href="#Order">주문</Nav.Link>
              </>):(<></>)}
-             {userRole===1||userRole===2?(<>
+             {userRole===2?(<>
              <Nav.Link href="#Cook">요리</Nav.Link>
              <Nav.Link href="#ManageStock">재고</Nav.Link>
              </>):(<></>)}

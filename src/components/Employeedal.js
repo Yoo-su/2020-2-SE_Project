@@ -69,7 +69,7 @@ function Employeedal({show,setShow}){
                        role:newRole.checked?2:1
                      }).then(res=>{
                        if(res.data.success===true){
-                         alert('직원 추가가 완료되었습니다!');
+                         alert('직원 추가가 완료되었습니다');
                          window.location.reload();
                        }else alert('오류발생');
                      })

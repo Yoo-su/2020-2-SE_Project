@@ -13,9 +13,10 @@ router.post('/',async(req,res)=>{
   
    if(rows[0].role!==0){
    let randId=0;
-   const uniqueSql=`select * from workhour where workhourId=${randId}`;
+   const uniqueSql=``;
    while(true){
     randId=Math.random()*(5000-4000)+4000;
+    uniqueSql=`select * from workhour where workhourId=${randId}`;
     const [aleadyExist]=await con.query(uniqueSql);
     if(aleadyExist.length===0)break;
    }

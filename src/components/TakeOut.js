@@ -167,6 +167,7 @@ const TakeOutOrder=({tableId,menu})=>{
             }}>주문</Button>)):(<></>)}
 
             {!tableEmpty&&addedContents.length===0?(<Button variant="danger" onClick={()=>{
+                setOrderAlert(false);
                 setPayAlert(true);
                 afterPay();
                 autoPayAlertRM();

@@ -49,16 +49,16 @@ function Order(){
          </div>
          </div>
          <div id="orderRight">
-         <div id="takeOut">
+           <div id="takeOut">
            <TakeOut tableId={takeOut.sicktakId} menu={menu}></TakeOut><br></br><br></br>
-           <div id="toOrders">
+             <div id="toOrders">
            {takeOutOrders.map(tOO=>(
              <TakeOutOrders key={tOO.orderId} orderId={tOO.orderId} state={tOO.state} price={tOO.totalPrice}></TakeOutOrders>
            ))}
-          </div>
+             </div>
+           </div>
          </div>
-         </div>
-        </>):(<div style={{position:"relative",textAlign:"center",paddingTop:"200px"}}>
+        </>):(<div id="orderLoading">
           <b style={{fontSize:"45px"}}>불러오는 중...</b>
         </div>)}
       </div>

@@ -17,9 +17,10 @@ router.post('/',async(req,res)=>{
    }
 
    let randId=0;
-   const uniqueOrderSql=`select * from customerorder where orderId=${randId}`;
+   let uniqueOrderSql=``;
    while(true){
     randId=Math.random()*(1200-1000)+1000;
+    uniqueOrderSql=`select * from customerorder where orderId=${randId}`;
     const [aleadyExist]=await con.query(uniqueOrderSql);
     if(aleadyExist.length===0)break;
    }

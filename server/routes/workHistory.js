@@ -7,7 +7,7 @@ router.get('/',async(req,res)=>{
   try{
       const userEmail=req.query.userEmail;
 
-      const sql=`select * from workhour where user_userEmail='${userEmail}'`;
+      const sql=`select * from workhour where user_userEmail='${userEmail}' order by loginTime desc`;
 
       const [rows]=await con.query(sql);
 

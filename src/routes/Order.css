@@ -1,48 +1,54 @@
 #order{
   position: relative;
   background-color: white;
-  margin:10px;
   border-radius: 10px;
   text-align: center;
   min-height: 670px;
-  overflow:hidden;
+  margin-top:5px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 5px;
+  display:flex;
+  justify-content: center;
+}
+
+#orderLoading{
+  position: relative;
+  background-color: white;
+  padding-top:200px;
 }
 
 #orderLeft{
-  position: absolute;
-  height:100%;
+  position: relative;
+  display:flex;
   width:50%;
-  float:left;
   border-right: 4px solid #EAEAEA;
-  display:table;
 }
 
 #tables{
   position:relative;
   text-align: center;
-  display:table-cell;
-  table-layout : fixed; 
-  word-break: break-all;
-  width:100%;
   padding-top:20px;
   padding-bottom: 20px;
-  min-height: 670px;
 }
 
 #orderRight{
   position:relative;
   width:50%;
+  display:flex;
   float:right;
 }
 
 #takeOut{
   text-align: center;
+  width:100%;
+
 }
 
 #toOrders{
   border-top:2px solid  #EAEAEA;
-  justify-content: center;
   position: relative;
   display:flex;
+  justify-content:center;
   flex-wrap: wrap;
 }

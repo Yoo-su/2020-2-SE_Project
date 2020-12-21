@@ -22,7 +22,7 @@ const Table=({tableId,empty,menu})=>{
 
     socket.on('aboutCook',(data)=>{
         if(data.tableId===tableId){
-            bringTableInfo();
+            setOrderState("prepared");
         }
       })
 

@@ -26,6 +26,7 @@ function TakeOutOrders({orderId,state,price}){
 
     useEffect(()=>{
       bringContent();
+      return ()=>{socket.off('aboutCook');}
     },[]); 
 
     function detailOnOff(){

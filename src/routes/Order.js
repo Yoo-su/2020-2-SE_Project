@@ -4,14 +4,12 @@ import Table from "../components/Table";
 import TakeOut from "../components/TakeOut";
 import TakeOutOrders from "../components/TakeOutOrders";
 import axios from "axios";
-import io from "socket.io-client";
 
 function Order(){
   const [tables,setTables]=useState([]);
   const [takeOut,setTakeOut]=useState([]);
   const [takeOutOrders,setTakeOutOrders]=useState([]);
   const [menu,setMenu]=useState([]);
-  const socket=io('http://localhost:3002');
   
   const requestTables=axios.get('http://localhost:3002/api/tables');
   const requestMenu=axios.get('http://localhost:3002/api/menu');
@@ -29,11 +27,7 @@ function Order(){
 
   
   useEffect(()=>{
-    socket.on('aboutCook',(data)=>{
-      window.location.reload();
-    })
     bringDatas();
-    return ()=>{socket.off('aboutCook');}
   },[]);
 
     return(

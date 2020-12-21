@@ -20,6 +20,12 @@ const Table=({tableId,empty,menu})=>{
     const [showAddAlert,setAddAlert]=useState(false);
     const socket=io('http://localhost:3002');
 
+    socket.on('aboutCook',(data)=>{
+        if(data.tableId===tableId){
+            bringTableInfo();
+        }
+      })
+
     function bringTableInfo(){
         axios.get('http://localhost:3002/api/tableInfo',{params:{tableId:tableId}}).then(res=>{
                 console.log(res.data);
@@ -32,7 +38,10 @@ const Table=({tableId,empty,menu})=>{
     }
 
     useEffect(()=>{
-     if(tableEmpty===false){bringTableInfo();}
+     if(tableEmpty===false){
+         bringTableInfo();
+         return ()=>{socket.off('aboutCook');}
+        }
     },[]);
 
     const autoOrderAlertRM=()=>{

@@ -2,18 +2,29 @@ import React,{useState,useEffect} from "react";
 import {Card,Spinner} from "react-bootstrap";
 import TakeOutDetaildal from "../components/TakeOutDetaildal";
 import axios from "axios";
+import io from 'socket.io-client';
 import "./TakeOutOrders.css";
 
 function TakeOutOrders({orderId,state,price}){
     const [showDetail,setShowDetail]=useState(false);
     const [content,setContent]=useState([]);
+    const [orderState,setOrderState]=useState(state);
+
+    function bringContent(){
+      axios.get('http://localhost:3002/api/takeOutContent',{params:{orderId:orderId}}).then(res=>{
+       setContent(res.data.content);
+      });
+    }
+
+    const socket=io('http://localhost:3002');
+
+    socket.on('aboutCook',(data)=>{
+        if(data.orderId===orderId){
+            setOrderState("prepared");
+        }
+      })
 
     useEffect(()=>{
-      function bringContent(){
-        axios.get('http://localhost:3002/api/takeOutContent',{params:{orderId:orderId}}).then(res=>{
-         setContent(res.data.content);
-        });
-      }
       bringContent();
     },[]); 
 
@@ -31,7 +42,7 @@ function TakeOutOrders({orderId,state,price}){
       height:'13rem',
       border:'3px solid #668D3C' 
     }
-    const applyStyle=state==="cooking"?cookingStyle:preparedStyle;
+    const applyStyle=orderState==="cooking"?cookingStyle:preparedStyle;
 
     return(
         <div id="takeOuts">
@@ -56,7 +67,7 @@ function TakeOutOrders({orderId,state,price}){
               </Card.Text>
              </Card.Body>
             <Card.Footer style={{padding:"0.5rem"}}>
-              {state==="cooking"?(
+              {orderState==="cooking"?(
                   <div>
                       준비중..<br></br>
                       <Spinner
@@ -68,7 +79,7 @@ function TakeOutOrders({orderId,state,price}){
                   </div>
               ):(<div><b style={{color:"#668D3C"}}>준비완료!<br></br>✓</b></div>)}
             </Card.Footer>
-            <TakeOutDetaildal show={showDetail} setShow={detailOnOff} orderId={orderId} foods={content} state={state} price={price}></TakeOutDetaildal>
+            <TakeOutDetaildal show={showDetail} setShow={detailOnOff} orderId={orderId} foods={content} state={orderState} price={price}></TakeOutDetaildal>
           </Card>
         </div>
     );

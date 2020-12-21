@@ -21,7 +21,7 @@ app.use('/api',api);
 io.on("connection",(socket)=>{
 
     socket.on("cookEvent",(data)=>{
-        console.log(data,"CookEvent 발생");
+        console.log("CookEvent 발생");
         io.sockets.emit('aboutCook',data);
     });
 

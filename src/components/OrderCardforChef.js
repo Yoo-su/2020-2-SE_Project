@@ -66,7 +66,7 @@ function OrderCardforChef({orderId,orderTime}){
                    })
                  }
                  updateOrder();
-                 socket.emit('cookEvent','cook');
+                 socket.emit('cookEvent',{tableId:tableOrTakeOut,orderId:orderId});
                }}>준비완료</Button>
              </Card.Footer>
              <OrderDal show={showOrderDal} setShow={orderDalOnOff} orderId={orderId} orderContent={orderContent} orderTime={orderTime}></OrderDal>

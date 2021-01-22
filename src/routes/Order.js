@@ -10,7 +10,7 @@ function Order(){
   const [takeOut,setTakeOut]=useState([]);
   const [takeOutOrders,setTakeOutOrders]=useState([]);
   const [menu,setMenu]=useState([]);
-  
+ 
   const requestTables=axios.get('http://localhost:3002/api/tables');
   const requestMenu=axios.get('http://localhost:3002/api/menu');
   const requestTakeOutOrders=axios.get('http://localhost:3002/api/takeOutOrders');

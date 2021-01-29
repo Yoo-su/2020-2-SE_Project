@@ -16,7 +16,7 @@ function TakeOutOrders({orderId,state,price}){
       });
     }
 
-    const socket=io('http://localhost:3002');
+    const socket=io('http://localhost:3002',{ transports: ['websocket'] });
 
     socket.on('aboutCook',(data)=>{
         if(data.orderId===orderId){

@@ -8,7 +8,7 @@ function OrderCardforChef({orderId,orderTime}){
     const [showOrderDal,setShowOrderDal]=useState(false);
     const [orderContent,setContent]=useState([]);
     const [tableOrTakeOut,setToT]=useState(-1);
-    const socket=io('http://localhost:3002');
+    const socket=io('http://localhost:3002',{ transports: ['websocket'] });
 
    function bringOrderDetail(){
      axios.get('http://localhost:3002/api/forOrderCard',{params:{orderId:orderId}}).then(res=>{

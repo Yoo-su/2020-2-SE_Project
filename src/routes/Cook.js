@@ -6,7 +6,7 @@ import io from 'socket.io-client';
 
 function Cook(){
   const [orders,setOrders]=useState([]);
-  const socket=io('http://localhost:3002');
+  const socket=io('http://localhost:3002',{ transports: ['websocket'] });
 
   function bringOrders(){
     axios.get('http://localhost:3002/api/forCook').then(res=>{
@@ -16,7 +16,7 @@ function Cook(){
 
   useEffect(()=>{ //첫 마운트때 딱 한번
     socket.on('aboutOrder',(data)=>{
-      window.location.reload();
+      bringOrders();
     })
     socket.on('aboutCook',(data)=>{
       window.location.reload();

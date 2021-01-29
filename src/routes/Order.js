@@ -4,12 +4,14 @@ import Table from "../components/Table";
 import TakeOut from "../components/TakeOut";
 import TakeOutOrders from "../components/TakeOutOrders";
 import axios from "axios";
+import io from "socket.io-client";
 
 function Order(){
   const [tables,setTables]=useState([]);
   const [takeOut,setTakeOut]=useState([]);
   const [takeOutOrders,setTakeOutOrders]=useState([]);
   const [menu,setMenu]=useState([]);
+  const socket=io('http://localhost:3002',{ transports: ['websocket'] });
  
   const requestTables=axios.get('http://localhost:3002/api/tables');
   const requestMenu=axios.get('http://localhost:3002/api/menu');
@@ -28,6 +30,17 @@ function Order(){
   
   useEffect(()=>{
     bringDatas();
+    socket.on('aboutTakeOut',(data)=>{
+      requestTakeOutOrders.then(res=>{
+        if(res.data.success===true){
+          console.log(res.data,"여기");
+          setTakeOutOrders(res.data.takeOutOrders);
+        }
+      })
+    })
+    return ()=>{
+      socket.off('aboutTakeOut');
+    }
   },[]);
 
     return(

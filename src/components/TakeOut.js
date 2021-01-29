@@ -15,7 +15,7 @@ const TakeOutOrder=({tableId,menu})=>{
     const [showOrderAlert,setOrderAlert]=useState(false);
     const [showPayAlert,setPayAlert]=useState(false);
     const [showCancleAlert,setCancleAlert]=useState(false);
-    const socket=io('http://localhost:3002');
+    const socket=io('http://localhost:3002',{ transports: ['websocket'] });
 
     const autoOrderAlertRM=()=>{
         setTimeout(()=>{
@@ -38,13 +38,13 @@ const TakeOutOrder=({tableId,menu})=>{
   
  
      const afterPay=()=>{
+        socket.emit('orderEvent','takeOutOrder');
          setTimeout(()=>{
              setOrderContents([]);
              setAddedContents([]);
              setTableEmpty(true);
              setPrice(0);
              setShow(false);
-             window.location.reload();
          },1500)
      };
  
@@ -148,6 +148,11 @@ const TakeOutOrder=({tableId,menu})=>{
                    }
                    else{
                     function newOrder(){
+                        const orderData={
+                            tableId:tableId,
+                            content:addedContents,
+                            total:addedPrice
+                        }
                         axios.post("http://localhost:3002/api/newOrder",{
                             tableId:tableId,
                             content:addedContents,
@@ -157,7 +162,6 @@ const TakeOutOrder=({tableId,menu})=>{
                         });
                     }
                     newOrder();
-                    socket.emit('orderEvent','order');
                     setPrice(addedPrice);
                     setAddedPrice(0);
                     afterOrder();
@@ -185,7 +189,7 @@ const TakeOutOrder=({tableId,menu})=>{
                     })
                 }
                 orderCancle();
-                socket.emit('orderEvent','order');
+                socket.emit('orderEvent','takeOutOrder');
                 handleHide();
                 resetOrder();
              }}>O</Button><Button style={{ borderRadius:"10px"}} variant="danger" onClick={()=>{

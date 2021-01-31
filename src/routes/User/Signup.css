@@ -1,0 +1,9 @@
+.SignupPage{
+    width:30%;
+    position: relative;
+    left:35%;
+    top:50px;
+    padding:40px;
+    border:5px solid;
+    border-radius: 20px;
+}

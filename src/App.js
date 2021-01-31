@@ -1,16 +1,16 @@
 import React,{useEffect} from 'react';
 import {HashRouter as Router, Route} from 'react-router-dom'
 import NavBar from "./components/NavBar";
-import Order from "./routes/Order";
-import Login from "./routes/Login";
-import AboutMenu from "./routes/AboutMenu";
+import Order from "./routes/Order/Order";
+import Login from "./routes/User/Login";
+import AboutMenu from "./routes/Manage/AboutMenu";
 import Main from "./routes/Main";
-import Cook from "./routes/Cook";
-import Manage from "./routes/Manage";
-import ManageEmp from "./routes/ManageEmp";
-import ManageStock from "./routes/ManageStock";
-import SalesInfo from "./routes/SalesInfo";
-import Account from './routes/Account';
+import Cook from "./routes/Cook/Cook";
+import Manage from "./routes/Manage/Manage";
+import ManageEmp from "./routes/Manage/ManageEmp";
+import ManageStock from "./routes/Cook/ManageStock";
+import SalesInfo from "./routes/Manage/SalesInfo";
+import Account from './routes/Manage/Account';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { connect } from 'react-redux';
 import {logIn,logOut} from './Store';

@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React,{useState,useEffect,useRef} from "react";
 import "./Order.css";
 import Table from "../../components/Clerk/Table";
 import TakeOut from "../../components/Clerk/TakeOut";
@@ -11,8 +11,7 @@ function Order(){
   const [takeOut,setTakeOut]=useState([]);
   const [takeOutOrders,setTakeOutOrders]=useState([]);
   const [menu,setMenu]=useState([]);
-  const socket=io('http://localhost:3002',{ transports: ['websocket'] });
- 
+
   const requestTables=axios.get('http://localhost:3002/api/tables');
   const requestMenu=axios.get('http://localhost:3002/api/menu');
   const requestTakeOutOrders=axios.get('http://localhost:3002/api/takeOutOrders');
@@ -30,16 +29,22 @@ function Order(){
   
   useEffect(()=>{
     bringDatas();
+    
+    const socket=io('http://localhost:3002',{ transports: ['websocket'] });
+
     socket.on('aboutTakeOut',(data)=>{
-      requestTakeOutOrders.then(res=>{
-        if(res.data.success===true){
-          console.log(res.data,"여기");
-          setTakeOutOrders(res.data.takeOutOrders);
-        }
-      })
+      if(data.what==='updateOrderForClerk'){
+        setTakeOutOrders(data.takeOutOrders);
+      }
     })
+
+    socket.on('removeCard',(data)=>{
+      setTakeOutOrders(data.takeOutOrders);
+    })
+    
     return ()=>{
       socket.off('aboutTakeOut');
+      socket.off('removeCard');
     }
   },[]);
 

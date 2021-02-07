@@ -62,11 +62,12 @@ function OrderCardforChef({orderId,orderTime}){
               <Button variant="success" onClick={()=>{
                  function updateOrder(){
                    axios.get('http://localhost:3002/api/cookComplete',{params:{orderId:orderId}}).then(res=>{
-                     console.log(res.data.success);
+                     if(res.data.success===true){
+                      socket.emit('cookEvent',{tableId:tableOrTakeOut,orderId:orderId});
+                     }
                    })
                  }
                  updateOrder();
-                 socket.emit('cookEvent',{tableId:tableOrTakeOut,orderId:orderId});
                }}>준비완료</Button>
              </Card.Footer>
              <OrderDal show={showOrderDal} setShow={orderDalOnOff} orderId={orderId} orderContent={orderContent} orderTime={orderTime}></OrderDal>

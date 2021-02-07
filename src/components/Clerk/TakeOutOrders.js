@@ -9,6 +9,7 @@ function TakeOutOrders({orderId,state,price}){
     const [showDetail,setShowDetail]=useState(false);
     const [content,setContent]=useState([]);
     const [orderState,setOrderState]=useState(state);
+    const socket=io('http://localhost:3002',{ transports: ['websocket'] });
 
     function bringContent(){
       axios.get('http://localhost:3002/api/takeOutContent',{params:{orderId:orderId}}).then(res=>{
@@ -16,16 +17,15 @@ function TakeOutOrders({orderId,state,price}){
       });
     }
 
-    const socket=io('http://localhost:3002',{ transports: ['websocket'] });
+    useEffect(()=>{
+      bringContent();
 
-    socket.on('aboutCook',(data)=>{
+      socket.on('takeOutPrepared',(data)=>{
         if(data.orderId===orderId){
             setOrderState("prepared");
         }
       })
 
-    useEffect(()=>{
-      bringContent();
       return ()=>{socket.off('aboutCook');}
     },[]); 
 

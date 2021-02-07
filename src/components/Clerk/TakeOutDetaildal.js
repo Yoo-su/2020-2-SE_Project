@@ -1,8 +1,10 @@
 import React from 'react';
 import {Modal,Form, Button} from "react-bootstrap";
 import axios from 'axios';
+import io from 'socket.io-client';
 
 function TakeOutDetaildal({show,setShow,orderId,foods,state,price}){
+    const socket=io('http://localhost:3002',{ transports: ['websocket'] });
     return(
         <div>
             <Modal
@@ -33,7 +35,9 @@ function TakeOutDetaildal({show,setShow,orderId,foods,state,price}){
                          price:price,
                          content:foods
                        }).then(res=>{
-                         if(res.data.success===true){console.log('gg');window.location.reload();}
+                         if(res.data.success===true){
+                           socket.emit('takeOutEnd',{orderId:orderId});
+                          }
                        });
                      }
                      takeoutEnd();

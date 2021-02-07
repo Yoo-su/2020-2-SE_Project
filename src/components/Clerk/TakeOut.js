@@ -38,7 +38,7 @@ const TakeOutOrder=({tableId,menu})=>{
   
  
      const afterPay=()=>{
-        socket.emit('orderEvent','takeOutOrder');
+        socket.emit('orderEvent',{what:'takeOutOrder'});
          setTimeout(()=>{
              setOrderContents([]);
              setAddedContents([]);

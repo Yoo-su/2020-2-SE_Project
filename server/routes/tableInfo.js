@@ -40,6 +40,8 @@ router.get('/',async(req,res)=>{
           else if(prepared.length===0&&cooking.length===0&&served.length>0)state='served';
 
           return res.status(200).json({
+              success:true,
+              tableId:tableId,
               empty:false,
               state:state,
               order:orderIds,

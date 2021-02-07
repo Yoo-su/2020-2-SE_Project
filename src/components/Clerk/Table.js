@@ -20,18 +20,21 @@ const Table=({tableId,empty,menu})=>{
     const [showAddAlert,setAddAlert]=useState(false);
     const socket=io.connect('http://localhost:3002',{ transports: ['websocket'] });
 
+    function applyInfo(data){
+        setTableEmpty(false);
+        setorderIds(data.order);
+        setOrderState(data.state);
+        setOrderContents(data.content);
+        setPrice(data.total);
+    }
 
     function bringTableInfo(){
-        console.log('가져오는 중..');
+        console.log(tableId,'번 테이블에서 정보 가져오는 중..');
         axios.get('http://localhost:3002/api/tableInfo',{params:{tableId:tableId}}).then(res=>{
-                if(tableEmpty===true){
-                    setTableEmpty(false);
+                if(res.data.success===true){
+                    applyInfo(res.data);
+                    console.log('가져오기 완료');
                 }
-                setorderIds(res.data.order);
-                setOrderState(res.data.state);
-                setOrderContents(res.data.content);
-                setPrice(res.data.total);
-                console.log('가져오기 완료');
         })
     }
 
@@ -39,35 +42,26 @@ const Table=({tableId,empty,menu})=>{
         if(tableEmpty===false){
             bringTableInfo();
            }
-        socket.on('aboutCook',(data)=>{
+        socket.on('tablePrepared',(data)=>{
             if(data.tableId===tableId){
                 setOrderState("prepared");
             }
           })
-        socket.on('aboutOrder',(data)=>{
-            if(data.what==='order'&&data.orderData.tableId===tableId){
-                bringTableInfo();
-                setAddedContents([]);
-                setOrderAlert(true);
-                autoOrderAlertRM(); 
-
+        socket.on('aboutTable',(data)=>{
+            if(data.what==='three'&&Number(data.tableId)===tableId){
+                console.log(data,'확인해보자');
+                applyInfo(data);
             }else if(data.what==='cancle'&&data.tableId===tableId){
                 console.log('취소이벤트 감지');
                 resetOrder();
-            }else if(data.what==='served'&&data.tableId===tableId){
-                console.log('서빙이벤트 감지')
-                bringTableInfo();
-            }else if(data.what==='add'&&data.tableId===tableId){
-                console.log('추가이벤트 감지')
-                bringTableInfo();
             }else if(data.what==='pay'&&data.tableId===tableId){
                 console.log('결제이벤트 감지');
                 resetOrder();
             }
         })
         return ()=>{
-            socket.off('aboutCook');
-            socket.off('aboutOrder');
+            socket.off('tablePrepared');
+            socket.off('aboutTable');
         }
     },[]);
 
@@ -89,9 +83,25 @@ const Table=({tableId,empty,menu})=>{
           },1500);
     };
 
+    const resetOrderState=()=>{
+        if(orderState===""){
+            setOrderState("cooking");
+        }else if(orderState==="prepared"){
+            setOrderState("prepared");
+        }else if(orderState==="served"){
+            setOrderState('cooking');
+        }
+    }
+
     const afterOrder=()=>{
+        setTableEmpty(false);
         setOrderContents(addedContents);
         setAddedContents([]);
+        setPrice(totalPrice+addedPrice);
+        setAddedPrice(0);
+        resetOrderState();
+        setOrderAlert(true);
+        autoOrderAlertRM(); 
     }
  
 
@@ -239,13 +249,14 @@ const Table=({tableId,empty,menu})=>{
                         axios.post("http://localhost:3002/api/newOrder",orderData).then(res=>{
                             if(res.data.success===true){
                                 console.log('success');
-                                socket.emit('orderEvent',{what:'order',orderData:orderData});
+                                socket.emit('orderEvent',{what:'order',tableId:tableId});
                                 
                             }
                             else{console.log("server error");}
                         });
                     }
                     newOrder();
+                    afterOrder();
                    }
             }}>주문</Button>)):(<></>)}
 
@@ -254,6 +265,7 @@ const Table=({tableId,empty,menu})=>{
                 function changeToServed(){
                     axios.get('http://localhost:3002/api/served',{params:{tableId:tableId}}).then(res=>{
                         if(res.data.success===true){
+                            console.log('서빙 이벤트 전송');
                             socket.emit('orderEvent',{what:'served',tableId:tableId});
                         }
                     });
@@ -276,6 +288,7 @@ const Table=({tableId,empty,menu})=>{
                 setPrice(totalPrice+addedPrice);
                 setAddedContents([]);
                 setAddedPrice(0); 
+                resetOrderState();
                 setAddAlert(true);
                 autoAddAlertRM();
             }}>추가</Button> 
@@ -295,8 +308,8 @@ const Table=({tableId,empty,menu})=>{
                         }
                     })
                 }
-                payProcess();
                 afterPay();
+                payProcess();
                 setPayAlert(true);
                 autoPayAlertRM();
             }} style={{height:"50px"}}>결제</Button>):(<></>)}

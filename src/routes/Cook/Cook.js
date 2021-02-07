@@ -15,16 +15,20 @@ function Cook(){
   }
 
   useEffect(()=>{ //첫 마운트때 딱 한번
-    socket.on('aboutOrder',(data)=>{
-      bringOrders();
+    socket.on('aboutAllOrder',(data)=>{
+      if(data.what==='newOrderForCook'){
+        setOrders(data.order);
+      }
     })
-    socket.on('aboutCook',(data)=>{
-      window.location.reload();
+    socket.on('cookAlertForChef',(data)=>{
+      setOrders(data.order);
     })
+
     bringOrders();
     return ()=>{
-      socket.off('aboutOrder');
-      socket.off('aboutCook');
+      socket.off('aboutAllOrder');
+      socket.off('takeOutPrepared');
+      socket.off('tablePrepared');
     }
   },[]);
     return(

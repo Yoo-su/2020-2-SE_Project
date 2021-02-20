@@ -26,7 +26,7 @@ function TakeOutOrders({orderId,state,price}){
         }
       })
 
-      return ()=>{socket.off('aboutCook');}
+      return ()=>{socket.off('takeOutPrepared');}
     },[]); 
 
     function detailOnOff(){

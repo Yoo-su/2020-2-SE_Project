@@ -5,7 +5,7 @@ const con=require("./database");
 
 router.get('/',async(req,res)=>{
    try{
-       const sql=`select * from sales order by orderTime desc`;
+       const sql=`select * from sales order by orderTime desc limit 200`;
        const sql2=`select sec_to_time(avg(timediff(cookTime,orderTime))) as waitTime from sales;`;
        const sql3=`select sec_to_time(avg(timediff(payTime,orderTime))) as spendTime from sales where orderType not in(0)`;
 

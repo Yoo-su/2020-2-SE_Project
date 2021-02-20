@@ -15,6 +15,8 @@ function Cook(){
   }
 
   useEffect(()=>{ //첫 마운트때 딱 한번
+    bringOrders();
+
     socket.on('aboutAllOrder',(data)=>{
       if(data.what==='newOrderForCook'){
         setOrders(data.order);
@@ -24,11 +26,9 @@ function Cook(){
       setOrders(data.order);
     })
 
-    bringOrders();
     return ()=>{
       socket.off('aboutAllOrder');
-      socket.off('takeOutPrepared');
-      socket.off('tablePrepared');
+      socket.off('cookAlertForChef');
     }
   },[]);
     return(

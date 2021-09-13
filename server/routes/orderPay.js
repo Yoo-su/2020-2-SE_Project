@@ -38,17 +38,26 @@ function GenerateSerialNumber(mask)
 
 router.post('/',async(req,res)=>{
   try{
-   const tableId=req.body.tableId;
-   const content=req.body.content;
-   const totalPrice=req.body.total;
-   const orderId=req.body.orderIds;
-   
+    const tableId=req.body.tableId;
+    const content=req.body.content;
+    const totalPrice=req.body.total;
+    const orderId=req.body.orderIds;
 
-   let contentString="";
-   for(let i=0; i<content.length;i++){
-     contentString=contentString+content[i].menuName+' ';
-     const [plusSale]=await con.query(`update menu set sales=sales+1 where menuName='${content[i].menuName}'`);
-     const [minusStock]=await con.query(`update menu set remainStock=remainStock-1 where menuName='${content[i].menuName}'`);
+    let contentString="";
+    const contentNames=content.map(c=>c.menuName);
+    const set=new Set(contentNames)
+
+    for(let item of set){
+      const filtered=content.filter(c=>c.menuName===item);
+
+      const itemCount=filtered.length===1?filtered[0].count:filtered.reduce(function(cur,next){
+        return cur.count+next.count
+      })
+
+      contentString=contentString.concat(item).concat(`(${itemCount.toString()}) `)
+
+      const [plusSale]=await con.query(`update menu set sales=sales+${itemCount} where menuName='${item}'`);
+      const [minusStock]=await con.query(`update menu set remainStock=remainStock-${itemCount} where menuName='${item}'`);
    }
 
    const serialKey=GenerateSerialNumber('0000000000-0000000000');

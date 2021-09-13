@@ -46,13 +46,13 @@ function OrderCardforChef({orderId,orderTime}){
                       {orderContent.length>3?(
                     <span style={{display:"flex",flexDirection:"column"}}>
                       <label style={{fontSize:"12px"}}>{orderContent[0].menu_menuName} X {orderContent[0].count}</label>
-                      <label style={{fontSize:"12px"}}>{orderContent[1].menu_menuName} X {orderContent[0].count} </label>
+                      <label style={{fontSize:"12px"}}>{orderContent[1].menu_menuName} X {orderContent[1].count} </label>
                       <label>.. 외 {orderContent.length-2}</label>
                     </span>
                 ):(
                     <span style={{display:"flex",flexDirection:"column"}}>
                     {orderContent.map(food=>(        
-                         <label key={Math.random()} style={{fontSize:"12px"}}>{food.menu_menuName} X {orderContent[0].count}</label>             
+                         <label key={Math.random()} style={{fontSize:"12px"}}>{food.menu_menuName} X {food.count}</label>             
                        ))}
                     </span>
                 )}

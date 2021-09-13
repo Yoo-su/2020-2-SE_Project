@@ -18,7 +18,7 @@ function OrderDal({show,setShow,orderId,orderContent, orderTime}){
                      <Form.Label><b style={{fontSize:"25px"}}>주문 음식</b></Form.Label><br></br>
                      {orderContent.map(food=>(
                        <span key={Math.random()}>
-                         {food.menuName}<br></br>
+                         {food.menu_menuName} X {food.count}<br></br>
                        </span>
                      ))}<br></br>
                      <b style={{color:"#0052A5",fontSize:"20px"}}>{time.getHours()}:{time.getMinutes()} 접수 주문</b>

@@ -15,7 +15,7 @@ router.get('/',async(req,res)=>{
           const [orders]=await con.query(sql2);
 
           //상태별 분류
-          let cooking=[]; let prepared=[]; let served=[]; let orderIds=[]
+          let cooking=[]; let prepared=[]; let served=[]; let orderIds=[];
           for(let i=0;i<orders.length;i++){
             orderIds.push(orders[i].orderId);
             if(orders[i].state==='cooking')cooking.push(orders[i]);
@@ -26,14 +26,14 @@ router.get('/',async(req,res)=>{
           let orderId=0; let orderPrice=0; let allContent=[]; let sql3=``;
           for(let i=0;i<orders.length;i++){
             orderId=orders[i].orderId; orderPrice=orderPrice+orders[i].totalPrice;
-            sql3=`select menuName, price from menu join orderContent on menuName=menu_menuName where order_orderId=${orderId}`;
+            sql3=`select menu_menuName, count, price from orderContent where order_orderId=${orderId}`;
             const [rows]=await con.query(sql3);
-
+            
             for(let j=0;j<rows.length;j++){
-              allContent.push({menuName:rows[j].menuName,price:rows[j].price});
+              allContent.push({menuName:rows[j].menu_menuName,count:rows[j].count, price:rows[j].price});
             }
           }
-      
+
           let state='';
           if(prepared.length>0)state='prepared';
           else if(prepared.length===0&&cooking.length>0&&served.length>=0)state='cooking';

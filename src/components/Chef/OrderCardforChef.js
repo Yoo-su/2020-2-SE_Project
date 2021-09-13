@@ -14,6 +14,7 @@ function OrderCardforChef({orderId,orderTime}){
      axios.get('http://localhost:3002/api/forOrderCard',{params:{orderId:orderId}}).then(res=>{
        if(res.data.success===true){
          setContent(res.data.content);
+         console.log(res.data.content,'테스트')
          setToT(res.data.tableId[0].sicktak_sicktakId);
         }
        else alert('error');
@@ -43,18 +44,17 @@ function OrderCardforChef({orderId,orderTime}){
                     <Card.Body style={{padding:"0.5rem"}} onClick={()=>{setShowOrderDal(true);}}>
                     <Card.Text>
                       {orderContent.length>3?(
-                    <>
-                      <label style={{fontSize:"12px"}}>{orderContent[0].menuName}</label><br></br>
-                      <label style={{fontSize:"12px"}}>{orderContent[1].menuName} .. 외 {orderContent.length-2} </label>
-                    </>
+                    <span style={{display:"flex",flexDirection:"column"}}>
+                      <label style={{fontSize:"12px"}}>{orderContent[0].menu_menuName} X {orderContent[0].count}</label>
+                      <label style={{fontSize:"12px"}}>{orderContent[1].menu_menuName} X {orderContent[0].count} </label>
+                      <label>.. 외 {orderContent.length-2}</label>
+                    </span>
                 ):(
-                    <>
-                    {orderContent.map(food=>(
-                        <span key={Math.random()}>
-                         <label style={{fontSize:"12px"}}>{food.menuName}</label><br></br>
-                        </span>
+                    <span style={{display:"flex",flexDirection:"column"}}>
+                    {orderContent.map(food=>(        
+                         <label key={Math.random()} style={{fontSize:"12px"}}>{food.menu_menuName} X {orderContent[0].count}</label>             
                        ))}
-                    </>
+                    </span>
                 )}
               </Card.Text>
              </Card.Body>

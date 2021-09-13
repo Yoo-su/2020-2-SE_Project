@@ -11,7 +11,7 @@ const Table=({tableId,empty,menu})=>{
     const [orderState,setOrderState]=useState("");
     const [orderContents,setOrderContents]=useState([]);
     const [addedContents,setAddedContents]=useState([]);
-    const [totalPrice,setPrice]=useState(0);
+    const [totalPrice,setTotalPrice]=useState(0);
     const [addedPrice,setAddedPrice]=useState(0);
 
     const [showOrderAlert,setOrderAlert]=useState(false);
@@ -25,15 +25,18 @@ const Table=({tableId,empty,menu})=>{
         setorderIds(data.order);
         setOrderState(data.state);
         setOrderContents(data.content);
-        setPrice(data.total);
+        setTotalPrice(data.total);
     }
 
     function bringTableInfo(){
         console.log(tableId,'번 테이블에서 정보 가져오는 중..');
         axios.get('http://localhost:3002/api/tableInfo',{params:{tableId:tableId}}).then(res=>{
                 if(res.data.success===true){
+                    console.log(res.data)
                     applyInfo(res.data);
                     console.log('가져오기 완료');
+                }else{
+                    console.log(res);
                 }
         })
     }
@@ -97,7 +100,7 @@ const Table=({tableId,empty,menu})=>{
         setTableEmpty(false);
         setOrderContents(addedContents);
         setAddedContents([]);
-        setPrice(totalPrice+addedPrice);
+        setTotalPrice(totalPrice+addedPrice);
         setAddedPrice(0);
         resetOrderState();
         setOrderAlert(true);
@@ -110,7 +113,7 @@ const Table=({tableId,empty,menu})=>{
             setOrderContents([]);
             setAddedContents([]);
             setTableEmpty(true);
-            setPrice(0);
+            setTotalPrice(0);
             setOrderState("");
             setShow(false);
         },1500)
@@ -122,7 +125,7 @@ const Table=({tableId,empty,menu})=>{
         setOrderContents([]);
         setAddedContents([]);
         setTableEmpty(true);
-        setPrice(0);
+        setTotalPrice(0);
         setAddedPrice(0);
         setOrderState("");
         setCancleAlert(false);
@@ -222,7 +225,7 @@ const Table=({tableId,empty,menu})=>{
                 onClick={()=>{
                     const menuIdx=addedContents.findIndex(item=>item.menuName===food.menuName);
                     const tmpAddedContent=addedContents;
-                    //이미 등록된 메뉴면 수량만 증가시킨다.
+                    //이미 등록된 메뉴면 수량, 가격만 증가시킨다.
                     if (menuIdx>-1){
                         tmpAddedContent[menuIdx].count+=1;
                         tmpAddedContent[menuIdx].price+=food.price;
@@ -235,8 +238,7 @@ const Table=({tableId,empty,menu})=>{
                             price:food.price
                     }));
                 }
-        
-               setAddedPrice(addedPrice+food.price);
+                setAddedPrice(addedPrice+food.price);
             }}>
                 <img id="foodImg" src={food.imgPath} alt={food.id} style={{width:"70px",height:"70px"}}></img><br></br>
                 <div  style={{backgroundColor:"#F5F5F5", padding:"5px"}}>
@@ -309,7 +311,7 @@ const Table=({tableId,empty,menu})=>{
                     }
                 addOrder();
                 setOrderContents(orderContents.concat(addedContents));
-                setPrice(totalPrice+addedPrice);
+                setTotalPrice(totalPrice+addedPrice);
                 setAddedContents([]);
                 setAddedPrice(0); 
                 resetOrderState();

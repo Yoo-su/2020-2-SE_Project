@@ -6,7 +6,7 @@ const con=require("./database");
 router.get('/',async(req,res)=>{
     try{
    const orderId=req.query.orderId;
-   const sql=`select menuName, price from menu join orderContent on menuName=menu_menuName where order_orderId=${orderId}`;
+   const sql=`select menu_menuName, count, price from orderContent where order_orderId=${orderId}`;
    const sql2=`select sicktak_sicktakId from customerorder where orderId=${orderId}`;
    
    const [rows]=await con.query(sql);

@@ -92,7 +92,7 @@ const TakeOutOrder=({tableId,menu})=>{
                     <div key={Math.random()} style={{display:"flex",alignItems:"center", marginLeft:"5px",marginRight:"5px"}}>
                         <b style={{flexBasis:"130px"}}>{food.menuName}</b>
                         <b style={{flexGrow:"1"}}>수량: {food.count}</b>
-                        <b style={{flexGrow:"1"}}>가격: {food.price}</b>
+                        <b style={{display:"flex",flexGrow:"1",justifyContent:"flex-end"}}>가격: {food.price}</b>
              </div>
               ))}
                 {addedContents.map(food=>(     
@@ -153,7 +153,7 @@ const TakeOutOrder=({tableId,menu})=>{
                    setAddedPrice(addedPrice+food.price);
                 }}>
                 <img id="foodImg" src={food.imgPath} alt={food.id} style={{width:"70px",height:"70px"}}></img><br></br>
-                <div  style={{backgroundColor:"#F5F5F5", padding:"5px"}}>
+                <div  style={{backgroundColor:"#F5F5F5", padding:"5 px"}}>
                     <b>{food.menuName}</b><br></br>
                     <label>{food.price}원</label>
                 </div>
@@ -183,11 +183,7 @@ const TakeOutOrder=({tableId,menu})=>{
                             content:addedContents,
                             total:addedPrice
                         }
-                        axios.post("http://localhost:3002/api/newOrder",{
-                            tableId:tableId,
-                            content:addedContents,
-                            total:addedPrice
-                        }).then(res=>{
+                        axios.post("http://localhost:3002/api/newOrder",orderData).then(res=>{
                             if(res.data.success===true)console.log('테이크아웃 주문 완료');
                         });
                     }

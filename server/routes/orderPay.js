@@ -41,7 +41,6 @@ router.post('/',async(req,res)=>{
     const tableId=req.body.tableId;
     const content=req.body.content;
     const totalPrice=req.body.total;
-    const orderId=req.body.orderIds;
 
     let contentString="";
     const contentNames=content.map(c=>c.menuName);

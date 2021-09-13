@@ -189,10 +189,9 @@ const Table=({tableId,empty,menu})=>{
                     <div key={Math.random()} style={{display:"flex",alignItems:"center", marginLeft:"5px",marginRight:"5px"}}>
                         <b style={{flexBasis:"130px"}}>{food.menuName}</b>
                         <b style={{flexGrow:"1"}}>수량: {food.count}</b>
-                        <b style={{flexGrow:"1"}}>가격: {food.price}</b>
+                        <b style={{display:"flex",flexGrow:"1",justifyContent:"flex-end"}}>가격: {food.price}</b>
                     </div>
               ))}
-
                   {addedContents.map(food=>(     
                          <div key={Math.random()} id={food.id} style={{display:"flex",alignItems:"center", marginLeft:"5px",marginRight:"5px", color:"#7E7E7E"}}>
                          <b style={{flexBasis:"130px"}}>{food.menuName}</b>
@@ -207,7 +206,7 @@ const Table=({tableId,empty,menu})=>{
                </div>
                
            )}
-              <div id="total" style={{textAlign:"center",float:"bottom", color:"#616161" }}>
+              <div id="total" style={{textAlign:"center", float:"bottom"}}>
                   <b>합계: {tableEmpty===true?(addedPrice):(totalPrice+addedPrice)}원</b><br></br>
              </div>
          </div>

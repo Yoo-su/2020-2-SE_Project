@@ -44,11 +44,21 @@ router.post('/',async(req,res)=>{
         const content=req.body.content;
 
         let contentString="";
-        for(let i=0; i<content.length;i++){
-          contentString=contentString+content[i].menuName+' ';
-          const [plusSale]=await con.query(`update menu set sales=sales+1 where menuName='${content[i].menuName}'`);
-          const [minusStock]=await con.query(`update menu set remainStock=remainStock-1 where menuName='${content[i].menuName}'`);
-        }
+        const contentNames=content.map(c=>c.menu_menuName);
+        const set=new Set(contentNames)
+        
+        for(let item of set){
+            const filtered=content.filter(c=>c.menu_menuName===item);
+      
+            const itemCount=filtered.length===1?filtered[0].count:filtered.reduce(function(cur,next){
+              return cur.count+next.count
+            })
+      
+            contentString=contentString.concat(item).concat(`(${itemCount.toString()}) `)
+      
+            const [plusSale]=await con.query(`update menu set sales=sales+${itemCount} where menuName='${item}'`);
+            const [minusStock]=await con.query(`update menu set remainStock=remainStock-${itemCount} where menuName='${item}'`);
+         }
      
         const recordOrder=`insert into sales (serialKey, orderType, orderPrice, orderTime, cookTime, payTime, contentInOrder)
             values ('${serialKey}', ${tableId}, ${total}, (select receiveTime from customerorder where orderId=${orderId}),

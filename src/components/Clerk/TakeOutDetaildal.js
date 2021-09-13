@@ -18,8 +18,8 @@ function TakeOutDetaildal({show,setShow,orderId,foods,state,price}){
                    <Form.Group controlId="formBasicName">
                      <Form.Label><b style={{fontSize:"20px"}}>주문 음식</b></Form.Label><br></br>
                      {foods.map(food=>(
-                       <span key={Math.random()}>
-                         <label>{food.menuName}</label><br></br>
+                       <span key={Math.random()} style={{display:"flex",flexDirection:"column"}}>
+                         <label>{food.menu_menuName} X {food.count}</label>
                        </span>
                      ))}
                    </Form.Group>                 

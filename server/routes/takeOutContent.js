@@ -8,7 +8,7 @@ router.get('/',async(req,res)=>{
    const orderId=req.query.orderId;
    
    try{
-   const sql=`select menuName, price from menu join orderContent on menuName=menu_menuName where order_orderId=${orderId}`;
+   const sql=`select menu_menuName, count, price from orderContent where order_orderId=${orderId}`;
    const [rows]=await conn.query(sql);
 
    conn.release();

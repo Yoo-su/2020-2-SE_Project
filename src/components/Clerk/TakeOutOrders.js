@@ -52,16 +52,17 @@ function TakeOutOrders({orderId,state,price}){
              <Card.Body style={{padding:"0.5rem"}}>
               <Card.Text>
                 {content.length>3?(
-                    <>
-                      <label style={{fontSize:"14px"}}>{content[0].menuName}</label><br></br>
-                      <label style={{fontSize:"14px"}}>{content[1].menuName} 외 {content.length-2} ..</label>
-                    </>
+                    <div style={{display:"flex",flexDirection:"column"}}>
+                      <label style={{fontSize:"14px"}}>{content[0].menu_menuName} X {content[0].count}</label>
+                      <label style={{fontSize:"14px"}}>{content[1].menu_menuName} X {content[1].count}</label>
+                      <label>외 {content.length-2}</label>
+                    </div>
                 ):(
                     <>
                     {content.map(food=>(
-                        <span key={Math.random()}>
-                         <label style={{fontSize:"14px"}}>{food.menuName}</label><br></br>
-                        </span>
+                        <div key={Math.random()} style={{display:"flex",flexDirection:"column"}}>
+                         <label style={{fontSize:"14px"}}>{food.menu_menuName} X {food.count}</label>
+                        </div>
                        ))}
                     </>
                 )}

@@ -160,66 +160,90 @@ const Table=({tableId,empty,menu})=>{
         </Modal.Header>
 
         <Modal.Body>
-         <div id="modalContent">
-         <div className="selectedFoods" style={{float:"left",width:"45%",border:"2px solid",borderRadius:"10px",flex:"1"}}>
-           <h2 style={{textAlign:"center",borderBottom:"1px solid"}}>주문 리스트</h2>
-           {tableEmpty===true?(
-               <div>
-                     {addedContents.map(food=>(
-                  <div key={Math.random()} style={{textAlign:"center"}}>
-                  <b style={{color:"#668d3c"}}>{food.menuName} / {food.price}원<Button id="deleteFromAdd" onClick={()=>{
-                      setAddedContents(addedContents.filter(cur=>cur.key!==food.key));
-                      setAddedPrice(addedPrice-food.price);
-                  }}>X</Button></b><br></br>
-                  </div>
-              ))}
-               </div>
+         <div id="modalContent" style={{display:"flex",flexDirection:"row"}}>
+
+            {/* 모달 좌측 주문리스트 파트 */}
+            <div className="selectedFoods" style={{width:"50%",marginRight:"5px",border:"1px solid #EBECF0", 
+                boxShadow:"1px 2px #BEBEBE", borderRadius:"5px"}}>
+                <h2 style={{textAlign:"center",borderBottom:"1px solid #949494"}}>주문 리스트</h2>
+                    {tableEmpty===true?(
+                        <div style={{display:"flex",flexDirection:"column"}}>
+                            {addedContents.map(food=>(
+                                <div key={Math.random()} style={{display:"flex",alignItems:"center", marginLeft:"5px",marginRight:"5px", color:"#7E7E7E"}}>
+                                    <b style={{flexBasis:"130px"}}>{food.menuName}</b>
+                                    <b style={{flexGrow:"1"}}>수량: {food.count}</b>
+                                    <b style={{flexGrow:"1"}}>가격: {food.price}</b>
+                                    <b style={{backgroundColor:"transparent", border:"0",outline:"0",cursor:"pointer" }} onClick={()=>{
+                                        setAddedContents(addedContents.filter(cur=>cur.key!==food.key));
+                                        setAddedPrice(addedPrice-food.price);
+                                    }}>x</b>
+                                </div>
+                    ))}
+            </div>
            ):(
-               <div>
+               <div style={{display:"flex",flexDirection:"column"}}>
                    {orderContents.map(food=>(
-                  <div key={Math.random()} style={{textAlign:"center"}}>
-                  <b>{food.menuName} / {food.price}원</b><br></br>
-                  </div>
+                    <div key={Math.random()} style={{display:"flex",alignItems:"center", marginLeft:"5px",marginRight:"5px"}}>
+                        <b style={{flexBasis:"130px"}}>{food.menuName}</b>
+                        <b style={{flexGrow:"1"}}>수량: {food.count}</b>
+                        <b style={{flexGrow:"1"}}>가격: {food.price}</b>
+                    </div>
               ))}
 
                   {addedContents.map(food=>(     
-                  <div key={Math.random()} id={food.id} style={{textAlign:"center"}}>
-                  <b style={{color:"#668d3c"}}>{food.menuName} / {food.price}원<Button id="deleteFromAdd" onClick={()=>{
-                      setAddedContents(addedContents.filter(cur=>cur.key!==food.key));
-                      setAddedPrice(addedPrice-food.price);
-                  }}>X</Button></b><br></br>
-                  </div>
+                         <div key={Math.random()} id={food.id} style={{display:"flex",alignItems:"center", marginLeft:"5px",marginRight:"5px", color:"#7E7E7E"}}>
+                         <b style={{flexBasis:"130px"}}>{food.menuName}</b>
+                         <b style={{flexGrow:"1"}}>수량: {food.count}</b>
+                         <b style={{flexGrow:"1"}}>가격: {food.price}</b>
+                         <b style={{backgroundColor:"transparent", border:"0",outline:"0",cursor:"pointer" }} onClick={()=>{
+                             setAddedContents(addedContents.filter(cur=>cur.key!==food.key));
+                             setAddedPrice(addedPrice-food.price);
+                         }}>x</b>
+                     </div>
               ))}
                </div>
                
            )}
-              <div id="total" style={{textAlign:"center",float:"bottom"}}>
+              <div id="total" style={{textAlign:"center",float:"bottom", color:"#616161" }}>
                   <b>합계: {tableEmpty===true?(addedPrice):(totalPrice+addedPrice)}원</b><br></br>
              </div>
          </div>
-         <div className="servingFoods" style={{float:"right",width:"50%",border:"2px solid",borderRadius:"10px"}}>
-             <h2 style={{textAlign:"center",borderBottom:"1px solid"}}>메뉴</h2>
+
+         {/* 모달 우측 메뉴버튼 파트 */}
+         <div className="servingFoods" style={{width:"50%",marginLeft:"5px",border:"1px solid #EBECF0", 
+                boxShadow:"1px 2px #BEBEBE", borderRadius:"5px"}}>
+             <h2 style={{textAlign:"center",borderBottom:"1px solid #949494"}}>메뉴</h2>
              <div style={{margin:"8px",textAlign:"center",position:"relative"}}>
-             {menu.map(food=>{
-            return food.activate!==0?(
-            <button key={Math.random()} id={food.menuName} style={{backgroundColor:"white",border:"1px solid #C6C6C6"}} onClick={()=>{
-                setAddedContents(addedContents.concat({
-                    key:Math.random(),
-                    menuName:food.menuName,
-                    price:food.price
-                }));
+
+            {/* 메뉴 버튼들 */}
+            {menu.map(food=>(
+            <button key={Math.random()} id={food.menuName} style={{backgroundColor:"white",border:"0", 
+                outline:"0",boxShadow:"0.5px 1px #BEBEBE", borderRadius:"5px" , margin:"2px", padding:"0"}} 
+                onClick={()=>{
+                    const menuIdx=addedContents.findIndex(item=>item.menuName===food.menuName);
+                    const tmpAddedContent=addedContents;
+                    //이미 등록된 메뉴면 수량만 증가시킨다.
+                    if (menuIdx>-1){
+                        tmpAddedContent[menuIdx].count+=1;
+                        tmpAddedContent[menuIdx].price+=food.price;
+                        setAddedContents(tmpAddedContent)
+                    }else{
+                        setAddedContents(addedContents.concat({
+                            key:Math.random(),
+                            menuName:food.menuName,
+                            count:1,
+                            price:food.price
+                    }));
+                }
+        
                setAddedPrice(addedPrice+food.price);
             }}>
-            <img id="foodImg" src={food.imgPath} alt={food.id} style={{width:"70px",height:"70px"}}></img><br></br>
-            <b>{food.menuName}</b><br></br><label>{food.price}원</label>
-            </button>):(
-            <button key={Math.random()} id={food.menuName} style={{backgroundColor:"white",border:"1px solid #C6C6C6",opacity:"0.2"}} onClick={()=>{
-                     alert('비활성화된 메뉴입니다.');
-                 }}>
-                 <img id="foodImg" src={food.imgPath} alt={food.id} style={{width:"70px",height:"70px"}}></img><br></br>
-                 <b>{food.menuName}</b><br></br><label>{food.price}원</label>
-                 </button>)
-                 } )}
+                <img id="foodImg" src={food.imgPath} alt={food.id} style={{width:"70px",height:"70px"}}></img><br></br>
+                <div  style={{backgroundColor:"#F5F5F5", padding:"5px"}}>
+                    <b>{food.menuName}</b><br></br>
+                    <label>{food.price}원</label>
+                </div>
+            </button>))}
              </div>
          </div>
          </div>

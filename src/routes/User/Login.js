@@ -17,7 +17,7 @@ export default function Login(){
     return (
             <div className="LoginPage">
                 <div id="head">
-                    <b>Login</b>
+                    <b>직원 로그인</b>
                 </div>
                 <div id="loginContent">
             <form>
@@ -25,16 +25,16 @@ export default function Login(){
 
                 <div className="form-group" style={{marginBottom:"25px"}}>
            
-                    <input type="email" className="form-control" placeholder="Email .." onChange={handleEmail}/>
+                    <input type="email" className="form-control" placeholder="user@naver.com << 체험용 이메일" onChange={handleEmail}/>
                 </div>
                
                 <div className="form-group" style={{marginBottom:"25px"}}>
                  
-                    <input type="password" className="form-control" placeholder="Password .." onChange={handlePW}/>
+                    <input type="password" className="form-control" placeholder="user << 비밀번호" onChange={handlePW}/>
                 </div>
 
-                <Button style={{width:"100%",backgroundColor:"#CC9966",borderColor:"#CC9966"}} onClick={()=>{
-                   axios.post('http://localhost:3002/api/login',{
+                <Button style={{width:"100%",backgroundColor:"#00B0FF",borderColor:"#00B0FF"}} onClick={()=>{
+                   axios.post('https://every-server.herokuapp.com/api/login',{
                        email:inputEmail,
                        password:inputPassWord
                    }).then(res=>{
@@ -43,10 +43,10 @@ export default function Login(){
                            localStorage.setItem('userNick',res.data.nickName);
                            localStorage.setItem('role',res.data.role);
                            alert('로그인 성공');
-                           window.location.href = '/';
+                           window.location.href = 'https://yoo-su.github.io/every-gp';
                        }else{alert('입력 정보를 확인해주세요')}
                    })
-                }}>Submit</Button><br></br>
+                }}>로그인</Button><br></br>
             </form>
             </div>
             </div>

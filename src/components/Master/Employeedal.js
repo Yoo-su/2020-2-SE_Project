@@ -61,7 +61,7 @@ function Employeedal({show,setShow}){
                      alert('입력 정보를 확인해 주세요')
                    }
                    else{
-                     axios.post('http://localhost:3002/api/newWorker',{
+                     axios.post('https://every-server.herokuapp.com/api/newWorker',{
                        userEmail:newEmail,
                        nickName:newNickname,
                        password:newPassword,

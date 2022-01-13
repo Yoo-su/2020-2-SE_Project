@@ -2,13 +2,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Stylish&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Yeon+Sung&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Gothic+A1:wght@300&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200&display=swap');
 
 #root{
-    font-family: 'Jua', sans-serif;
+    font-family: '서울한강체', sans-serif;
 }
 
 .table{
@@ -20,9 +19,9 @@
 }
 
 #NavBar{
-    font-family: 'Yeon Sung', sans-serif;
+    font-family: '서울한강체', sans-serif;
 }
 
 .modal-content{
-    font-family: 'Stylish', sans-serif;
+    font-family: '서울한강체', sans-serif;
 }

@@ -15,7 +15,7 @@ function Manage(){
  }
 
  useEffect(()=>{
-   axios.get('http://localhost:3002/api/allWorkers').then(res=>{
+   axios.get('https://every-server.herokuapp.com/api/allWorkers').then(res=>{
      if(res.data.success===true){
        setAnts(res.data.users);
      }else{console.log('failed');}
@@ -57,7 +57,7 @@ function Manage(){
                       wage:ant.hourWage,
                       email:ant.userEmail
                     }
-                    }}><Button variant='warning' size="sm">관리</Button></Link></td>
+                    }}><button className="manageEmpBtn">상세정보 조회</button></Link></td>
                  </tr>))}
               </tbody>
           </Table>

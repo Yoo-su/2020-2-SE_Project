@@ -12,37 +12,126 @@
     border-radius:30px;
     text-align: center;
     box-shadow: 3px 3px #524539;
-    
 }
+#tableBtn:hover{
+  transform:scale(1.1);
+  transition-duration:3s;
+  transition-timing-function:ease-in-out;
+}
+
+#takeOutBtn{
+  position:relative;
+  margin-top:20px;
+  width:150px;
+  height:70px;
+  border-radius: 20px;
+  font-weight: bold;
+  background-color: #74D5DD;
+  border-color: #74D5DD;
+  color:#2F66A9;
+}
+
 
 #modalContent{
+    display:flex;
+    flex-direction:row;
     position: relative;
 }
 
-#servingFoods{
-    position: relative;
+.selectedFoods, .servingFoods{
+  width:50%;
+  marginRight:5px;
+  border:1px solid #EBECF0;
+  box-shadow:1px 2px #BEBEBE;
+  border-radius:5px;
 }
 
+#modalContent h2{
+  text-align:center;
+  border-bottom:1px solid #949494;
+}
+
+.selectedFoods .orderList{
+  display:flex;
+  flex-direction:column;
+
+}
+
+.orderList .anOrderItem{
+  display:flex;
+  align-items:center;
+  margin-left:5px;
+  margin-right:5px;
+  color:#7E7E7E;
+}
+
+#total{
+  text-align:center;
+  float:bottom;
+}
+
+#total > b{
+  font-size:24px;
+}
+
+.servingFoods > div {
+  margin:8px;
+  text-align:center;
+  position:relative;
+}
+
+.menuBtn{
+  background-color:white;
+  border:transparent;
+  outline:0;
+  box-shadow:0.5px 1px #BEBEBE;
+  border-radius:5px;
+  margin:2px;
+  padding:0px;
+}
+
+.foodImg{
+  width:70px;
+  height:70px;
+  object-fit:cover;
+}
+
+.foodInfo{
+  display:flex;
+  flex-direction:column;
+  background-color:#F5F5F5;
+  padding:0.2rem 0.5rem;
+  align-items:center;
+  justify-content:center;
+}
 
 #curState1{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
   width:100%;
   height:50px;
   margin-top:20px;
-  background-color: #F7DC6F;
-  color:#7D6608;
+  background-color: #F6F3ED;
+  color:#494848;
   border-radius: 20px;
 }
 
 #curState2{
+  display:flex;
+  flex-direction:column;
   width:100%;
   height:50px;
   margin-top:20px;
-  background-color: #81CBF8;
-  color:#004159;
+  background-color: #cfebfd;
+  color:#030303;
   border-radius: 20px;
 }
 
 #curState3{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
   width:100%;
   height:50px;
   margin-top:20px;
@@ -69,4 +158,63 @@
     height:20px;
     padding:5px;
     font-size: 10px;
+}
+
+@media all and (min-width:0px) and (max-width:1000px){
+  #tableBtn{
+      position:relative;
+      margin-top:20px;
+    margin-left:20px;
+    margin-right: 20px;
+    margin-bottom: 60px;
+      width: 6rem;
+      height:6rem;
+      border-radius:20px;
+      text-align: center;
+      box-shadow: 3px 3px #524539;
+      font-size:12px;
+  }
+
+  #takeOutBtn{
+    width:120px;
+    height:50px;
+    border-radius: 15px;
+    font-size:12px;
+  }
+  #curState1,#curState2,#curState3{
+    border-radius:30px;
+    margin-top:10px;
+  }
+  #curState3{
+    padding-top:4px;
+    font-size:12px;
+  }
+
+  #modalContent{
+    font-size:8px;
+  }
+
+  #modalContent h2{
+    font-size:18px;
+  }
+  .orderList{
+    font-size:10px;
+  }
+  #total > b{
+    font-size:14px;
+  }
+  .menuBtn{
+    min-width:60px;
+  }
+  .foodImg{
+    width:55px;
+    height:55px;
+  }
+  .foodInfo label{
+    font-size:12px;
+    height:0.7rem;
+  }
+  #modal-foot button{
+    font-size:14px;
+  }
 }

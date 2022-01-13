@@ -1,5 +1,48 @@
-#takeOuts{
+.orderCard_Clerk{
     margin:15px;
     border-radius: 10px;
-    box-shadow: 3px 3px gray;
+    box-shadow: 2px 2px gray;
+    cursor:pointer;
+}
+
+#takeOuts:hover{
+    transform:scale(1.1);
+    transition-duration:0.3s;
+    transition-timing-function:ease-in-out;
+}
+
+.orderCard_Clerk > card-header{
+    max-height:40px;
+    font-size:14px;
+}
+
+.orderCard_Clerk >.card-body, .orderCard_Clerk > .card-footer{
+    padding:0.5rem;
+}
+
+.orderCard_Clerk > .card-body{
+    min-height:6.45rem;
+}
+
+.orderCard_Clerk > .card-body label{
+    font-size:14px;
+}
+
+@media all and (min-width:0px) and (max-width:1280px){
+    .orderCard_Clerk> .card{
+        width:8rem;
+    }
+    .orderCard_Clerk > .card-header{
+        font-size:12px;
+    }
+    .orderCard_Clerk > .card-body{
+        min-height:5.9rem;
+    }
+    .orderCard_Clerk > .card-body label{
+        font-size:12px;
+    }
+
+    .orderCard_Clerk >.card-footer{
+        font-size:13px;
+    }
 }

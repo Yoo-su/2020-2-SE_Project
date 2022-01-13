@@ -8,13 +8,16 @@
 }
 
 #head{
-    text-align: center;
-    background-color: #80604D;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background-color: #F5F0F0;
     min-height: 70px;
-    font-size: 50px;
+    font-size: 30px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    color:white;
+    
+    color:black;
 }
 
 #loginContent{

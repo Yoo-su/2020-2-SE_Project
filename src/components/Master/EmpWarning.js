@@ -16,7 +16,7 @@ function EmpWarning({show,setShow,userEmail}){
                  <Button variant="secondary" onClick={setShow}>취소</Button>
                  <Button variant="danger" onClick={()=>{
                      function removeWorker(){
-                        axios.get('http://localhost:3002/api/removeWorker',{params:{userEmail:userEmail}}).then(res=>{
+                        axios.get('https://every-server.herokuapp.com/api/removeWorker',{params:{userEmail:userEmail}}).then(res=>{
                           if(res.data.success===true){
                             alert('직원 삭제 완료');
                             window.location.href='#ManageEmp';

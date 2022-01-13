@@ -1,0 +1,44 @@
+.card1{
+    margin:20px;
+    width:200px;
+    display:inline-block;
+    align-items:center;
+}
+
+.card1 img{
+    width:150px;
+    height:150px;
+}
+.card2{
+    margin:20px;
+    z-index:1;
+    align-items:center;
+    width:200px;
+    display:inline-block;
+}   
+.card2 img{
+    width:150px;
+    height:150px;
+    opacity:0.5;
+}
+
+.card1:hover, .card2:hover{
+    transform:scale(1.1);
+    transition-duration:0.3s;
+    transition-timing-function:ease;
+}
+@media all and (min-width:0px) and (max-width:1280px){
+    .card1, .card2{
+        width:8rem;
+    }
+    .card-body > .card_menuName{
+        font-size:14px;
+    }
+    .card-body p{
+        font-size:12px;
+    }
+    .card1 img, .card2 img{
+        width:6.5rem;
+        height:6.5rem;
+    }
+}

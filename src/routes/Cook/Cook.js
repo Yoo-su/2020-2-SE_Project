@@ -6,10 +6,10 @@ import io from 'socket.io-client';
 
 function Cook(){
   const [orders,setOrders]=useState([]);
-  const socket=io('http://localhost:3002',{ transports: ['websocket'] });
+  const socket=io('https://every-server.herokuapp.com',{ transports: ['websocket'] });
 
   function bringOrders(){
-    axios.get('http://localhost:3002/api/forCook').then(res=>{
+    axios.get('https://every-server.herokuapp.com/api/forCook').then(res=>{
       setOrders(res.data.order);    
     });
   }

@@ -13,7 +13,7 @@ const userState=createSlice({
             localStorage.removeItem('role');
             state.isLogin=false;
             state.userRole=-1;
-            window.location.href = '/';
+            window.location.href = 'https://yoo-su.github.io/every-gp';
         },
         logIn:(state,action)=>{
             state.isLogin=true;

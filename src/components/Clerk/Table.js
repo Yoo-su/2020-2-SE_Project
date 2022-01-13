@@ -2,6 +2,12 @@ import React, {useState,useEffect} from 'react';
 import {Button, Modal,Alert,Spinner} from "react-bootstrap";
 import axios from "axios";
 import io from 'socket.io-client';
+import {btnStyle, alertStyle} from './Styles';
+import gorgon from '../../imgs/menuImgs/고르곤졸라.jpg';
+import carbo from '../../imgs/menuImgs/까르보나라.jpg';
+import riso from '../../imgs/menuImgs/리조또.jpg';
+import coffee from '../../imgs/menuImgs/커피.jpg';
+import toma from '../../imgs/menuImgs/토마토파스타.jpg';
 import "./Table.css";
 
 const Table=({tableId,empty,menu})=>{
@@ -13,12 +19,14 @@ const Table=({tableId,empty,menu})=>{
     const [addedContents,setAddedContents]=useState([]);
     const [totalPrice,setTotalPrice]=useState(0);
     const [addedPrice,setAddedPrice]=useState(0);
+    const [menuImgs,setMenuImgs]=useState([gorgon,carbo,riso,coffee,toma]);
+    let miidx=0;
 
     const [showOrderAlert,setOrderAlert]=useState(false);
     const [showPayAlert,setPayAlert]=useState(false);
     const [showCancleAlert,setCancleAlert]=useState(false);
     const [showAddAlert,setAddAlert]=useState(false);
-    const socket=io.connect('http://localhost:3002',{ transports: ['websocket'] });
+    const socket=io.connect('https://every-server.herokuapp.com',{ transports: ['websocket'] });
 
     function applyInfo(data){
         setTableEmpty(false);
@@ -30,7 +38,7 @@ const Table=({tableId,empty,menu})=>{
 
     function bringTableInfo(){
         console.log(tableId,'번 테이블에서 정보 가져오는 중..');
-        axios.get('http://localhost:3002/api/tableInfo',{params:{tableId:tableId}}).then(res=>{
+        axios.get('https://every-server.herokuapp.com/api/tableInfo',{params:{tableId:tableId}}).then(res=>{
                 if(res.data.success===true){
                     console.log(res.data)
                     applyInfo(res.data);
@@ -133,26 +141,28 @@ const Table=({tableId,empty,menu})=>{
     return(
         <span id="aTable">
          <Button id="tableBtn" onClick={handleShow}>테이블{tableId}<br></br>{orderState==="cooking"?(
-             <div id="curState1"><b>준비중..</b><br></br>
-             <Spinner
-               as="span"
-               animation="grow"
-               size="sm"
-               role="status"
-               aria-hidden="true"
-             /></div>
+             <div id="curState1">
+                 <label>준비중..</label>
+                <Spinner
+                    as="span"
+                    animation="grow"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                /></div>
          ):(<></>)}
 
          {orderState==="prepared"?(<>
-          <div id="curState2"><b>준비완료!</b><br></br>
-          ✓
+          <div id="curState2">
+              <label>준비완료</label>
+              <b>✓</b>
           </div>
          </>):(<></>)}
 
          {orderState==="served"?(<>
          <div id="curState3">
-          <b>서빙완료</b><br></br>
-          ✓
+          <label>결제대기중</label>
+          <b>✓</b>
          </div>
          </>):(<></>)}
          </Button>
@@ -163,28 +173,27 @@ const Table=({tableId,empty,menu})=>{
         </Modal.Header>
 
         <Modal.Body>
-         <div id="modalContent" style={{display:"flex",flexDirection:"row"}}>
+         <div id="modalContent">
 
             {/* 모달 좌측 주문리스트 파트 */}
-            <div className="selectedFoods" style={{width:"50%",marginRight:"5px",border:"1px solid #EBECF0", 
-                boxShadow:"1px 2px #BEBEBE", borderRadius:"5px"}}>
-                <h2 style={{textAlign:"center",borderBottom:"1px solid #949494"}}>주문 리스트</h2>
+            <div className="selectedFoods">
+                <h2>주문 리스트</h2>
                     {tableEmpty===true?(
-                        <div style={{display:"flex",flexDirection:"column"}}>
+                        <div className="orderList">
                             {addedContents.map(food=>(
-                                <div key={Math.random()} style={{display:"flex",alignItems:"center", marginLeft:"5px",marginRight:"5px", color:"#7E7E7E"}}>
+                                <div className="anOrderItem" key={Math.random()}>
                                     <b style={{flexBasis:"130px"}}>{food.menuName}</b>
                                     <b style={{flexGrow:"1"}}>수량: {food.count}</b>
                                     <b style={{flexGrow:"1"}}>가격: {food.price}</b>
-                                    <b style={{backgroundColor:"transparent", border:"0",outline:"0",cursor:"pointer" }} onClick={()=>{
+                                    <b style={{backgroundColor:"transparent",color:"#BC544B", border:"0",outline:"0",cursor:"pointer" }} onClick={()=>{
                                         setAddedContents(addedContents.filter(cur=>cur.key!==food.key));
                                         setAddedPrice(addedPrice-food.price);
                                     }}>x</b>
                                 </div>
-                    ))}
-            </div>
+                            ))}
+                        </div>
            ):(
-               <div style={{display:"flex",flexDirection:"column"}}>
+               <div>
                    {orderContents.map(food=>(
                     <div key={Math.random()} style={{display:"flex",alignItems:"center", marginLeft:"5px",marginRight:"5px"}}>
                         <b style={{flexBasis:"130px"}}>{food.menuName}</b>
@@ -193,11 +202,11 @@ const Table=({tableId,empty,menu})=>{
                     </div>
               ))}
                   {addedContents.map(food=>(     
-                         <div key={Math.random()} id={food.id} style={{display:"flex",alignItems:"center", marginLeft:"5px",marginRight:"5px", color:"#7E7E7E"}}>
+                         <div className="anOrderItem" key={Math.random()} id={food.id} style={{display:"flex",alignItems:"center", marginLeft:"5px",marginRight:"5px", color:"#7E7E7E"}}>
                          <b style={{flexBasis:"130px"}}>{food.menuName}</b>
                          <b style={{flexGrow:"1"}}>수량: {food.count}</b>
                          <b style={{flexGrow:"1"}}>가격: {food.price}</b>
-                         <b style={{backgroundColor:"transparent", border:"0",outline:"0",cursor:"pointer" }} onClick={()=>{
+                         <b style={{backgroundColor:"transparent",color:"#BC544B", border:"0",outline:"0",cursor:"pointer" }} onClick={()=>{
                              setAddedContents(addedContents.filter(cur=>cur.key!==food.key));
                              setAddedPrice(addedPrice-food.price);
                          }}>x</b>
@@ -206,21 +215,19 @@ const Table=({tableId,empty,menu})=>{
                </div>
                
            )}
-              <div id="total" style={{textAlign:"center", float:"bottom"}}>
+              <div id="total">
                   <b>합계: {tableEmpty===true?(addedPrice):(totalPrice+addedPrice)}원</b><br></br>
              </div>
          </div>
 
          {/* 모달 우측 메뉴버튼 파트 */}
-         <div className="servingFoods" style={{width:"50%",marginLeft:"5px",border:"1px solid #EBECF0", 
-                boxShadow:"1px 2px #BEBEBE", borderRadius:"5px"}}>
-             <h2 style={{textAlign:"center",borderBottom:"1px solid #949494"}}>메뉴</h2>
-             <div style={{margin:"8px",textAlign:"center",position:"relative"}}>
+         <div className="servingFoods">
+             <h2>메뉴</h2>
+             <div>
 
             {/* 메뉴 버튼들 */}
             {menu.map(food=>(
-            <button key={Math.random()} id={food.menuName} style={{backgroundColor:"white",border:"0", 
-                outline:"0",boxShadow:"0.5px 1px #BEBEBE", borderRadius:"5px" , margin:"2px", padding:"0"}} 
+            <button className="menuBtn" key={Math.random()} id={food.menuName} 
                 onClick={()=>{
                     const menuIdx=addedContents.findIndex(item=>item.menuName===food.menuName);
                     const tmpAddedContent=addedContents;
@@ -239,10 +246,10 @@ const Table=({tableId,empty,menu})=>{
                 }
                 setAddedPrice(addedPrice+food.price);
             }}>
-                <img id="foodImg" src={food.imgPath} alt={food.id} style={{width:"70px",height:"70px"}}></img><br></br>
-                <div  style={{backgroundColor:"#F5F5F5", padding:"5px"}}>
-                    <b>{food.menuName}</b><br></br>
-                    <label>{food.price}원</label>
+                <img className="foodImg" src={menuImgs[miidx++]} alt={food.id} loading='lazy'></img><br></br>
+                <div className='foodInfo'>
+                    <label style={{paddingTop:'3px'}}><b>{food.menuName}</b></label>
+                    <label style={{justifyContent:'center'}}>{food.price}원</label>
                 </div>
             </button>))}
              </div>
@@ -253,12 +260,12 @@ const Table=({tableId,empty,menu})=>{
         <Modal.Footer id="modal-foot">
             <div style={{float:"right"}}>
                   {tableEmpty===false?(
-                  <Button variant="secondary" onClick={()=>{
+                  <button style={btnStyle('gray')} onClick={()=>{
                   setCancleAlert(true);
-                  }} style={{height:"50px", marginRight:"5px"}}>cancle</Button>):(<></>)}
+                  }}>취소</button>):(<></>)}
                   
 
-               {tableEmpty===true?((<Button variant="primary" style={{height:"50px"}} onClick={()=>{
+               {tableEmpty===true?((<button style={btnStyle('#00b0ff')} onClick={()=>{
                    if(addedContents.length===0){
                        alert("선택된 음식이 없습니다");
                    }
@@ -271,7 +278,7 @@ const Table=({tableId,empty,menu})=>{
                             oldContent:orderContents,
                             oldTotal:totalPrice
                         }
-                        axios.post("http://localhost:3002/api/newOrder",orderData).then(res=>{
+                        axios.post("https://every-server.herokuapp.com/api/newOrder",orderData).then(res=>{
                             if(res.data.success===true){
                                 console.log('success');
                                 socket.emit('orderEvent',{what:'order',tableId:tableId});
@@ -283,12 +290,12 @@ const Table=({tableId,empty,menu})=>{
                     newOrder();
                     afterOrder();
                    }
-            }}>주문</Button>)):(<></>)}
+            }}>주문</button>)):(<></>)}
 
             {!tableEmpty&&orderState==="prepared"?( 
-            <Button variant='warning' style={{height:"50px",marginRight:"5px"}} onClick={()=>{
+            <button style={btnStyle('#FFDB58','black')} onClick={()=>{
                 function changeToServed(){
-                    axios.get('http://localhost:3002/api/served',{params:{tableId:tableId}}).then(res=>{
+                    axios.get('https://every-server.herokuapp.com/api/served',{params:{tableId:tableId}}).then(res=>{
                         if(res.data.success===true){
                             console.log('서빙 이벤트 전송');
                             socket.emit('orderEvent',{what:'served',tableId:tableId});
@@ -296,12 +303,12 @@ const Table=({tableId,empty,menu})=>{
                     });
                 }
                 changeToServed();
-            }}>서빙</Button>):(<></>)}
+            }}>서빙</button>):(<></>)}
 
             {tableEmpty===false&&addedContents.length!==0?(
-                <Button variant='info' style={{height:"50px",marginRight:"5px"}} onClick={()=>{
+                <button style={btnStyle('#99C68E')} onClick={()=>{
                     function addOrder(){
-                        axios.post('http://localhost:3002/api/addOrder',{tableId:tableId,content:addedContents,total:addedPrice}).then(res=>{
+                        axios.post('https://every-server.herokuapp.com/api/addOrder',{tableId:tableId,content:addedContents,total:addedPrice}).then(res=>{
                             if(res.data.success===true){
                                 console.log('추가완료');
                                 socket.emit('orderEvent',{what:'add',tableId:tableId}); 
@@ -316,12 +323,12 @@ const Table=({tableId,empty,menu})=>{
                 resetOrderState();
                 setAddAlert(true);
                 autoAddAlertRM();
-            }}>추가</Button> 
+            }}>추가</button> 
             ):(<></>)}
 
-            {tableEmpty===false&&addedContents.length===0&&orderState==='served'?(<Button variant="danger" onClick={()=>{
+            {tableEmpty===false&&addedContents.length===0&&orderState==='served'?(<button style={btnStyle('#B90E0A')} onClick={()=>{
                 function payProcess(){
-                    axios.post('http://localhost:3002/api/orderPay',{
+                    axios.post('https://every-server.herokuapp.com/api/orderPay',{
                         tableId:tableId,
                         content:orderContents,
                         total:totalPrice,
@@ -337,29 +344,34 @@ const Table=({tableId,empty,menu})=>{
                 payProcess();
                 setPayAlert(true);
                 autoPayAlertRM();
-            }} style={{height:"50px"}}>결제</Button>):(<></>)}
+            }}>결제</button>):(<></>)}
             </div>
-            <div style={{float:"left"}}>
-             <Alert show={showCancleAlert} variant="danger"><b>주문을 삭제하시겠습니까? <Button variant="danger" style={{marginRight:"5px",
-             borderRadius:"10px"}}
-             onClick={()=>{
-                function orderCancle(){
-                    axios.get('http://localhost:3002/api/orderCancle',{params:{tableId:tableId}}).then(res=>{
-                        if(res.data.success===true){
-                            console.log('주문취소 성공, 취소 이벤트 전송');
-                            socket.emit('orderEvent',{what:'cancle',tableId:tableId});
-                        }else{alert('취소실패');}
-                    })
-                }
-                orderCancle();
-                handleHide();
-                resetOrder();
-             }}>O</Button><Button style={{ borderRadius:"10px"}} variant="danger" onClick={()=>{
+            <div style={{display:'flex'}}>
+             <Alert show={showCancleAlert} variant="danger" style={alertStyle()}>
+                 <b>주문을 삭제하시겠습니까?</b>
+                 <p
+                    onClick={()=>{
+                        function orderCancle(){
+                            axios.get('https://every-server.herokuapp.com/api/orderCancle',{params:{tableId:tableId}}).then(res=>{
+                                if(res.data.success===true){
+                                    console.log('주문취소 성공, 취소 이벤트 전송');
+                                    socket.emit('orderEvent',{what:'cancle',tableId:tableId});
+                                }else{alert('취소실패');}
+                                })
+                            }
+                            orderCancle();
+                            handleHide();
+                            resetOrder();
+                        }}
+                        style={{color:'#D0312D',fontSize:'18px',margin:'0rem 0.5rem',cursor:'pointer',fontWeight:'bold'}}
+                    >O</p>/
+                    <p style={{color:'#D0312D',fontSize:'18px',margin:'0rem 0.5rem',cursor:'pointer',fontWeight:'bold'}} 
+                    onClick={()=>{
                  setCancleAlert(false);
-             }}>X</Button></b></Alert>
-             <Alert show={showOrderAlert} variant="success"><b>주문 완료!</b></Alert>
-             <Alert show={showPayAlert} variant="success"><b>결제 완료!</b></Alert>
-             <Alert show={showAddAlert} variant="success"><b>추가 완료!</b></Alert>
+             }}>X</p></Alert>
+             <Alert show={showOrderAlert} style={alertStyle()} variant="success"><b>주문 완료!</b></Alert>
+             <Alert show={showPayAlert} style={alertStyle()} variant="success"><b>결제 완료!</b></Alert>
+             <Alert show={showAddAlert} style={alertStyle()} variant="success"><b>추가 완료!</b></Alert>
        </div>
         </Modal.Footer>
        </Modal>      

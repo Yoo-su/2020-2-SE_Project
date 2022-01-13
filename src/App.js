@@ -37,6 +37,9 @@ function App({userRole,isLogin,login,logout}) {
         <Route exact path="/AboutMenu" component={AboutMenu}></Route>
         <Route exact path="/SalesInfo" component={SalesInfo}></Route>
         <Route exact path="/Account" component={Account}></Route>
+        <Route exact path="/Order" component={Order}></Route>
+        <Route exact path="/Cook" component={Cook}></Route>
+        <Route exact path="/ManageStock" component={ManageStock}></Route>
       </>):(null)}
       {userRole===1?(<>
         <Route exact path="/Order" component={Order}></Route>
@@ -57,7 +60,7 @@ function mapStateToProps(state){
     };
 }
 
-function mapDispatchToProps(dispatch,ownProps){
+function mapDispatchToProps(dispatch, ownProps){
   return{
     login:()=>{dispatch(logIn())},
     logout:()=>{dispatch(logOut())}

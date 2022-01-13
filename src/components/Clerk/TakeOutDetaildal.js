@@ -4,7 +4,7 @@ import axios from 'axios';
 import io from 'socket.io-client';
 
 function TakeOutDetaildal({show,setShow,orderId,foods,state,price}){
-    const socket=io('http://localhost:3002',{ transports: ['websocket'] });
+    const socket=io('https://every-server.herokuapp.com',{ transports: ['websocket'] });
     return(
         <div>
             <Modal
@@ -30,7 +30,7 @@ function TakeOutDetaildal({show,setShow,orderId,foods,state,price}){
                  {state==="prepared"?(
                    <Button variant="warning" onClick={()=>{
                      function takeoutEnd(){
-                       axios.post('http://localhost:3002/api/takeOutEnd',{
+                       axios.post('https://every-server.herokuapp.com/api/takeOutEnd',{
                          orderId:orderId,
                          price:price,
                          content:foods

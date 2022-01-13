@@ -9,7 +9,7 @@ function ManageStock(){
     let number=1;
 
     useEffect(()=>{
-       axios.get('http://localhost:3002/api/menu').then(res=>{
+       axios.get('https://every-server.herokuapp.com/api/menu').then(res=>{
            if(res.data.success===true){
                setMenu(res.data.menu);
            }
@@ -18,9 +18,9 @@ function ManageStock(){
     return(
         <div id="stockPage">
             <div id="stockPageTitle">
-            <b style={{fontSize:"35px"}}>재고관리</b>
+            <b>재고관리</b>
             </div><br></br>
-           <Table striped bordered hover>
+           <Table id="stockTable" striped bordered hover>
               <thead>
                <tr>
                 <th>-</th>

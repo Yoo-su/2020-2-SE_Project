@@ -12,9 +12,9 @@ function Order(){
   const [takeOutOrders,setTakeOutOrders]=useState([]);
   const [menu,setMenu]=useState([]);
 
-  const requestTables=axios.get('http://localhost:3002/api/tables');
-  const requestMenu=axios.get('http://localhost:3002/api/menu');
-  const requestTakeOutOrders=axios.get('http://localhost:3002/api/takeOutOrders');
+  const requestTables=axios.get('https://every-server.herokuapp.com/api/tables');
+  const requestMenu=axios.get('https://every-server.herokuapp.com/api/menu');
+  const requestTakeOutOrders=axios.get('https://every-server.herokuapp.com/api/takeOutOrders');
 
   function bringDatas(){
     axios.all([requestTables,requestMenu,requestTakeOutOrders]).then(axios.spread((...responses)=>{
@@ -30,7 +30,7 @@ function Order(){
   useEffect(()=>{
     bringDatas();
     
-    const socket=io('http://localhost:3002',{ transports: ['websocket'] });
+    const socket=io('https://every-server.herokuapp.com',{ transports: ['websocket'] });
 
     socket.on('aboutTakeOut',(data)=>{
       if(data.what==='updateOrderForClerk'){
@@ -50,7 +50,7 @@ function Order(){
 
     return(
       <div id="order">
-        {tables.length>0&&menu.length>0?(<>
+        {tables.length>0?(<>
         <div id="orderLeft">
           <div id="tables">
              {tables.map(table=>(

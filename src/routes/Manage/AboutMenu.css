@@ -7,10 +7,21 @@
     min-height: 670px;
 }
 
+#menuPageHeader> b{
+    font-size:38px;
+}
 
-#addMenuBtn{
+#addMenuBtn, #cmpEditBtn, #editMenuBtn{
     position: relative;
-    
+    outline:none;
+    border-radius:10px;
+    border:0;
+    box-shadow:0.5px 0.5px gray;
+}
+
+#cmpEditBtn{
+    background-color:#68BD45;
+    color:white;
 }
 
 #menus{
@@ -18,4 +29,10 @@
     display:flex;
     flex-wrap: wrap;
     justify-content: center;
+}
+
+@media all and (min-width:0px) and (max-width:1280px){
+    #menuPageHeader > b{
+        font-size:32px;
+    }
 }

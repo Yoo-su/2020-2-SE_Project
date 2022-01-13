@@ -16,25 +16,25 @@ function AboutMenu(){
   }
 
   useEffect(()=>{
-    axios.get('http://localhost:3002/api/allMenu').then(res=>{
+    axios.get('https://every-server.herokuapp.com/api/allMenu').then(res=>{
       if(res.data.success===true){setFoods(res.data.menu)}
       else console.log('error');
     })
   },[])
   return(
            <div id="menuPage">
-             <div id="header" style={{textAlign:"center"}}>
-              <b style={{fontSize:"50px"}}>MENU</b><br></br>
-              <Button variant="info" id="addMenuBtn" style={{float:"right",marginLeft:"5px"}} onClick={()=>{
+             <div id="menuPageHeader" style={{textAlign:"center"}}>
+              <b>MENU</b><br></br>
+              <button id="addMenuBtn" style={{float:"right",marginLeft:"5px"}} onClick={()=>{
                setShow(!show);
-             }}>메뉴 추가</Button>
-             {showEditBtn?(<Button style={{float:"right"}} onClick={()=>{
+             }}>메뉴 추가</button>
+             {showEditBtn?(<button id="editMenuBtn" style={{float:"right"}} onClick={()=>{
                setEditMode(!editMode);
                setEditBtn(!showEditBtn);
-             }}>편집</Button>):(<Button variant="success" style={{float:"right"}} onClick={()=>{
+             }}>편집</button>):(<button id="cmpEditBtn" style={{float:"right"}} onClick={()=>{
                setEditMode(!editMode);
                setEditBtn(!showEditBtn);
-             }}>완료</Button>)}
+             }}>완료</button>)}
              <br></br>
              </div>
              <div id="menus" style={{margin:"20px", textAlign:"center"}}>

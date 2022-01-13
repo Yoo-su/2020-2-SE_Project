@@ -17,6 +17,10 @@
 }
 
 #insideContent{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
   position:relative;
   min-width: 40%;
   border-radius: 50%;
@@ -30,5 +34,6 @@
   position:relative;
   max-width:200px;
   max-height:210px;
+  object-fit:cover;
 }
 

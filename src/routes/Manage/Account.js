@@ -8,7 +8,7 @@ function Account(){
     const [monthly,setMonthly]=useState(0);
 
     function bringAccount(){
-        axios.get('http://localhost:3002/api/account').then(res=>{
+        axios.get('https://every-server.herokuapp.com/api/account').then(res=>{
             if(res.data.success===true){
                 setAccountInfo(res.data.account);
                 setMonthly(res.data.monthlySoon);
@@ -22,13 +22,13 @@ function Account(){
         <div id="accountPage">
             <div id="accountContent">
              <div id="accountTitle">
-               <b style={{fontSize:"35px"}}>회계정보</b>
+               <b>회계정보</b>
             </div>
-            <div style={{fontSize:"18px",marginBottom:"5px",float:"right",color:"#2F66A9"}}> 
+            <div id="pureProfit"> 
             <b>●이번달 순이익:&nbsp;{monthly}&nbsp;원</b>
             </div>
           <div>
-          <Table striped bordered hover>
+          <Table id="accountTable" striped bordered hover>
               <thead>
                <tr>
                 <th>날짜</th>

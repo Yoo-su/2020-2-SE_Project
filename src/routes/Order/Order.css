@@ -3,7 +3,7 @@
   background-color: white;
   border-radius: 10px;
   text-align: center;
-  min-height: 670px;
+  height:100vh;
   margin-top:5px;
   margin-left: 10px;
   margin-right: 10px;
@@ -14,6 +14,7 @@
 
 #orderLoading{
   position: relative;
+  height:100vh;
   background-color: white;
   padding-top:200px;
 }

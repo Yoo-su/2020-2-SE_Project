@@ -2,7 +2,7 @@
     position: absolute;
     left:0;
     right:0;
-    top:70px;
+    top:60px;
     bottom:0px;
     margin:10px;
     padding:10px;
@@ -24,4 +24,20 @@
     display:flex;
     flex-wrap: wrap;
     justify-content: center;
+}
+
+@media all and (min-width:0px) and (max-width:1280px){
+  #cookPage{
+    top:53px;
+    margin-top:0;
+    padding:0;
+  }
+
+  #cookTitle{
+    padding-bottom:0px;
+  }
+
+  #cookTitle > b{
+    font-size:24px;
+  }
 }

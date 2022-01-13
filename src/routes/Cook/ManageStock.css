@@ -5,3 +5,20 @@
     padding:20px;
     border-radius: 10px;
 }
+
+#stockPageTitle{
+    margin-left:0.5rem;
+}
+#stockPageTitle > b{
+    font-size:32px;
+}
+
+@media all and (min-width:0px) and (max-width:1000px){
+    #stockPageTitle > b{
+        font-size:24px;
+    }
+
+    #stockTable{
+        font-size:14px;
+    }
+}

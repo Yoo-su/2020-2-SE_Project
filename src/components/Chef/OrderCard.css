@@ -1,0 +1,39 @@
+.orderCard_Chef{
+    margin:30px;
+    width:10rem;
+}
+
+.orderCard_Chef > .card-header{
+    font-size:16px;
+}
+
+.card-body{
+    font-size:14px;
+}
+
+.orderCard_Chef > .card-footer{
+    text-align:center;
+}
+
+.card-footer > .completeBtn{
+    font-size:14px;
+}
+
+@media all and (min-width:0px) and (max-width:1000px){
+    .orderCard_Chef{
+        width:8rem;
+    }
+    
+    .orderCard_Chef > .card-header{
+        font-size:12px;
+    }
+
+    .orderCard_Chef > .card-body{
+        padding:0.5rem;
+        font-size:12px;
+    }
+
+    .orderCard_Chef > .card-footer > .completeBtn{
+        font-size:13px;
+    }
+}

@@ -9,7 +9,7 @@ function Main(){
          <div id="mainContent" style={{backgroundImage:`url(${mainBack})`,backgroundSize:"cover"}}>
            <div id="insideContent">
           <img id ="mainImg" src={mainImg} alt={mainImg}></img><br></br><br></br>
-          <b style={{fontSize:"80px"}}>에브리 레스토랑</b>
+          <b style={{fontSize:"80px", fontWeight:'lighter'}}>에브리 레스토랑</b>
           </div>
          </div>
       </div>

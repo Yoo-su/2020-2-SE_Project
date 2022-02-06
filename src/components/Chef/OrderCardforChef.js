@@ -2,14 +2,12 @@ import React,{useState,useEffect} from 'react';
 import {Card,Button} from "react-bootstrap";
 import axios from 'axios';
 import OrderDal from "./OrderInfoMoDal";
-import io from 'socket.io-client';
 import "./OrderCard.css";
 
-function OrderCardforChef({orderId,orderTime}){
+function OrderCardforChef({orderId,orderTime,socket}){
     const [showOrderDal,setShowOrderDal]=useState(false);
     const [orderContent,setContent]=useState([]);
     const [tableOrTakeOut,setToT]=useState(-1);
-    const socket=io('https://every-server.herokuapp.com',{ transports: ['websocket'] });
 
    function bringOrderDetail(){
      axios.get('https://every-server.herokuapp.com/api/forOrderCard',{params:{orderId:orderId}}).then(res=>{

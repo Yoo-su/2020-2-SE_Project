@@ -30,8 +30,8 @@ function Account(){
         <div id="salesInfo">
             <div id="salesContent">
                 <div id="salesHeader">
-                    <div>
-                     <b id="salesTitle">판매정보</b>
+                    <div id="salesTitle">
+                     <b>판매정보</b>
                     </div>
                     <div id="analysisInfo">
                  <b>●평균 주문 준비시간:{waitAvg}&nbsp;&nbsp;&nbsp; ●평균 고객 매장이용시간:{spendAvg}</b>&nbsp;&nbsp;&nbsp;

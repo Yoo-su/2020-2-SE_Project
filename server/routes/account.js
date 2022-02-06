@@ -5,7 +5,7 @@ const con=require("./database");
 
 router.get('/',async(req,res)=>{
    try{
-     const sql=`select * from account order by dateInfo desc`;
+     const sql=`select * from account order by dateInfo asc`;
 
       const monthlyTotal=`select sum(salesTotal-minusTotal) as soon from account where month(dateInfo)=month(now())`;
 

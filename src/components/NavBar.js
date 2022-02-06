@@ -42,7 +42,8 @@ function NavBar({userRole,isLogin,logOut,curUser}){
              src={logo}
              width="34"
              height="34"
-             alt="mainlogo">
+             alt="mainlogo"
+             style={{objectFit:"cover"}}>
              </img>{' '}에브리 레스토랑</label>
          </Navbar.Brand>
          <Nav className="mr-auto">

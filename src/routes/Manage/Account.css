@@ -1,7 +1,7 @@
 #accountPage{
     margin:10px;
     background-color: white;
-    min-height: 660px;
+    height: 100vh;
     border-radius: 10px;
 }
 
@@ -12,13 +12,37 @@
 #accountTitle{
     margin-left:0.5rem;
     font-size:32px;
+    box-shadow:0px 0.5px #D3D3D3;
 }
 
 #pureProfit{
+    display:flex;
+    align-items:center;
     font-size:18px;
+    margin-top:1.5rem;
     margin-bottom:5px;
     float:right;
     color:#2F66A9
+}
+
+#graphChartBtn{
+    margin-left:1rem;
+    outline:none;
+    border:transparent;
+    border-radius:10px;
+    padding:0.5rem 1rem;
+    background:linear-gradient(to right,#ACDF87,#FFFDD0);
+}
+
+#tableChartBtn{
+    margin-left:1rem;
+    outline:none;
+    border:transparent;
+    border-radius:10px;
+    padding:0.5rem 1rem;
+    background:linear-gradient(to right,#e66465, #9198e5);
+    color:white;
+    z-index:50;
 }
 
 @media all and (min-width:0px) and (max-width:1280px){
@@ -26,7 +50,6 @@
         font-size:24px;
     }
     #pureProfit{
-        margin-top:1.5rem;
         font-size:14px;
     }
     #accountTable{

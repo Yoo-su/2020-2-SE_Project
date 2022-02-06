@@ -2,14 +2,12 @@ import React,{useState,useEffect} from "react";
 import {Card,Spinner} from "react-bootstrap";
 import TakeOutDetaildal from "./TakeOutDetaildal";
 import axios from "axios";
-import io from 'socket.io-client';
 import "./TakeOutOrders.css";
 
-function TakeOutOrders({orderId,state,price}){
+function TakeOutOrders({orderId,state,price,socket}){
     const [showDetail,setShowDetail]=useState(false);
     const [content,setContent]=useState([]);
     const [orderState,setOrderState]=useState(state);
-    const socket=io('https://every-server.herokuapp.com',{ transports: ['websocket'] });
 
     function bringContent(){
       axios.get('https://every-server.herokuapp.com/api/takeOutContent',{params:{orderId:orderId}}).then(res=>{

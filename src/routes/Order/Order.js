@@ -4,9 +4,8 @@ import Table from "../../components/Clerk/Table";
 import TakeOut from "../../components/Clerk/TakeOut";
 import TakeOutOrders from "../../components/Clerk/TakeOutOrders";
 import axios from "axios";
-import io from "socket.io-client";
 
-function Order(){
+function Order({socket}){
   const [tables,setTables]=useState([]);
   const [takeOut,setTakeOut]=useState([]);
   const [takeOutOrders,setTakeOutOrders]=useState([]);
@@ -29,22 +28,17 @@ function Order(){
   
   useEffect(()=>{
     bringDatas();
-    
-    const socket=io('https://every-server.herokuapp.com',{ transports: ['websocket'] });
-
     socket.on('aboutTakeOut',(data)=>{
       if(data.what==='updateOrderForClerk'){
         setTakeOutOrders(data.takeOutOrders);
       }
-    })
-
-    socket.on('removeCard',(data)=>{
-      setTakeOutOrders(data.takeOutOrders);
+      else if (data.what==='removeCard'){
+        setTakeOutOrders(data.takeoutOrders);
+      }
     })
     
     return ()=>{
       socket.off('aboutTakeOut');
-      socket.off('removeCard');
     }
   },[]);
 
@@ -55,17 +49,17 @@ function Order(){
           <div id="tables">
              {tables.map(table=>(
                <span id="table" key={table.sicktakId}>
-                <Table tableId={table.sicktakId} empty={table.isEmpty===1?true:false} menu={menu}></Table>
+                <Table tableId={table.sicktakId} empty={table.isEmpty===1?true:false} menu={menu} socket={socket}></Table>
                </span>
               ))}
          </div>
          </div>
          <div id="orderRight">
            <div id="takeOut">
-           <TakeOut tableId={takeOut.sicktakId} menu={menu}></TakeOut><br></br><br></br>
+           <TakeOut tableId={takeOut.sicktakId} menu={menu} socket={socket}></TakeOut><br></br><br></br>
              <div id="toOrders">
            {takeOutOrders.map(tOO=>(
-             <TakeOutOrders key={tOO.orderId} orderId={tOO.orderId} state={tOO.state} price={tOO.totalPrice}></TakeOutOrders>
+             <TakeOutOrders key={tOO.orderId} orderId={tOO.orderId} state={tOO.state} price={tOO.totalPrice} socket={socket}></TakeOutOrders>
            ))}
              </div>
            </div>

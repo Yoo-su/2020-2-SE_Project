@@ -1,11 +1,10 @@
 import React, {useState,useEffect} from "react";
-import {Button} from 'react-bootstrap';
 import axios from "axios";
-import AddFoodal from "../../components/Master/AddFoodal";
+import AddMenuModal from "../../components/Master/AddMenuModal";
 import MenuCard from '../../components/Master/MenuCard';
-import "./AboutMenu.css";
+import "./MenuPage.css";
 
-function AboutMenu(){
+function MenuPage(){
   const [foods,setFoods]=useState([]);
   const [show,setShow]=useState(false);
   const [editMode,setEditMode]=useState(false);
@@ -42,9 +41,9 @@ function AboutMenu(){
                 <MenuCard key={food.menuName} activate={food.activate} menuName={food.menuName} showBtn={editMode} imgPath={food.imgPath} price={food.price} sales={food.sales} remain={food.remainStock}></MenuCard>
               ))}
              </div>
-             <AddFoodal show={show} setShow={modalOff}></AddFoodal>
+             <AddMenuModal show={show} setShow={modalOff}></AddMenuModal>
            </div>
        );
 }
 
-export default AboutMenu;
+export default MenuPage;

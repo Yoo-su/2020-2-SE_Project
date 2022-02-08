@@ -1,10 +1,10 @@
 import React,{useState,useEffect} from "react";
 import {Card,Spinner} from "react-bootstrap";
-import TakeOutDetaildal from "./TakeOutDetaildal";
+import TakeOutDetailModal from "./TakeOutDetailModal";
 import axios from "axios";
-import "./TakeOutOrders.css";
+import "./TakeOutOrder.css";
 
-function TakeOutOrders({orderId,state,price,socket}){
+function TakeOutOrder({orderId,state,price,socket}){
     const [showDetail,setShowDetail]=useState(false);
     const [content,setContent]=useState([]);
     const [orderState,setOrderState]=useState(state);
@@ -75,10 +75,10 @@ function TakeOutOrders({orderId,state,price,socket}){
                   </div>
               ):(<div><b style={{color:"#668D3C"}}>준비완료!<br></br>✓</b></div>)}
             </Card.Footer>
-            <TakeOutDetaildal show={showDetail} setShow={detailOnOff} orderId={orderId} foods={content} state={orderState} price={price}></TakeOutDetaildal>
+            <TakeOutDetailModal show={showDetail} setShow={detailOnOff} orderId={orderId} foods={content} state={orderState} price={price}></TakeOutDetailModal>
           </Card>
         </div>
     );
 }
 
-export default TakeOutOrders;
+export default TakeOutOrder;

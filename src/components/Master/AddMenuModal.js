@@ -2,7 +2,7 @@ import React,{useState} from 'react';
 import {Form,Button,Modal} from 'react-bootstrap';
 import axios from 'axios';
 
-function AddFoodal({show,setShow}){
+function AddMenuModal({show,setShow}){
     const [menuImg,setMenuImg]=useState('');
     const [menuName,setMenuName]=useState('');
     const [menuPrice,setMenuPrice]=useState(-1);
@@ -74,4 +74,4 @@ function AddFoodal({show,setShow}){
     );
 }
 
-export default AddFoodal;
+export default AddMenuModal;

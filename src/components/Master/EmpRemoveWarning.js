@@ -2,7 +2,7 @@ import React from 'react';
 import {Modal,Button} from 'react-bootstrap';
 import axios from 'axios';
 
-function EmpWarning({show,setShow,userEmail}){
+function EmpRemoveWarning({show,setShow,userEmail}){
     return(
         <div>
              <Modal
@@ -31,4 +31,4 @@ function EmpWarning({show,setShow,userEmail}){
     );
 }
 
-export default EmpWarning;
+export default EmpRemoveWarning;

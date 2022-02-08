@@ -1,10 +1,10 @@
 import React,{useState,useEffect} from 'react';
 import {Table} from 'react-bootstrap';
-import StockTD from '../../components/Chef/StockTD';
+import StockInfo from '../../components/Chef/StockInfo';
 import axios from "axios";
-import "./ManageStock.css";
+import "./ManageStockPage.css";
 
-function ManageStock(){
+function ManageStockPage(){
     const [menu,setMenu]=useState([]);
     let number=1;
 
@@ -34,7 +34,7 @@ function ManageStock(){
                <tr key={one.menuName}>
                    <td>{number++}</td>
                    <td>{one.menuName}</td>
-                   <td><StockTD menuName={one.menuName} stockRemain={one.remainStock} stockPrice={one.stockPrice}></StockTD></td>
+                   <td><StockInfo menuName={one.menuName} stockRemain={one.remainStock} stockPrice={one.stockPrice}></StockInfo></td>
                    <td>{one.stockPrice}원</td>
                </tr>
           ))}
@@ -44,4 +44,4 @@ function ManageStock(){
     );
 }
 
-export default ManageStock;
+export default ManageStockPage;

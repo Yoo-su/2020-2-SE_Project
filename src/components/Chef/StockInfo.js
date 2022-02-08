@@ -1,9 +1,9 @@
 import React,{useState} from 'react';
 import {Button} from 'react-bootstrap';
 import axios from "axios";
-import "./StockTD.css";
+import "./StockInfo.css";
 
-function StockTD({menuName,stockRemain,stockPrice}){
+function StockInfo({menuName,stockRemain,stockPrice}){
   const [amount,setAmount]=useState(stockRemain);
    const [stockInput,setStockInput]=useState(false);
    const [newAmount,setNewAmount]=useState(0);
@@ -43,4 +43,4 @@ function StockTD({menuName,stockRemain,stockPrice}){
  );
 }
 
-export default StockTD;
+export default StockInfo;

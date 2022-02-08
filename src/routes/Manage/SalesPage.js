@@ -1,9 +1,9 @@
 import React,{useState,useEffect} from 'react';
 import {Table} from "react-bootstrap";
 import axios from "axios";
-import "./SalesInfo.css";
+import "./SalesPage.css";
 
-function Account(){
+function SalesPage(){
     const [salesHistory,setSalesHistory]=useState([]);
     const [waitAvg,setWaitAvg]=useState('');
     const [spendAvg,setSpendAvg]=useState('');
@@ -68,4 +68,4 @@ function Account(){
     );
 }
 
-export default Account;
+export default SalesPage;

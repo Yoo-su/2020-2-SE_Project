@@ -1,10 +1,10 @@
 import React,{useState,useEffect} from 'react';
-import {button,Table} from 'react-bootstrap';
+import {Table} from 'react-bootstrap';
 import axios from 'axios';
-import EmpWarning from '../../components/Master/EmpWarning';
-import "./ManageEmp.css";
+import EmpRemoveWarning from '../../components/Master/EmpRemoveWarning';
+import "./EmployeeDetailPage.css";
 
-function ManageEmp({location}){
+function EmployeeDetailPage({location}){
     const emp=location.state;
     const [salary,setSalary]=useState(emp.wage);
     const [showInput,setShowInput]=useState(true);
@@ -51,7 +51,7 @@ function ManageEmp({location}){
               <button className="removeEmpBtn" style={{float:"right",backgroundColor:"#B90E0A",color:"white"}} onClick={()=>{
                   setWarningModal(true);
               }}>삭제</button>
-              <EmpWarning show={warningModal} setShow={warningOff} userEmail={emp.email}></EmpWarning>
+              <EmpRemoveWarning show={warningModal} setShow={warningOff} userEmail={emp.email}></EmpRemoveWarning>
             </div>
           <br></br>
           <div id="empDetailContent">
@@ -130,4 +130,4 @@ function ManageEmp({location}){
    );
 }
 
-export default ManageEmp;
+export default EmployeeDetailPage;

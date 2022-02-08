@@ -2,9 +2,9 @@ import React,{useState,useEffect} from 'react';
 import {Table} from 'react-bootstrap';
 import axios from 'axios';
 import { ResponsiveBar } from '@nivo/bar';
-import './Account.css';
+import './AccountPage.css';
 
-function Account(){
+export default function AccountPage(){
     const [accountInfo,setAccountInfo]=useState([]);
     const [monthly,setMonthly]=useState(0);
     const [contentType,setContentType]=useState("table");
@@ -157,5 +157,3 @@ function Account(){
         </div>
     );
 }
-
-export default Account;

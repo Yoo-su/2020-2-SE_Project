@@ -3,7 +3,7 @@ import {Modal,Form, Button} from "react-bootstrap";
 import axios from 'axios';
 import io from 'socket.io-client';
 
-function TakeOutDetaildal({show,setShow,orderId,foods,state,price}){
+export default function TakeOutDetailModal({show,setShow,orderId,foods,state,price}){
     const socket=io('https://every-server.herokuapp.com',{ transports: ['websocket'] });
     return(
         <div>
@@ -49,5 +49,3 @@ function TakeOutDetaildal({show,setShow,orderId,foods,state,price}){
         </div>
     );
 }
-
-export default TakeOutDetaildal;

@@ -1,9 +1,9 @@
 import React,{useState,useEffect} from 'react';
-import "./Cook.css";
+import "./CookPage.css";
 import OrderCardforChef from "../../components/Chef/OrderCardforChef";
 import axios from 'axios';
 
-function Cook({socket}){
+function CookPage({socket}){
   const [orders,setOrders]=useState([]);
 
   function bringOrders(){
@@ -38,4 +38,4 @@ function Cook({socket}){
 
 }
 
-export default Cook;
+export default CookPage;

@@ -2,10 +2,10 @@ import React,{useState,useEffect} from 'react';
 import {Link} from 'react-router-dom'
 import {Button,Table} from 'react-bootstrap';
 import axios from 'axios';
-import Employeedal from "../../components/Master/Employeedal";
-import "./Manage.css";
+import AddEmployeeModal from "../../components/Master/AddEmployeeModal";
+import "./EmployeeManagePage.css";
 
-function Manage(){
+function EmployeeManagePage(){
  const [ants,setAnts]=useState([]);
  const [showAddEmp,setShowAddEmp]=useState(false);
  let number=1;
@@ -27,7 +27,7 @@ function Manage(){
          <b id="mwTitle">직원 목록</b><Button style={{float:"right"}} onClick={()=>{
            setShowAddEmp(!showAddEmp);
          }}>직원 추가</Button>
-         <Employeedal show={showAddEmp} setShow={addEmpModalOff}></Employeedal>
+         <AddEmployeeModal show={showAddEmp} setShow={addEmpModalOff}></AddEmployeeModal>
          <div id="workerList">
              <br></br>
              <Table striped bordered hover>
@@ -67,4 +67,4 @@ function Manage(){
  );
 }
 
-export default Manage;
+export default EmployeeManagePage;

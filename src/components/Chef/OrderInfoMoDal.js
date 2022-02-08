@@ -1,7 +1,7 @@
 import React from 'react';
 import {Modal,Form, Button} from "react-bootstrap";
 
-function OrderDal({show,setShow,orderId,orderContent, orderTime}){
+export default function OrderInfoModal({show,setShow,orderId,orderContent, orderTime}){
   const time=new Date(orderTime);
     return(
         <div>
@@ -32,5 +32,3 @@ function OrderDal({show,setShow,orderId,orderContent, orderTime}){
         </div>
     );
 }
-
-export default OrderDal;

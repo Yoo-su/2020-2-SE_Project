@@ -1,16 +1,16 @@
 import React,{useEffect} from 'react';
 import {HashRouter as Router, Route} from 'react-router-dom'
 import NavBar from "./components/NavBar";
-import Order from "./routes/Order/Order";
+import OrderPage from "./routes/Order/OrderPage";
 import Login from "./routes/User/Login";
-import AboutMenu from "./routes/Manage/AboutMenu";
+import MenuPage from "./routes/Manage/MenuPage";
 import Main from "./routes/Main";
-import Cook from "./routes/Cook/Cook";
-import Manage from "./routes/Manage/Manage";
-import ManageEmp from "./routes/Manage/ManageEmp";
-import ManageStock from "./routes/Cook/ManageStock";
-import SalesInfo from "./routes/Manage/SalesInfo";
-import Account from './routes/Manage/Account';
+import CookPage from "./routes/Cook/CookPage";
+import EmployeeManagePage from "./routes/Manage/EmployeeManagePage";
+import EmployeeDetailPage from "./routes/Manage/EmployeeDetailPage";
+import ManageStockPage from "./routes/Cook/ManageStockPage";
+import SalesPage from "./routes/Manage/SalesPage";
+import AccountPage from './routes/Manage/AccountPage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { connect } from 'react-redux';
 import {logIn,logOut} from './Store';
@@ -34,21 +34,21 @@ function App({userRole,isLogin,login,logout}) {
         <Route exact path="/Login" component={Login}></Route>
       </>)}
       {userRole===0?(<>
-        <Route exact path="/ManageEmp"  component={Manage}></Route>
-        <Route exact path="/ManageEmp/:id" component={ManageEmp}></Route>
-        <Route exact path="/AboutMenu" component={AboutMenu}></Route>
-        <Route exact path="/SalesInfo" component={SalesInfo}></Route>
-        <Route exact path="/Account" component={Account}></Route>
-        <Route exact path="/Order" component={()=><Order socket={socket}/>}></Route>
-        <Route exact path="/Cook" component={()=><Cook socket={socket} />}></Route>
-        <Route exact path="/ManageStock" component={ManageStock}></Route>
+        <Route exact path="/ManageEmp"  component={EmployeeManagePage}></Route>
+        <Route exact path="/ManageEmp/:id" component={EmployeeDetailPage}></Route>
+        <Route exact path="/AboutMenu" component={MenuPage}></Route>
+        <Route exact path="/SalesInfo" component={SalesPage}></Route>
+        <Route exact path="/Account" component={AccountPage}></Route>
+        <Route exact path="/Order" component={()=><OrderPage socket={socket}/>}></Route>
+        <Route exact path="/Cook" component={()=><CookPage socket={socket} />}></Route>
+        <Route exact path="/ManageStock" component={ManageStockPage}></Route>
       </>):(null)}
       {userRole===1?(<>
-        <Route exact path="/Order" component={()=><Order socket={socket}/>}></Route>
+        <Route exact path="/Order" component={()=><OrderPage socket={socket}/>}></Route>
       </>):(<></>)}
       {userRole===2?(<>
-        <Route exact path="/Cook" component={()=><Cook socket={socket} />}></Route>
-        <Route exact path="/ManageStock" component={ManageStock}></Route>
+        <Route exact path="/Cook" component={()=><CookPage socket={socket} />}></Route>
+        <Route exact path="/ManageStock" component={ManageStockPage}></Route>
       </>):(<></>)}   
     </Router>
     </div>

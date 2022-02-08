@@ -1,20 +1,20 @@
 import React,{useState,useEffect} from 'react';
 import {Card,Button} from "react-bootstrap";
 import axios from 'axios';
-import OrderDal from "./OrderInfoMoDal";
+import OrderInfoModal from "./OrderInfoModal";
 import "./OrderCard.css";
 
 function OrderCardforChef({orderId,orderTime,socket}){
-    const [showOrderDal,setShowOrderDal]=useState(false);
+    const [showOrderModal,setShowOrderModal]=useState(false);
     const [orderContent,setContent]=useState([]);
-    const [tableOrTakeOut,setToT]=useState(-1);
+    const [tableOrTakeOut,setTableOrTakeout]=useState(-1);
 
    function bringOrderDetail(){
      axios.get('https://every-server.herokuapp.com/api/forOrderCard',{params:{orderId:orderId}}).then(res=>{
        if(res.data.success===true){
          setContent(res.data.content);
          console.log(res.data.content);
-         setToT(res.data.tableId[0].sicktak_sicktakId);
+         setTableOrTakeout(res.data.tableId[0].sicktak_sicktakId);
         }
        else alert('error');
      }) 
@@ -24,19 +24,19 @@ function OrderCardforChef({orderId,orderTime,socket}){
      bringOrderDetail();
    },[]);
 
-    function orderDalOnOff(){
-      setShowOrderDal(!showOrderDal);
+    function renderOrderModal(){
+      setShowOrderModal(!showOrderModal);
     }
     
 
     return(
         <div>
             <Card className="orderCard_Chef" key={Math.random()}>
-                 <Card.Header onClick={()=>{setShowOrderDal(true);}}>
+                 <Card.Header onClick={()=>{setShowOrderModal(true);}}>
                      <b>주문번호: {orderId}</b><br></br>
                       {tableOrTakeOut===0?(<b style={{color:"#2F66A9"}}>테이크아웃</b>):(<b style={{color:"#865840"}}>테이블{tableOrTakeOut}</b>)}
                      </Card.Header >
-                    <Card.Body  onClick={()=>{setShowOrderDal(true);}}>
+                    <Card.Body  onClick={()=>{setShowOrderModal(true);}}>
                     <Card.Text>
                       {orderContent.length>3?(
                     <span style={{display:"flex",flexDirection:"column"}}>
@@ -65,7 +65,7 @@ function OrderCardforChef({orderId,orderTime,socket}){
                  updateOrder();
                }}>완료알림</Button>
              </Card.Footer>
-             <OrderDal show={showOrderDal} setShow={orderDalOnOff} orderId={orderId} orderContent={orderContent} orderTime={orderTime}></OrderDal>
+             <OrderInfoModal show={showOrderModal} setShow={renderOrderModal} orderId={orderId} orderContent={orderContent} orderTime={orderTime}></OrderInfoModal>
                </Card>
         </div>
     );

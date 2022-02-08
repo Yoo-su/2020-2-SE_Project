@@ -1,11 +1,11 @@
-import React,{useState,useEffect,useRef} from "react";
-import "./Order.css";
+import React,{useState,useEffect} from "react";
+import "./OrderPage.css";
 import Table from "../../components/Clerk/Table";
 import TakeOut from "../../components/Clerk/TakeOut";
-import TakeOutOrders from "../../components/Clerk/TakeOutOrders";
+import TakeOutOrder from "../../components/Clerk/TakeOutOrder";
 import axios from "axios";
 
-function Order({socket}){
+export default function OrderPage({socket}){
   const [tables,setTables]=useState([]);
   const [takeOut,setTakeOut]=useState([]);
   const [takeOutOrders,setTakeOutOrders]=useState([]);
@@ -59,7 +59,7 @@ function Order({socket}){
            <TakeOut tableId={takeOut.sicktakId} menu={menu} socket={socket}></TakeOut><br></br><br></br>
              <div id="toOrders">
            {takeOutOrders.map(tOO=>(
-             <TakeOutOrders key={tOO.orderId} orderId={tOO.orderId} state={tOO.state} price={tOO.totalPrice} socket={socket}></TakeOutOrders>
+             <TakeOutOrder key={tOO.orderId} orderId={tOO.orderId} state={tOO.state} price={tOO.totalPrice} socket={socket}></TakeOutOrder>
            ))}
              </div>
            </div>
@@ -70,5 +70,3 @@ function Order({socket}){
       </div>
     );
 }
-
-export default Order;

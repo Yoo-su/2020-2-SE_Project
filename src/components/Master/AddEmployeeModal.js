@@ -1,9 +1,8 @@
 import React,{useState} from 'react';
 import {Button, Modal,Form} from 'react-bootstrap';
 import axios from "axios";
-import "./Employeedal.css";
 
-function Employeedal({show,setShow}){
+function AddEmployeeModal({show,setShow}){
   const [newEmail,setEmail]=useState('');
   const [newNickname,setNickname]=useState('');
   const [newPassword,setPassword]=useState('');
@@ -19,7 +18,7 @@ function Employeedal({show,setShow}){
   const handleRole2=(e)=>{setRole2(e.target)}
 
     return(
-    <div id="addEmpDal">
+    <div id="addEmpModal">
         <Modal
              show={show}
              onHide={setShow}
@@ -81,4 +80,4 @@ function Employeedal({show,setShow}){
     );
 }
 
-export default Employeedal;
+export default AddEmployeeModal;

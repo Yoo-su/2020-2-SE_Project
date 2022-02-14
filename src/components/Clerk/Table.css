@@ -1,5 +1,7 @@
-#tableBtn{
-  position:relative;
+.tableBtn{
+    display:flex;
+    flex-direction:column;
+    position:relative;
     margin-top:40px;
     margin-left:35px;
     margin-right: 35px;
@@ -10,13 +12,20 @@
     background-color: #816C5B;
     border-color: #816C5B;
     border-radius:30px;
-    text-align: center;
+    justify-content:center;
+    align-items:center;
     box-shadow: 3px 3px #524539;
 }
-#tableBtn:hover{
+
+.tableBtn:focus, .tableBtn:active{
+  border:transparent;
+  outline:none;
+}
+
+.tableBtn:hover{
   transform:scale(1.1);
-  transition-duration:3s;
-  transition-timing-function:ease-in-out;
+  transition-duration:0.1s;
+  transition-timing-function:linear;
 }
 
 #takeOutBtn{
@@ -24,6 +33,8 @@
   margin-top:20px;
   width:150px;
   height:70px;
+  border:transparent;
+  outline:none;
   border-radius: 20px;
   font-weight: bold;
   background-color: #74D5DD;
@@ -32,7 +43,7 @@
 }
 
 
-#modalContent{
+.modalContent{
     display:flex;
     flex-direction:row;
     position: relative;
@@ -46,7 +57,7 @@
   border-radius:5px;
 }
 
-#modalContent h2{
+.modalContent h2{
   text-align:center;
   border-bottom:1px solid #949494;
 }
@@ -65,12 +76,12 @@
   color:#7E7E7E;
 }
 
-#total{
+.total{
   text-align:center;
   float:bottom;
 }
 
-#total > b{
+.total > b{
   font-size:24px;
 }
 
@@ -105,7 +116,7 @@
   justify-content:center;
 }
 
-#curState1{
+.curState1{
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -117,7 +128,7 @@
   border-radius: 20px;
 }
 
-#curState2{
+.curState2{
   display:flex;
   flex-direction:column;
   width:100%;
@@ -128,7 +139,7 @@
   border-radius: 20px;
 }
 
-#curState3{
+.curState3{
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -144,12 +155,6 @@
     top:70px;
 }
 
-#modal-foot{
-    justify-content: unset;
-    display:unset;
-    position: relative;
-}
-
 #deleteFromAdd{
     margin-left:5px;
     background-color: #99aab5;
@@ -161,7 +166,7 @@
 }
 
 @media all and (min-width:0px) and (max-width:1280px){
-  #tableBtn{
+  .tableBtn{
       position:relative;
       margin-top:20px;
     margin-left:20px;
@@ -171,7 +176,7 @@
       height:6rem;
       border-radius:20px;
       text-align: center;
-      box-shadow: 3px 3px #524539;
+      box-shadow: 2px 2px #524539;
       font-size:12px;
   }
 
@@ -181,26 +186,26 @@
     border-radius: 15px;
     font-size:12px;
   }
-  #curState1,#curState2,#curState3{
+  .curState1,.curState2,.curState3{
     border-radius:30px;
     margin-top:10px;
   }
-  #curState3{
+  .curState3{
     padding-top:4px;
     font-size:12px;
   }
 
-  #modalContent{
+  .modalContent{
     font-size:8px;
   }
 
-  #modalContent h2{
+  .modalContent h2{
     font-size:18px;
   }
   .orderList{
     font-size:10px;
   }
-  #total > b{
+  .total > b{
     font-size:14px;
   }
   .menuBtn{
@@ -214,7 +219,7 @@
     font-size:12px;
     height:0.7rem;
   }
-  #modal-foot button{
+  .modal-footer button{
     font-size:14px;
   }
 }

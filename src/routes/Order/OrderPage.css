@@ -27,8 +27,11 @@
 }
 
 #tables{
+  display:flex;
+  flex-wrap:wrap;
   position:relative;
-  text-align: center;
+  justify-content:center;
+  align-items:center;
   padding-top:20px;
   padding-bottom: 20px;
 }

@@ -38,7 +38,7 @@ function NavBar({ userRole, isLogin, logOut, curUser }) {
   }, []);
 
   return (
-    <div id="NavBar">
+    <div id="Navbar">
       <Navbar className="HomeNav">
         <Navbar.Brand href="#" style={{ paddingBottom: "0px" }}>
           <label id="mainTitle">

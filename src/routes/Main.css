@@ -1,39 +1,72 @@
-#main{
+#mainPage{
   position: relative;
   margin:10px;
   border-radius: 10px;
-  min-height: 690px;
+  min-height: 100%;
 }
 
 #mainContent{
   position:relative;
+  display:flex;
   min-height:690px;
   border-radius: 10px;
   padding-top: 20px;
   padding-bottom: 20px;
   display:flex;
-  justify-content: center;
+  align-items:center;
+  justify-content: flex-start;
   flex-wrap: wrap;
 }
 
 #insideContent{
   display:flex;
+  margin-left:5rem;
+  height:35rem;
   flex-direction:column;
   justify-content:center;
   align-items:center;
   position:relative;
-  min-width: 40%;
-  border-radius: 50%;
+  max-width: 38%;
+  border-radius: 45% 45% 1rem 1rem;
   padding:50px;
   text-align: center;
+  color:white;
   background-color: #ffffff;
-  background-color: rgba( 255, 255, 255, 0.5 );
+  background-color: rgba( 1, 1, 1, 0.3 );
 }
 
-#mainImg{
+#serviceDesc{
+  font-size:40px;
+  margin:0 2.5rem;
+}
+
+#serviceDesc > b{
+  color:#CC9966;
+}
+
+#descImg{
   position:relative;
   max-width:200px;
   max-height:210px;
   object-fit:cover;
 }
 
+
+@media all and (min-width:0px) and (max-width:1280px){
+  #insideContent{
+    margin-top:-2rem;
+    max-width:40%;
+    height:28rem;
+    border-radius:4rem 4rem;
+  }
+  
+  #serviceDesc{
+      font-size:25px;
+      margin:0 1rem;
+  }
+
+  #descImg{
+    max-width:150px;
+    max-height:160px;
+  }
+}

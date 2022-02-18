@@ -58,11 +58,11 @@ io.on("connection",(socket)=>{
   
           axios.all([requestOrders,requestTableInfo]).then(axios.spread((...responses)=>{
             io.sockets.emit('aboutOrder_chef',{what:'newOrder',order:responses[0].data.order}); //요리사측 화면에 반영하기 위함
-            io.sockets.emit('aboutTable',{...responses[1].data,what:'three'});
+            io.sockets.emit('aboutTable',{...responses[1].data,what:'updatedTableInfo'});
            }))
       }else if(data.what==='served'){
             axios.get('https://every-server.herokuapp.com/api/tableInfo',{params:{tableId:data.tableId}}).then(res=>{
-            io.sockets.emit('aboutTable',{...res.data,what:'three'});
+            io.sockets.emit('aboutTable',{...res.data,what:'updatedTableInfo'});
           })
       }else if(data.what==='cancle'){
           axios.get('https://every-server.herokuapp.com/api/forCook').then(res=>{

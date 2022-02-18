@@ -1,0 +1,14 @@
+.Hide{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#263747;
+    color:white;
+    height:100vh;
+    padding:0 1rem;
+}
+
+#lowWidthAlert{
+    display:flex;
+    flex-direction:column;
+}

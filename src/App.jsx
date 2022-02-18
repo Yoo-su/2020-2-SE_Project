@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState,useEffect } from "react";
 import { HashRouter as Router, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import OrderPage from "./pages/Order/OrderPage";
@@ -15,11 +15,17 @@ import { connect } from "react-redux";
 import { logIn, logOut } from "./Store";
 import "bootstrap/dist/css/bootstrap.min.css";
 import io from "socket.io-client";
+import "./App.css";
 const socket = io("https://every-server.herokuapp.com", {
   transports: ["websocket"],
 });
 
 function App({ userRole, isLogin, login, logout }) {
+  const [browserWidth, setBrowserWidth]=useState(window.innerWidth);
+  window.addEventListener('resize',()=>{
+    setBrowserWidth(window.innerWidth);
+  })
+
   /*App 컴포넌트 마운트 할 때마다 로컬스토리지에서 로그인 유저 정보 확인,*/
   useEffect(() => {
     if (localStorage.getItem("role")) {
@@ -27,8 +33,15 @@ function App({ userRole, isLogin, login, logout }) {
     }
   }, []);
   return (
-    <div className="App">
-      <NavBar />
+    <div className={browserWidth<776?"Hide":"App"} >
+      {browserWidth<776?(
+        <div id="lowWidthAlert">
+          <h2>브라우저 크기가 너무 작습니다 :(</h2>
+          <b>본 서비스는 태블릿과 PC화면 크기에 최적화된 서비스입니다. 브라우저 크기를 키워주세요 😀</b>
+        </div>
+      ):(
+        <div>
+          <NavBar />
       <Router>
         <Route exact path="/" component={Main}></Route>
         {isLogin === true ? (
@@ -106,6 +119,8 @@ function App({ userRole, isLogin, login, logout }) {
           <></>
         )}
       </Router>
+        </div>
+      )}
     </div>
   );
 }

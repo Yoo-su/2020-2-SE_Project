@@ -3,7 +3,7 @@
 
 ## 1. 프로젝트 주제
 <div>
-<img src="https://user-images.githubusercontent.com/57261470/149332923-5fb64c8a-147f-417f-bdd5-5b16466537b6.png" height="300">
+<img src="https://user-images.githubusercontent.com/57261470/159628583-a8471d78-f51e-4049-8f7c-728e6085670d.png" height="300">
 <img src="https://user-images.githubusercontent.com/57261470/152349502-be8b3fa6-cf9b-438c-b460-bebfd11cc6ab.png" height="300">                   
 </div>
 

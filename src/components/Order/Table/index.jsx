@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Modal, Alert, Spinner } from "react-bootstrap";
 import { alertStyle,StyledButton } from "../../common";
 import { bringTableInfo, enrollNewOrder, changeStateToServed, addOrder, payProcess, orderCancle } from "../../../lib/api/order";
+import { alertOnOff, changeOrderState, clearTable } from "./util";
 import gorgon from "../../../assets/images/menu/고르곤졸라.jpg";
 import carbo from "../../../assets/images/menu/까르보나라.jpg";
 import riso from "../../../assets/images/menu/리조또.jpg";
@@ -11,14 +12,17 @@ import "./style.css";
 
 //테이블 주문을 위한 테이블 버튼과 주문모달 컴포넌트
 export default function Table({ tableId, empty, menu, socket }){
+  const [tableInfo, setTableInfo]=useState({
+    orderIds:[],
+    empty:empty,
+    orderState:"",
+    orderContents:[],
+    addedContents:[],
+    totalPrice:0,
+    addedPrice:0
+  })
+
   const [show, setShow] = useState(false);
-  const [orderIds, setorderIds] = useState([]);
-  const [tableEmpty, setTableEmpty] = useState(empty);
-  const [orderState, setOrderState] = useState("");
-  const [orderContents, setOrderContents] = useState([]);
-  const [addedContents, setAddedContents] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [addedPrice, setAddedPrice] = useState(0);
   const [menuImgs, setMenuImgs] = useState([gorgon, carbo, riso, coffee, toma]);
   let miidx = 0;
 
@@ -29,16 +33,20 @@ export default function Table({ tableId, empty, menu, socket }){
 
   //테이블 관련 정보 적용함수
   function applyInfo(data) {
-    setTableEmpty(false);
-    setorderIds(data.order);
-    setOrderState(data.state);
-    setOrderContents(data.content);
-    setTotalPrice(data.total);
+    setTableInfo({
+      ...tableInfo,
+      empty:false,
+      orderIds:data.order,
+      orderState:data.state,
+      orderContents:data.content,
+      totalPrice:data.total
+    })
+
   }
 
   useEffect(() => {
     //컴포넌트 마운트 시 빈 테이블이 아닌 경우 테이블 정보 fetch 함수 호출
-    if (tableEmpty === false) {
+    if (tableInfo.empty === false) {
       bringTableInfo(tableId).then((res) => {
         if (res.data.success === true) {
           applyInfo(res.data);
@@ -51,7 +59,7 @@ export default function Table({ tableId, empty, menu, socket }){
     socket.on("aboutTable", (data) => {
       //주문 준비 이벤트를 감지한 경우 주문 상태를 prepared로 변경
       if (data.what === "orderReady" && data.tableId === tableId) {
-        setOrderState("prepared");
+        setTableInfo({...tableInfo, orderState:'prepared'});
       } 
       //현 테이블 관련 갱신된 정보를 감지하면 해당 정보를 적용
       else if (data.what === "updatedTableInfo" && Number(data.tableId) === tableId) {
@@ -59,12 +67,10 @@ export default function Table({ tableId, empty, menu, socket }){
       } 
       //취소 이벤트 감지한 경우 테이블 리셋
       else if (data.what === "cancle" && data.tableId === tableId) {
-        console.log("취소이벤트 감지");
         resetTable();
       } 
       //결제 이벤트 감지한 경우 테이블 리셋
       else if (data.what === "pay" && data.tableId === tableId) {
-        console.log("결제이벤트 감지");
         resetTable();
       }
     });
@@ -74,58 +80,25 @@ export default function Table({ tableId, empty, menu, socket }){
     };
   }, []);
 
-  //주문관련 Alert 제거 함수
-  const removeAlert=(type)=>{
-    //주문, 결제, 추가주문 완료 Alert 제거
-    if (type==="orderAlert"){
-      setTimeout(() => {
-        setOrderAlert(false);
-      }, 1500);
-    }
-    else if (type=="payAlert"){
-      setTimeout(() => {
-        setPayAlert(false);
-      }, 1500);
-    }
-    else if (type==="addAlert"){
-      setTimeout(() => {
-        setAddAlert(false);
-      }, 1500);
-    }
-  }
-
-  //주문 상태 변경 함수
-  const changeOrderState = () => {
-    if (orderState === "") {
-      setOrderState("cooking");
-    } else if (orderState === "prepared") {
-      setOrderState("prepared");
-    } else if (orderState === "served") {
-      setOrderState("cooking");
-    }
-  };
-
   //주문 후 처리 함수
   const afterOrder = () => {
-    setTableEmpty(false);
-    setOrderContents(addedContents);
-    setAddedContents([]);
-    setTotalPrice(totalPrice + addedPrice);
-    setAddedPrice(0);
-    changeOrderState();
-    setOrderAlert(true);
-    removeAlert("orderAlert")
+    setTableInfo({
+      ...tableInfo,
+      empty:false,
+      orderContents:tableInfo.addedContents,
+      addedContents:[],
+      totalPrice:tableInfo.totalPrice+tableInfo.addedPrice,
+      addedPrice:0
+    })
+    changeOrderState(tableInfo, setTableInfo);
+    alertOnOff(setOrderAlert);
   };
 
   //결제 후 처리 함수
   const afterPay = () => {
     setTimeout(() => {
-      setOrderContents([]);
-      setAddedContents([]);
-      setTableEmpty(true);
-      setTotalPrice(0);
-      setOrderState("");
-      setShow(false);
+      clearTable(tableInfo,setTableInfo);
+      handleShow()
     }, 1500);
   };
 
@@ -135,12 +108,7 @@ export default function Table({ tableId, empty, menu, socket }){
 
   //테이블 초기화 함수
   function resetTable() {
-    setOrderContents([]);
-    setAddedContents([]);
-    setTableEmpty(true);
-    setTotalPrice(0);
-    setAddedPrice(0);
-    setOrderState("");
+    clearTable(tableInfo, setTableInfo);
     setCancleAlert(false);
   }
   return (
@@ -149,7 +117,7 @@ export default function Table({ tableId, empty, menu, socket }){
       <button className="tableBtn" onClick={handleShow}>
         테이블{tableId}
         <br></br>
-        {orderState === "cooking" ? (
+        {tableInfo.orderState === "cooking" ? (
           <div className="curState1">
             <label>준비중..</label>
             <Spinner
@@ -164,7 +132,7 @@ export default function Table({ tableId, empty, menu, socket }){
           <></>
         )}
         {/* 테이블 주문 버튼 내부 상태표시 */}
-        {orderState === "prepared" ? (
+        {tableInfo.orderState === "prepared" ? (
           <>
             <div className="curState2">
               <label>준비완료</label>
@@ -174,7 +142,7 @@ export default function Table({ tableId, empty, menu, socket }){
         ) : (
           <></>
         )}
-        {orderState === "served" ? (
+        {tableInfo.orderState === "served" ? (
           <>
             <div className="curState3">
               <label>결제대기중</label>
@@ -193,8 +161,7 @@ export default function Table({ tableId, empty, menu, socket }){
         onHide={() => {
           setShow(false);
           setCancleAlert(false);
-          setAddedContents([]);
-          setAddedPrice(0);
+          setTableInfo({...tableInfo, addedContents:[], addedPrice:0});
         }}
       >
         <Modal.Header closeButton>
@@ -208,9 +175,9 @@ export default function Table({ tableId, empty, menu, socket }){
             {/* 모달 좌측 주문리스트 파트 */}
             <div className="selectedFoods">
               <h2>주문 리스트</h2>
-              {tableEmpty === true ? (
+              {tableInfo.empty === true ? (
                 <div className="orderList">
-                  {addedContents.map((food) => (
+                  {tableInfo.addedContents.map((food) => (
                     <div className="anOrderItem" key={Math.random()}>
                       <b style={{ flexBasis: "130px" }}>{food.menuName}</b>
                       <b style={{ flexGrow: "1" }}>수량: {food.count}</b>
@@ -224,10 +191,11 @@ export default function Table({ tableId, empty, menu, socket }){
                           cursor: "pointer",
                         }}
                         onClick={() => {
-                          setAddedContents(
-                            addedContents.filter((cur) => cur.key !== food.key)
-                          );
-                          setAddedPrice(addedPrice - food.price);
+                          setTableInfo({
+                            ...tableInfo,
+                            addedContents:tableInfo.addedContents.filter((cur) => cur.key !== food.key),
+                            addedPrice:tableInfo.addedPrice-food.price
+                          });
                         }}
                       >
                         x
@@ -237,7 +205,7 @@ export default function Table({ tableId, empty, menu, socket }){
                 </div>
               ) : (
                 <div>
-                  {orderContents.map((food) => (
+                  {tableInfo.orderContents.map((food) => (
                     <div
                       key={Math.random()}
                       style={{
@@ -260,7 +228,7 @@ export default function Table({ tableId, empty, menu, socket }){
                       </b>
                     </div>
                   ))}
-                  {addedContents.map((food) => (
+                  {tableInfo.addedContents.map((food) => (
                     <div
                       className="anOrderItem"
                       key={Math.random()}
@@ -284,10 +252,10 @@ export default function Table({ tableId, empty, menu, socket }){
                           cursor: "pointer",
                         }}
                         onClick={() => {
-                          setAddedContents(
-                            addedContents.filter((cur) => cur.key !== food.key)
-                          );
-                          setAddedPrice(addedPrice - food.price);
+                          setTableInfo({
+                            addedContents:tableInfo.addedContents.filter((cur) => cur.key !== food.key),
+                            addedPrice:tableInfo.addedPrice-food.price
+                          });
                         }}
                       >
                         x
@@ -299,7 +267,7 @@ export default function Table({ tableId, empty, menu, socket }){
               <div className="total">
                 <b>
                   합계:{" "}
-                  {tableEmpty === true ? addedPrice : totalPrice + addedPrice}원
+                  {tableInfo.empty === true ? tableInfo.addedPrice : tableInfo.totalPrice + tableInfo.addedPrice}원
                 </b>
                 <br></br>
               </div>
@@ -315,26 +283,27 @@ export default function Table({ tableId, empty, menu, socket }){
                     className="menuBtn"
                     key={Math.random()}
                     onClick={() => {
-                      const menuIdx = addedContents.findIndex(
+                      const menuIdx = tableInfo.addedContents.findIndex(
                         (item) => item.menuName === food.menuName
                       );
-                      const tmpAddedContent = addedContents;
+                      const tmpAddedContent = tableInfo.addedContents;
                       //이미 등록된 메뉴면 수량, 가격만 증가시킨다.
                       if (menuIdx > -1) {
                         tmpAddedContent[menuIdx].count += 1;
                         tmpAddedContent[menuIdx].price += food.price;
-                        setAddedContents(tmpAddedContent);
+                        setTableInfo({...tableInfo, addedContents:tmpAddedContent, addedPrice:tableInfo.addedPrice+food.price});
                       } else {
-                        setAddedContents(
-                          addedContents.concat({
+                        setTableInfo({
+                          ...tableInfo,
+                          addedContents:tableInfo.addedContents.concat({
                             key: Math.random(),
                             menuName: food.menuName,
                             count: 1,
                             price: food.price,
-                          })
-                        );
+                          }),
+                          addedPrice:tableInfo.addedPrice+food.price
+                        })
                       }
-                      setAddedPrice(addedPrice + food.price);
                     }}
                   >
                     <img
@@ -363,7 +332,7 @@ export default function Table({ tableId, empty, menu, socket }){
           {/* 모달 하단 버튼파트 */}
           <div style={{ width: "100%" }}>
             <div style={{ float: "right" }}>
-              {tableEmpty === false ? (
+              {tableInfo.empty === false ? (
                 <StyledButton
                   bgColor="gray"
                   color="white"
@@ -377,21 +346,21 @@ export default function Table({ tableId, empty, menu, socket }){
                 <></>
               )}
 
-              {tableEmpty === true ? (
+              {tableInfo.empty === true ? (
                 <StyledButton
                   bgColor="#00b0ff"
                   color="white"
                   onClick={() => {
-                    if (addedContents.length === 0) {
+                    if (tableInfo.addedContents.length === 0) {
                       alert("선택된 음식이 없습니다");
                     } 
                     else {
                       const orderData = {
                         tableId: tableId,
-                        content: addedContents,
-                        total: addedPrice,
-                        oldContent: orderContents,
-                        oldTotal: totalPrice,
+                        content: tableInfo.addedContents,
+                        total: tableInfo.addedPrice,
+                        oldContent: tableInfo.orderContents,
+                        oldTotal: tableInfo.totalPrice,
                       };
                       enrollNewOrder(orderData)
                       .then((res) => {
@@ -415,7 +384,7 @@ export default function Table({ tableId, empty, menu, socket }){
                 <></>
               )}
 
-              {!tableEmpty && orderState === "prepared" ? (
+              {!tableInfo.empty && tableInfo.orderState === "prepared" ? (
                 <StyledButton
                   bgColor="#FFDB58"
                   onClick={() => {
@@ -435,12 +404,12 @@ export default function Table({ tableId, empty, menu, socket }){
                 <></>
               )}
 
-              {tableEmpty === false && addedContents.length !== 0 ? (
+              {tableInfo.empty === false && tableInfo.addedContents.length !== 0 ? (
                 <StyledButton
                   bgColor="#99C68E"
                   color="white"
                   onClick={() => {
-                    addOrder(tableId, addedContents, addedPrice).then((res) => {
+                    addOrder(tableId, tableInfo.addedContents, tableInfo.addedPrice).then((res) => {
                       if (res.data.success === true) {
                         console.log("추가완료");
                         socket.emit("orderEvent", {
@@ -449,13 +418,16 @@ export default function Table({ tableId, empty, menu, socket }){
                         });
                       }
                     })
-                    setOrderContents(orderContents.concat(addedContents));
-                    setTotalPrice(totalPrice + addedPrice);
-                    setAddedContents([]);
-                    setAddedPrice(0);
-                    changeOrderState();
-                    setAddAlert(true);
-                    removeAlert("addAlert");
+
+                    setTableInfo({
+                      ...tableInfo,
+                      orderContents:tableInfo.orderContents.concat(tableInfo.addedContents),
+                      totalPrice:tableInfo.totalPrice+tableInfo.addedPrice,
+                      addedContents:[],
+                      addedPrice:0,
+                    })
+                    changeOrderState(tableInfo.orderState, setTableInfo);
+                    alertOnOff(setAddAlert);
                   }}
                 >
                   추가
@@ -464,13 +436,14 @@ export default function Table({ tableId, empty, menu, socket }){
                 <></>
               )}
 
-              {orderState === "served" ? (
+              {tableInfo.orderState === "served" ? (
                 <StyledButton
                   bgColor="#B90E0A"
                   color="white"
                   onClick={() => {
                     afterPay();
-                    payProcess(tableId, orderContents, totalPrice,orderIds).then((res) => {
+                    const {orderContents, totalPrice, orderIds}=tableInfo;
+                    payProcess(tableId, orderContents, totalPrice, orderIds).then((res) => {
                       if (res.data.success === true) {
                         socket.emit("orderEvent", {
                           what: "pay",
@@ -479,8 +452,7 @@ export default function Table({ tableId, empty, menu, socket }){
                         console.log("결제처리 완료");
                       }
                     });
-                    setPayAlert(true);
-                    removeAlert("payAlert");
+                    alertOnOff(setPayAlert);
                   }}
                 >
                   결제

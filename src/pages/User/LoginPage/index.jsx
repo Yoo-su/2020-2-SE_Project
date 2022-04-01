@@ -47,7 +47,7 @@ export default function LoginPage() {
             }}
             onClick={() => {
               axios
-                .post("https://every-server.herokuapp.com/api/login", {
+                .post("https://every-server.herokuapp.com/api/user/login", {
                   email: inputEmail,
                   password: inputPassWord,
                 })

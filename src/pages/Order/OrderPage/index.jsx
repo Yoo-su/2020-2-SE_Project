@@ -78,12 +78,12 @@ export default function OrderPage({ socket }) {
               <br></br>
               <br></br>
               <div id="toOrders">
-                {takeOutOrders.map((tOO) => (
+                {takeOutOrders.map((order) => (
                   <OrderCard_Clerk
-                    key={tOO.orderId}
-                    orderId={tOO.orderId}
-                    state={tOO.state}
-                    price={tOO.totalPrice}
+                    key={order.orderId}
+                    orderId={order.orderId}
+                    state={order.state}
+                    price={order.totalPrice}
                     socket={socket}
                   ></OrderCard_Clerk>
                 ))}

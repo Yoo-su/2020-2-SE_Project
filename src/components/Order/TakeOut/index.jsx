@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import { Modal, Alert } from "react-bootstrap";
 import { enrollNewOrder, } from "../../../lib/api/order";
 import { alertStyle,StyledButton } from "../../common";
@@ -10,7 +10,7 @@ import toma from "../../../assets/images/menu/토마토파스타.jpg";
 import "../Table/style.css";
 
 //테이크아웃 주문을 위한 버튼, 주문모달 컴포넌트
-export default function TakeOutOrder({ tableId, menu, socket }){
+function TakeOut({ tableId, menu, socket }){
   const [show, setShow] = useState(false);
   const [tableEmpty, setTableEmpty] = useState(true);
   const [orderContents, setOrderContents] = useState([]);
@@ -387,3 +387,5 @@ export default function TakeOutOrder({ tableId, menu, socket }){
     </span>
   );
 };
+
+export default memo(TakeOut);

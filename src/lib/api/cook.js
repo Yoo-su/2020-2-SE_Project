@@ -1,4 +1,4 @@
-import axios from "axios";
+import apiClient from "./client";
 
 export const bringAllOrders=()=>
-    axios.get("https://every-server.herokuapp.com/api/cook/allOrders");
+    apiClient.get("/cook/allOrders");

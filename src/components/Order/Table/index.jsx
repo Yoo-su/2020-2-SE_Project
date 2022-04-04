@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, memo } from "react";
 import { Modal, Alert, Spinner } from "react-bootstrap";
 import { alertStyle,StyledButton } from "../../common";
 import { bringTableInfo, enrollNewOrder, changeStateToServed, addOrder, payProcess, orderCancle } from "../../../lib/api/order";
@@ -11,7 +11,7 @@ import toma from "../../../assets/images/menu/토마토파스타.jpg";
 import "./style.css";
 
 //테이블 주문을 위한 테이블 버튼과 주문모달 컴포넌트
-export default function Table({ tableId, empty, menu, socket }){
+function Table({ tableId, empty, menu, socket }){
   const [tableInfo, setTableInfo]=useState({
     orderIds:[],
     empty:empty,
@@ -532,3 +532,4 @@ export default function Table({ tableId, empty, menu, socket }){
   );
 };
 
+export default memo(Table);

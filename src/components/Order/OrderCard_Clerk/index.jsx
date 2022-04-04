@@ -2,20 +2,18 @@ import React, { useState, useEffect } from "react";
 import { Card, Spinner } from "react-bootstrap";
 import TakeOutDetailModal from "../TakeOutDetailModal";
 import { bringTakeoutOrderContent } from "../../../lib/api/order";
+import { useApi } from "../../../hooks";
 import "./style.css";
 
 //테이크아웃 주문 카드 컴포넌트
 export default function OrderCard_Clerk({ orderId, state, price, socket }) {
   const [showDetail, setShowDetail] = useState(false);
-  const [content, setContent] = useState([]);
+  const getContentApi=useApi(bringTakeoutOrderContent);
   const [orderState, setOrderState] = useState(state);
 
   useEffect(() => {
     //컴포넌트 마운트 시 주문id를 통해 해당 주문내용 불러오기
-    bringTakeoutOrderContent(orderId)
-    .then((res) => {
-      setContent(res.data.content);
-    });
+    getContentApi.request(orderId);
 
     //테이크아웃 주문이 준비되는지 소켓이벤트 주시
     socket.on("takeOutPrepared", (data) => {
@@ -47,7 +45,7 @@ export default function OrderCard_Clerk({ orderId, state, price, socket }) {
         </Card.Header>
         <Card.Body>
           <Card.Text>
-            {content.length > 3 ? (
+            {getContentApi.data?.length > 3 ? (
               <span
                 className="cardInfo"
                 style={{ display: "flex", flexDirection: "column" }}
@@ -62,7 +60,7 @@ export default function OrderCard_Clerk({ orderId, state, price, socket }) {
               </span>
             ) : (
               <span>
-                {content.map((food) => (
+                {getContentApi.data?.map((food) => (
                   <span
                     className="cardInfo"
                     key={Math.random()}

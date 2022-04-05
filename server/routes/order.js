@@ -1,10 +1,10 @@
-import { Router, json } from "express";
-import con from "./database";
-import { GenerateSerialNumber } from '../util/generateSerialNum';
+const express=require('express');
+const con=require("./database");
+const GenerateSerialNumber =require('../util/generateSerialNum');
 
 //주문 관련 라우터
-const router = Router();
-router.use(json());
+const router = express.Router();
+router.use(express.json());
 
 //테이블 정보 조회
 router.get("/tableInfo", async (req, res) => {

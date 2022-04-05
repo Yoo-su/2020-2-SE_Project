@@ -1,9 +1,9 @@
-import { Router, json } from "express";
-import con from "./database";
+const express=require('express');
+const con=require("./database");
 
 //매장정보(판매, 회계) 관련 라우터
-const router = Router();
-router.use(json());
+const router = express.Router();
+router.use(express.json());
 
 //판매정보 조회
 router.get('/sales',async(req,res)=>{

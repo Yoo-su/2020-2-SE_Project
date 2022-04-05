@@ -1,9 +1,9 @@
-import { Router, json } from "express";
-import con from "./database";
+const express=require('express');
+const con=require("./database");
 
 //사용자 관련 라우터
-const router = Router();
-router.use(json());
+const router = express.Router();
+router.use(express.json());
 
 //새 직원 생성
 router.post('/newEmp',async(req,res)=>{

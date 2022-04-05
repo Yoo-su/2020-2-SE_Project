@@ -1,14 +1,14 @@
-import { Router, json } from "express";
-import con from "./database";
+const express=require('express');
+const con=require("./database");
 const multer = require("multer");
 const upload = multer({ dest: "public/foodImgs/" });
 
 //메뉴 관련 라우터
-const router = Router();
-router.use(json());
+const router = express.Router();
+router.use(express.json());
 
 //메뉴 추가
-router.post("/", upload.single("menuImg"), async (req, res) => {
+router.post("/addMenu", upload.single("menuImg"), async (req, res) => {
   try {
     const menuName = req.body.menuName;
     const menuPrice = req.body.menuPrice;

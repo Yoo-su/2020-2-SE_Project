@@ -2,18 +2,20 @@ import React, { useState, useEffect } from "react";
 import { Card, Spinner } from "react-bootstrap";
 import TakeOutDetailModal from "../TakeOutDetailModal";
 import { bringTakeoutOrderContent } from "../../../lib/api/order";
-import { useApi } from "../../../hooks";
 import "./style.css";
 
 //테이크아웃 주문 카드 컴포넌트
 export default function OrderCard_Clerk({ orderId, state, price, socket }) {
   const [showDetail, setShowDetail] = useState(false);
-  const getContentApi=useApi(bringTakeoutOrderContent);
+  const [content, setContent] = useState([]);
   const [orderState, setOrderState] = useState(state);
 
   useEffect(() => {
     //컴포넌트 마운트 시 주문id를 통해 해당 주문내용 불러오기
-    getContentApi.request(orderId);
+    bringTakeoutOrderContent(orderId)
+    .then((res) => {
+      setContent(res.data.content);
+    });
 
     //테이크아웃 주문이 준비되는지 소켓이벤트 주시
     socket.on("takeOutPrepared", (data) => {

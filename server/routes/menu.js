@@ -25,7 +25,7 @@ router.post("/", upload.single("menuImg"), async (req, res) => {
 });
 
 //메뉴 활성화
-router.get("/menuActivate", async (req, res) => {
+router.put("/menuActivate", async (req, res) => {
   try {
     const menuName = req.query.menuName;
     const activate = req.query.activate;

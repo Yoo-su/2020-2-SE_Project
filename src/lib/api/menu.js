@@ -4,7 +4,7 @@ export const newMenu=(formData)=>
     apiClient.post("/menu/addMenu",formData)
 
 export const setMenuActivation=(menuName,type)=>
-    apiClient.get("/menu/menuActivate",
+    apiClient.put("/menu/menuActivate",
         { params: { menuName: menuName, activate: type } }
     )
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Card, Spinner } from "react-bootstrap";
 import TakeOutDetailModal from "../TakeOutDetailModal";
 import { bringTakeoutOrderContent } from "../../../lib/api/order";
@@ -6,7 +6,7 @@ import "./style.css";
 
 //테이크아웃 주문 카드 컴포넌트
 export default function OrderCard_Clerk({ orderId, state, price, socket }) {
-  const [showDetail, setShowDetail] = useState(false);
+  const [modalOn, setModalOn] = useState(false);
   const [content, setContent] = useState([]);
   const [orderState, setOrderState] = useState(state);
 
@@ -30,10 +30,7 @@ export default function OrderCard_Clerk({ orderId, state, price, socket }) {
     };
   }, []);
 
-  //테이크아웃 주문 상세정보 모달 온오프 함수
-  function detailOnOff() {
-    setShowDetail(!showDetail);
-  }
+  const toggleModal=useCallback(()=>{ setModalOn(!modalOn); }, [modalOn])
 
   return (
     <div id="takeOuts">
@@ -98,8 +95,8 @@ export default function OrderCard_Clerk({ orderId, state, price, socket }) {
           )}
         </Card.Footer>
         <TakeOutDetailModal
-          show={showDetail}
-          setShow={detailOnOff}
+          show={modalOn}
+          setShow={toggleModal}
           orderId={orderId}
           foods={content}
           state={orderState}

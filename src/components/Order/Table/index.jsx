@@ -1,7 +1,7 @@
 import React, { useState, useEffect, memo } from "react";
 import { Modal, Alert, Spinner } from "react-bootstrap";
 import { alertStyle,StyledButton } from "../../common";
-import { bringTableInfo, enrollNewOrder, changeStateToServed, addOrder, payProcess, orderCancle } from "../../../lib/api/order";
+import { bringTableInfo, enrollNewOrder, changeStateToServed, addOrder, payProcess, orderCancel } from "../../../lib/api/order";
 import { alertOnOff, changeOrderState, clearTable } from "./util";
 import gorgon from "../../../assets/images/menu/고르곤졸라.jpg";
 import carbo from "../../../assets/images/menu/까르보나라.jpg";
@@ -471,7 +471,7 @@ function Table({ tableId, empty, menu, socket }){
                 <b>주문을 삭제하시겠습니까?</b>
                 <p
                   onClick={() => {
-                    orderCancle(tableId).then((res) => {
+                    orderCancel(tableId).then((res) => {
                       if (res.data.success === true) {
                         console.log("주문취소 완료, 취소 이벤트 전송");
                         socket.emit("orderEvent", {

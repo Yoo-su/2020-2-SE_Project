@@ -8,12 +8,14 @@ import "./style.css";
 //테이크아웃 주문 카드 컴포넌트
 export default function OrderCard_Clerk({ orderId, state, price, socket }) {
   const [showDetail, setShowDetail] = useState(false);
-  const getContentApi=useApi(bringTakeoutOrderContent);
+  const [content, setContent] = useState([]);
   const [orderState, setOrderState] = useState(state);
 
   useEffect(() => {
     //컴포넌트 마운트 시 주문id를 통해 해당 주문내용 불러오기
-    getContentApi.request(orderId);
+    bringTakeoutOrderContent(orderId).then(res=>{
+      setContent(res.data);
+    })
 
     //테이크아웃 주문이 준비되는지 소켓이벤트 주시
     socket.on("takeOutPrepared", (data) => {
@@ -45,7 +47,7 @@ export default function OrderCard_Clerk({ orderId, state, price, socket }) {
         </Card.Header>
         <Card.Body>
           <Card.Text>
-            {getContentApi.data?.length > 3 ? (
+            {content?.length > 3 ? (
               <span
                 className="cardInfo"
                 style={{ display: "flex", flexDirection: "column" }}
@@ -60,7 +62,7 @@ export default function OrderCard_Clerk({ orderId, state, price, socket }) {
               </span>
             ) : (
               <span>
-                {getContentApi.data?.map((food) => (
+                {content?.map((food) => (
                   <span
                     className="cardInfo"
                     key={Math.random()}

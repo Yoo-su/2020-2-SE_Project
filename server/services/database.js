@@ -1,6 +1,6 @@
 const mysql=require("mysql2");
 
-let connection=mysql.createPool({
+let pool=mysql.createPool({
     host:'us-cdbr-east-05.cleardb.net',
     user:'bdd05902eeb524',
     password:'3ff2dddb',
@@ -9,6 +9,6 @@ let connection=mysql.createPool({
     queueLimit:0,
     database:'heroku_170d66ea0fe118c'
 });
-const promiseConnection=connection.promise();
+const promiseConnection=pool.promise();
 
 module.exports=promiseConnection;

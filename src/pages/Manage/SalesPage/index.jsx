@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
+import Pagination from "../../../components/common/Pagination";
 import { fetchSalesInfo } from "../../../lib/api/sales";
 import "./style.css";
 
@@ -11,6 +12,11 @@ export default function SalesPage() {
   const [todayTableSales, setTTS] = useState(0);
   const [todayTakeOutSales, setTTOS] = useState(0);
   let number = 1;
+
+  //paging을 위한 변수
+  const [limit, setLimit]=useState(10);
+  const [page, setPage]=useState(1);
+  const offset = (page -1) * limit;
 
   useEffect(() => {
     //컴포넌트 마운트 시 매장 판매기록 불러오기
@@ -62,7 +68,7 @@ export default function SalesPage() {
             </tr>
           </thead>
           <tbody>
-            {salesHistory.map((sale) => (
+            {salesHistory.slice(offset,offset+limit).map((sale) => (
               <tr key={sale.serialKey}>
                 <td>{number++}</td>
                 <td>
@@ -81,6 +87,12 @@ export default function SalesPage() {
             ))}
           </tbody>
         </Table>
+        <Pagination 
+          total={salesHistory.length}
+          limit={limit}
+          page={page}
+          setPage={setPage}  
+        />
       </div>
     </div>
   );

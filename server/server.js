@@ -15,9 +15,8 @@ app.use(cors({
 app.use('/api',api);
 
 io.on("connection",(socket)=>{
-    //특정 주문이 준비되면 모든 점원측 Table , Order에 반영되어야 하고 , 요리사 측 화면에도 반영되어야 한다.
+    // 주문 완료 이벤트 주시
     socket.on("cookEvent",(data)=>{
-      //주문이 준비되면 ..
 
       //다른 모든 셰프측 UI에 반영하도록 emit
       axios.get('https://every-server.herokuapp.com/api/forCook').then(res=>{
@@ -32,26 +31,27 @@ io.on("connection",(socket)=>{
       }
     });
     
+    //테이크아웃 주문 완료 이벤트 주시
     socket.on('takeOutEnd',(data)=>{
         axios.get('https://every-server.herokuapp.com/api/takeOutOrders').then(res=>{
           io.sockets.emit('aboutTakeOut',{takeoutOrders:res.data.takeOutOrders,what:'removeCard'});
         })
     });
     
-    //주문관련 소켓 
+    //주문 이벤트 주시 
     socket.on('orderEvent',(data)=>{
 
-      //다른 점원들 화면, 요리사 화면에 새로운 테이크아웃 주문 반영하기 위함
+      //모든 점원, 요리사 UI에 새로운 테이크아웃 주문 반영
       if(data.what==='takeOutOrder'){
          const requestOrders=axios.get('https://every-server.herokuapp.com/api/forCook');
          const requestTOO= axios.get('https://every-server.herokuapp.com/api/takeOutOrders');
 
          axios.all([requestOrders,requestTOO]).then(axios.spread((...responses)=>{
-          io.sockets.emit('aboutOrder_chef',{what:'newOrder',order:responses[0].data.order}); //요리사측 화면에 반영하기 위함
+          io.sockets.emit('aboutOrder_chef',{what:'newOrder',order:responses[0].data.order}); 
           io.sockets.emit('aboutTakeOut',{...responses[1].data,what:'updateOrderForClerk'});
          }))
 
-      //다른 점원들과 요리사 측 화면에 테이블 관련 활동 반영 위함
+      //모든 점원, 요리사 UI에 테이블 주문 관련 변경사항 반영
       }else if(data.what==='order'||data.what==='add'){
           const requestTableInfo= axios.get('https://every-server.herokuapp.com/api/tableInfo',{params:{tableId:data.tableId}});
           const requestOrders=axios.get('https://every-server.herokuapp.com/api/forCook');

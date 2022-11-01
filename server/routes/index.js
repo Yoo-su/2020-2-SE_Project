@@ -2,7 +2,7 @@ const express=require('express');
 const order=require('./order');
 const cook=require('./cook');
 const menu=require('./menu');
-const user=require(',/user');
+const user=require('./user');
 const store=require('./store');
 
 const router=express.Router();

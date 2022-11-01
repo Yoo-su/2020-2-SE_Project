@@ -1,9 +1,9 @@
-import React from "react";
+import React, {memo} from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 import { terminateTakeoutOrder } from "../../../lib/api/order";
 
 //테이크아웃 주문 상세정보 모달 컴포넌트
-export default function TakeOutDetailModal({
+function TakeOutDetailModal({
   show,
   setShow,
   orderId,
@@ -14,7 +14,7 @@ export default function TakeOutDetailModal({
 }) {
   return (
     <div>
-      <Modal show={show} onHide={setShow} size="sm">
+      <Modal show={show} onHide={()=>{setShow()}} size="sm">
         <Modal.Header>
           <b style={{ fontSize: "30px" }}>주문번호: {orderId}</b>
         </Modal.Header>
@@ -65,3 +65,5 @@ export default function TakeOutDetailModal({
     </div>
   );
 }
+
+export default memo(TakeOutDetailModal);

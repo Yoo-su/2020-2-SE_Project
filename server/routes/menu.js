@@ -1,4 +1,5 @@
 import { Router, json } from "express";
+import con from "./database";
 const multer = require("multer");
 const upload = multer({ dest: "public/foodImgs/" });
 import {
@@ -9,8 +10,7 @@ import {
   updateMenuStock,
 } from "../services/menu";
 
-/* 메뉴 관련 라우터 */
-
+//메뉴 관련 라우터
 const router = Router();
 router.use(json());
 

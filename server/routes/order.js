@@ -14,8 +14,8 @@ import {
 } from "../services/order";
 
 //주문 관련 라우터
-const router = Router();
-router.use(json());
+const router = express.Router();
+router.use(express.json());
 
 //테이블 정보 조회
 router.get("/tableInfo", getTableInfo);

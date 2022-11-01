@@ -12,8 +12,8 @@ import {
 } from "../services/user";
 
 //사용자 관련 라우터
-const router = Router();
-router.use(json());
+const router = express.Router();
+router.use(express.json());
 
 //새 직원 생성
 router.post("/newEmp", createNewEmp);

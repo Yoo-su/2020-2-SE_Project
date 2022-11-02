@@ -1,20 +1,21 @@
-const express=require('express');
-const order=require('./order');
-const cook=require('./cook');
-const menu=require('./menu');
-const user=require('./user');
-const store=require('./store');
+import { Router, json } from "express";
+import order from "./order";
+import cook from "./cook";
+import menu from "./menu";
+import user from "./user";
+import store from "./store";
 
-const router=express.Router();
+const router = Router();
+router.use(json());
 
-router.use('/order', order);
+router.use("/order", order);
 
-router.use('/cook', cook);
+router.use("/cook", cook);
 
-router.use('/menu', menu);
+router.use("/menu", menu);
 
-router.use('/user', user);
+router.use("/user", user);
 
-router.use('/store', store);
+router.use("/store", store);
 
-module.exports=router;
+export default router;

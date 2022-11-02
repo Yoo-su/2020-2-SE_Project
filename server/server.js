@@ -1,7 +1,7 @@
 const express = require("express");
 const axios = require("axios");
 const app = express();
-const api = require("./routes/index");
+const api = require("./routes/index").default;
 const cors = require("cors");
 const server = require("http").Server(app);
 const io = require("socket.io")(server, {

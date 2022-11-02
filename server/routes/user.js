@@ -1,4 +1,4 @@
-import { Router, json } from "express";
+import { Router } from "express";
 import {
   updateLogoutUserInfo,
   insertLoginUserInfo,
@@ -12,8 +12,7 @@ import {
 } from "../services/user";
 
 //사용자 관련 라우터
-const router = express.Router();
-router.use(express.json());
+const router = Router();
 
 //새 직원 생성
 router.post("/newEmp", createNewEmp);

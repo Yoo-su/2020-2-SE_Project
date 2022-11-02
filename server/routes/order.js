@@ -1,4 +1,4 @@
-import { Router, json } from "express";
+import { Router } from "express";
 import {
   getTableInfo,
   getAllTable,
@@ -14,8 +14,7 @@ import {
 } from "../services/order";
 
 //주문 관련 라우터
-const router = express.Router();
-router.use(express.json());
+const router = Router();
 
 //테이블 정보 조회
 router.get("/tableInfo", getTableInfo);

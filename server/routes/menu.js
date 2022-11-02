@@ -1,6 +1,5 @@
-import { Router, json } from "express";
-import con from "./database";
-const multer = require("multer");
+import { Router } from "express";
+import multer from "multer";
 const upload = multer({ dest: "public/foodImgs/" });
 import {
   createMenu,
@@ -12,7 +11,6 @@ import {
 
 //메뉴 관련 라우터
 const router = Router();
-router.use(json());
 
 //메뉴 추가
 router.post("/", upload.single("menuImg"), createMenu);

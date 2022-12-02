@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Table } from "react-bootstrap";
-import { allEmployees } from "../../../lib/api/user";
-import AddEmployeeModal from "../../../components/Manage/AddEmployeeModal";
+import AddEmployeeModal from "components/Manage/AddEmployeeModal";
+import useGetAllEmployees from "hooks/api/useGetAllEmployees";
 import "./style.css";
 
 //직원관리 페이지 컴포넌트
 export default function EmpManagePage() {
-  const [employees, setEmployees] = useState([]);
+  const { loading, error, data, execute } = useGetAllEmployees();
   const [showAddEmp, setShowAddEmp] = useState(false);
-  let number = 1;
 
   //직원추가 modal 온오프 함수
   const addEmpModalOff = () => {
@@ -18,14 +17,7 @@ export default function EmpManagePage() {
 
   useEffect(() => {
     //컴포넌트 마운트 시 모든 직원정보 불러오기
-    allEmployees()
-      .then((res) => {
-        if (res.data.success === true) {
-          setEmployees(res.data.users);
-        } else {
-          console.log("failed");
-        }
-      });
+    execute();
   }, []);
   return (
     <div id="WorkerList">
@@ -57,9 +49,9 @@ export default function EmpManagePage() {
               </tr>
             </thead>
             <tbody>
-              {employees.map((emp) => (
-                <tr key={emp.userEmail}>
-                  <td>{number++}</td>
+              {data.map((emp, idx) => (
+                <tr key={idx}>
+                  <td>{idx + 1}</td>
                   <td>{emp.nickName}</td>
                   <th>{emp.userEmail}</th>
                   <td>{emp.role === 1 ? "점원" : "요리사"}</td>

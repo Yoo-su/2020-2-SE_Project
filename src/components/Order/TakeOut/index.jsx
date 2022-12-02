@@ -1,16 +1,16 @@
 import React, { useState, memo } from "react";
 import { Modal, Alert } from "react-bootstrap";
-import { enrollNewOrder, } from "../../../lib/api/order";
-import { alertStyle,StyledButton } from "../../common";
-import gorgon from "../../../assets/images/menu/고르곤졸라.jpg";
-import carbo from "../../../assets/images/menu/까르보나라.jpg";
-import riso from "../../../assets/images/menu/리조또.jpg";
-import coffee from "../../../assets/images/menu/커피.jpg";
-import toma from "../../../assets/images/menu/토마토파스타.jpg";
+import { createNewOrder, } from "lib/api/order";
+import { alertStyle, StyledButton } from "components/common";
+import gorgon from "assets/images/menu/고르곤졸라.jpg";
+import carbo from "assets/images/menu/까르보나라.jpg";
+import riso from "assets/images/menu/리조또.jpg";
+import coffee from "assets/images/menu/커피.jpg";
+import toma from "assets/images/menu/토마토파스타.jpg";
 import "../Table/style.css";
 
 //테이크아웃 주문을 위한 버튼, 주문모달 컴포넌트
-function TakeOut({ tableId, menu, socket }){
+function TakeOut({ tableId, menu, socket }) {
   const [show, setShow] = useState(false);
   const [tableEmpty, setTableEmpty] = useState(true);
   const [orderContents, setOrderContents] = useState([]);
@@ -312,14 +312,14 @@ function TakeOut({ tableId, menu, socket }){
                       tableId: tableId,
                       content: orderContents,
                       total: totalPrice,
-                      };
-                    enrollNewOrder(orderData)
-                    .then((res) => {
+                    };
+                    createNewOrder(orderData)
+                      .then((res) => {
                         if (res.data.success === true)
                           console.log("테이크아웃 주문 완료");
                         socket.emit("orderEvent", { what: "takeOutOrder" });
-                    });
-                 
+                      });
+
                     setOrderAlert(false);
                     setPayAlert(true);
                     afterPay();

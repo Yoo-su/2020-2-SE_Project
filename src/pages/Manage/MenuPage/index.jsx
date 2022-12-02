@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
-import AddMenuModal from "../../../components/Manage/AddMenuModal";
-import MenuCard from "../../../components/Manage/MenuCard";
-import { bringAllMenu } from "../../../lib/api/menu";
+import AddMenuModal from "components/Manage/AddMenuModal";
+import MenuCard from "components/Manage/MenuCard";
+import useGetAllMenus from "hooks/api/useGetAllMenus";
+import { menuImgs } from "./sampleImgs";
 import "./style.css";
 
 //매장 메뉴 조회 및 관리 페이지 컴포넌트
 export default function MenuPage() {
-  const [foods, setFoods] = useState([]);
   const [show, setShow] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [showEditBtn, setEditBtn] = useState(true);
+  const { loading, error, data, execute } = useGetAllMenus();
 
   const modalOnOff = () => {
     setShow(!show);
@@ -17,12 +18,7 @@ export default function MenuPage() {
 
   useEffect(() => {
     //컴포넌트 마운트 시 모든 메뉴정보 불러오기
-    bringAllMenu()
-    .then((res) => {
-      if (res.data.success === true) {
-        setFoods(res.data.menu);
-      } else console.log("error");
-    });
+    execute();
   }, []);
   return (
     <div id="menuPage">
@@ -64,16 +60,16 @@ export default function MenuPage() {
         <br></br>
       </div>
       <div id="menus" style={{ margin: "20px", textAlign: "center" }}>
-        {foods.map((food) => (
+        {data.map((menu, idx) => (
           <MenuCard
-            key={food.menuName}
-            activate={food.activate}
-            menuName={food.menuName}
+            key={menu.menuName}
+            activate={menu.activate}
+            menuName={menu.menuName}
             showBtn={editMode}
-            imgPath={food.imgPath}
-            price={food.price}
-            sales={food.sales}
-            remain={food.remainStock}
+            imgPath={menuImgs[idx]}
+            price={menu.price}
+            sales={menu.sales}
+            remain={menu.remainStock}
           ></MenuCard>
         ))}
       </div>

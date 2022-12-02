@@ -1,6 +1,6 @@
-import React, {memo} from "react";
+import React, { memo } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
-import { terminateTakeoutOrder } from "../../../lib/api/order";
+import { deleteTakeoutOrder } from "lib/api/order";
 
 //테이크아웃 주문 상세정보 모달 컴포넌트
 function TakeOutDetailModal({
@@ -14,7 +14,7 @@ function TakeOutDetailModal({
 }) {
   return (
     <div>
-      <Modal show={show} onHide={()=>{setShow()}} size="sm">
+      <Modal show={show} onHide={() => { setShow() }} size="sm">
         <Modal.Header>
           <b style={{ fontSize: "30px" }}>주문번호: {orderId}</b>
         </Modal.Header>
@@ -44,12 +44,12 @@ function TakeOutDetailModal({
             <Button
               variant="warning"
               onClick={() => {
-                terminateTakeoutOrder(orderId,price,foods)
-                .then((res) => {
-                  if (res.data.success === true) {
-                    socket.emit("takeOutEnd", { orderId: orderId });
-                  }
-                });
+                deleteTakeoutOrder(orderId, price, foods)
+                  .then((res) => {
+                    if (res.data.success === true) {
+                      socket.emit("takeOutEnd", { orderId: orderId });
+                    }
+                  });
               }}
             >
               수령

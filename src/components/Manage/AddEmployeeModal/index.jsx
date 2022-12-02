@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
-import { addNewWorker } from "../../../lib/api/user";
+import { createEmployee } from "lib/api/user";
 
 //직원 추가 모달 컴포넌트
 export default function AddEmployeeModal({ show, setShow }) {
@@ -113,7 +113,7 @@ export default function AddEmployeeModal({ show, setShow }) {
               ) {
                 alert("입력 정보를 확인해 주세요");
               } else {
-                  addNewWorker(newEmail,newNickname,newPassword,newWage,newRole)
+                createEmployee(newEmail, newNickname, newPassword, newWage, newRole)
                   .then((res) => {
                     if (res.data.success === true) {
                       alert("직원 추가가 완료되었습니다");

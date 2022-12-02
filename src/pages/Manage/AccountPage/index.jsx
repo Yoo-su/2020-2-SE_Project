@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import { fetchAccountInfo } from "../../../lib/api/sales";
+import { getAccountInfo } from "lib/api/sales";
 import { ResponsiveBar } from "@nivo/bar";
 import "./style.css";
 
@@ -13,7 +13,7 @@ export default function AccountPage() {
 
   //회계정보 불러와 state에 저장하는 함수
   function bringAccount() {
-    fetchAccountInfo().then((res) => {
+    getAccountInfo().then((res) => {
       if (res.data.success === true) {
         setAccountInfo(res.data.account);
         const tmp = res.data.account.map((d) => {

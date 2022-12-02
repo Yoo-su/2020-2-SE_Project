@@ -1,21 +1,19 @@
 import React, { useState, useLayoutEffect } from "react";
-import OrderCard_Chef from "../../../components/Cook/OrderCard_Chef";
-import { bringAllOrders } from '../../../lib/api/cook';
+import OrderCard_Chef from "components/Cook/OrderCard_Chef";
+import useGetAllOrders from "hooks/api/useGetAllOrders";
 import "./style.css";
 
 //쿠킹페이지 컴포넌트
 export default function CookPage({ socket }) {
-  const [orders, setOrders] = useState([]);
+  const { loading, error, data, setData, execute } = useGetAllOrders();
 
   useLayoutEffect(() => {
     //모든 주문 데이터 불러오기
-    bringAllOrders().then((res) => {
-      setOrders(res.data.order);
-    });
+    execute();
 
     //주문 관련 이벤트 주시
     socket.on("aboutOrder_chef", (data) => {
-      setOrders(data.order);
+      setData(data.order);
     });
 
     return () => {
@@ -29,14 +27,15 @@ export default function CookPage({ socket }) {
         <b>주문목록 </b>
       </div>
       <div id="cookContent">
-        {orders.map((order) => (
-          <OrderCard_Chef
-            key={Math.random()}
-            orderId={order.orderId}
-            orderTime={order.receiveTime}
-            socket={socket}
-          ></OrderCard_Chef>
-        ))}
+        {loading ? (<div>loading...</div>) :
+          data.order.map((order) => (
+            <OrderCard_Chef
+              key={Math.random()}
+              orderId={order.orderId}
+              orderTime={order.receiveTime}
+              socket={socket}
+            ></OrderCard_Chef>
+          ))}
       </div>
     </div>
   );

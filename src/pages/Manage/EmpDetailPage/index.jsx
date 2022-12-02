@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import { employeeDetail, workHistory, updateSalary,paySalary } from "../../../lib/api/user"
-import EmpRemoveWarning from "../../../components/Manage/RemoveWarning";
+import { getEmployeeDetail, getWorkHistory, updateSalary, paySalary } from "lib/api/user"
+import useGetEmployeeDetail from "hooks/api/useGetEmployeeDetail";
+import EmpRemoveWarning from "components/Manage/RemoveWarning";
 import './style.css';
 
 //직원 상세정보 조회 페이지 컴포넌트
@@ -11,48 +12,20 @@ export default function EmpDetailPage({ location }) {
   const [showInput, setShowInput] = useState(true);
   const [newSalary, setNewSalary] = useState(0);
   const [showWarningModal, setShowWarningModal] = useState(false);
-  const [workInfo, setWorkInfo] = useState([]);
-  const [payPrice, setPayPrice] = useState(0);
-  let number = 1;
 
-  //직원 급여정보 fetch 함수
-  function bringMoney() {
-    employeeDetail(emp)
-      .then((res) => {
-        if (res.data.success === true) {
-          setPayPrice(res.data.payPrice);
-        } else {
-          alert("오류발생");
-        }
-      });
-  }
-
-  //직원 근무기록 fetch 함수
-  function bringWorkInfo() {
-    workHistory(emp)
-      .then((res) => {
-        if (res.data.success === true) {
-          setWorkInfo(res.data.workInfo);
-        } else {
-          alert("오류발생");
-        }
-      });
-  }
+  const { loading, error, workHistory, sumOfPay,
+    setWorkHistory, setSumOfPay,
+    execute } = useGetEmployeeDetail(emp)
 
   useEffect(() => {
-    //컴포넌트 마운트 시 직원 급여정보와 근무기록 불러오기
-    bringMoney();
-    bringWorkInfo();
+    execute();
   }, []);
 
   //직원 삭제 경고모달 온오프 함수
-  function warningModalOnOff() {
+  function toggleWarningModal() {
     setShowWarningModal(!showWarningModal);
   }
 
-  function handleInput(e) {
-    setNewSalary(e.target.value);
-  }
   return (
     <div id="aboutEmp">
       <div id="Content">
@@ -82,7 +55,7 @@ export default function EmpDetailPage({ location }) {
           </button>
           <EmpRemoveWarning
             show={showWarningModal}
-            setShow={warningModalOnOff}
+            setShow={toggleWarningModal}
             userEmail={emp.email}
           ></EmpRemoveWarning>
         </div>
@@ -102,7 +75,7 @@ export default function EmpDetailPage({ location }) {
               <>
                 <b style={{ borderBottom: "2px solid #99aab5" }}>●시급:</b>
                 &nbsp;
-                <input type="number" onChange={handleInput}></input>
+                <input type="number" onChange={(e) => setNewSalary(e.target.value)}></input>
                 &nbsp;
                 <button
                   onClick={() => {
@@ -110,13 +83,13 @@ export default function EmpDetailPage({ location }) {
                       alert("변경할 시급을 확인해주세요");
                     else {
                       updateSalary()
-                      .then((res) => {
-                        if (res.data.success === true) {
-                          alert("변경 적용되었습니다 😀");
-                        } else {
-                          console.log("failed");
-                        }
-                      });;
+                        .then((res) => {
+                          if (res.data.success === true) {
+                            alert("변경 적용되었습니다 😀");
+                          } else {
+                            console.log("failed");
+                          }
+                        });;
                       setShowInput(!showInput);
                       setSalary(newSalary);
                       setNewSalary(0);
@@ -158,7 +131,7 @@ export default function EmpDetailPage({ location }) {
             )}
           </span>
           <label style={{ borderBottom: "2px solid #99aab5" }}>
-            ●지불할 임금 액수: {payPrice}원
+            ●지불할 임금 액수: {sumOfPay}원
           </label>
           <button
             className="payWageBtn"
@@ -168,22 +141,22 @@ export default function EmpDetailPage({ location }) {
               backgroundColor: "#FFDB58",
             }}
             onClick={() => {
-              paySalary(emp,payPrice)
-              .then((res) => {
-                if (res.data.success === true) {
-                  setPayPrice(0);
-                  alert("임금지불 완료");
-                } else {
-                  alert("오류발생");
-                }
-              });
-              setWorkInfo([]);
+              paySalary(emp, sumOfPay)
+                .then((res) => {
+                  if (res.data.success === true) {
+                    setSumOfPay(0);
+                    alert("임금지불 완료");
+                  } else {
+                    alert("오류발생");
+                  }
+                });
+              setWorkHistory([]);
             }}
           >
             지불
           </button>
         </div>
-        {workInfo.length > 0 ? (
+        {workHistory.length > 0 ? (
           <div id="workHistory">
             <label
               style={{
@@ -204,9 +177,9 @@ export default function EmpDetailPage({ location }) {
                 </tr>
               </thead>
               <tbody>
-                {workInfo.map((info) => (
+                {workHistory.map((info, idx) => (
                   <tr key={info.workhourId}>
-                    <td>{number++}</td>
+                    <td>{idx + 1}</td>
                     <td>{info.loginTime}</td>
                     <td>{info.logoutTime}</td>
                     <td>{info.workTime.split(".")[0]}</td>

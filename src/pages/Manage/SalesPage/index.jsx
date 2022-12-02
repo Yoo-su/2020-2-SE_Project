@@ -1,39 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import Pagination from "../../../components/common/Pagination";
-import { fetchSalesInfo } from "../../../lib/api/sales";
+import Pagination from "components/common/Pagination";
+import useGetSalesInfo from "hooks/api/useGetSalesInfo";
 import "./style.css";
 
 //판매정보 조회 페이지 컴포넌트
 export default function SalesPage() {
-  const [salesHistory, setSalesHistory] = useState([]);
-  const [waitAvg, setWaitAvg] = useState("");
-  const [spendAvg, setSpendAvg] = useState("");
-  const [todayTableSales, setTTS] = useState(0);
-  const [todayTakeOutSales, setTTOS] = useState(0);
-  let number = 1;
+  const {
+    loading, error,
+    data, tableSalesCnt, takeoutSalesCnt,
+    avgCustomerSpendTime, avgCustomerWaitTime,
+    execute,
+  } = useGetSalesInfo();
 
   //paging을 위한 변수
-  const [limit, setLimit]=useState(10);
-  const [page, setPage]=useState(1);
-  const offset = (page -1) * limit;
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(1);
+  const offset = (page - 1) * limit;
 
   useEffect(() => {
     //컴포넌트 마운트 시 매장 판매기록 불러오기
-    fetchSalesInfo()
-      .then((res) => {
-        if (res.data.success === true) {
-          setSalesHistory(res.data.salesInfo);
-          setTTS(res.data.todayTableSales);
-          setTTOS(res.data.todayTakeOutSales);
-          const wait = res.data.waitAvg.slice(0, 8);
-          const spend = res.data.spendAvg.slice(0, 8);
-          setWaitAvg(wait);
-          setSpendAvg(spend);
-        } else {
-          console.log("failed");
-        }
-      });
+    execute();
   }, []);
 
   return (
@@ -45,13 +32,13 @@ export default function SalesPage() {
           </div>
           <div id="analysisInfo">
             <b>
-              ●평균 주문 준비시간:{waitAvg}&nbsp;&nbsp;&nbsp; ●평균 고객
-              매장이용시간:{spendAvg}
+              ●평균 주문 준비시간:{avgCustomerWaitTime}&nbsp;&nbsp;&nbsp; ●평균 고객
+              매장이용시간:{avgCustomerSpendTime}
             </b>
             &nbsp;&nbsp;&nbsp;
             <b>
-              ●금일 테이블 판매 수: {todayTableSales}&nbsp;&nbsp; ●금일
-              테이크아웃 판매 수: {todayTakeOutSales}{" "}
+              ●금일 테이블 판매 수: {tableSalesCnt}&nbsp;&nbsp; ●금일
+              테이크아웃 판매 수: {takeoutSalesCnt}{" "}
             </b>
           </div>
         </div>
@@ -68,9 +55,9 @@ export default function SalesPage() {
             </tr>
           </thead>
           <tbody>
-            {salesHistory.slice(offset,offset+limit).map((sale) => (
+            {data.slice(offset, offset + limit).map((sale, idx) => (
               <tr key={sale.serialKey}>
-                <td>{number++}</td>
+                <td>{idx}</td>
                 <td>
                   {sale.orderType === 0 ? (
                     "테이크아웃"
@@ -87,11 +74,11 @@ export default function SalesPage() {
             ))}
           </tbody>
         </Table>
-        <Pagination 
-          total={salesHistory.length}
+        <Pagination
+          total={data.length}
           limit={limit}
           page={page}
-          setPage={setPage}  
+          setPage={setPage}
         />
       </div>
     </div>

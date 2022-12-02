@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { addMenuStock } from "../../../lib/api/menu";
+import { updateMenuStock } from "lib/api/menu";
 import "./style.css";
 
 //메뉴 재고 추가 관련 컴포넌트
@@ -41,7 +41,7 @@ export default function StockInfo({ menuName, stockRemain, stockPrice }) {
             onClick={() => {
               if (newAmount < 0) alert("추가 수량을 확인해주세요");
               else {
-                addMenuStock(menuName, newAmount, stockPrice)
+                updateMenuStock(menuName, newAmount, stockPrice)
                   .then((res) => {
                     if (res.data.success === true) {
                       console.log("재고 추가 완료");

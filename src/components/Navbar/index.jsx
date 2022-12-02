@@ -1,17 +1,18 @@
 import React from "react";
 import { Navbar, Nav } from "react-bootstrap";
-import { connect } from "react-redux";
-import { userLogout } from "../../lib/api/user";
-import { logOut } from "../../store/store";
-import {useDate, useTime} from "../../hooks";
+import { useSelector } from "react-redux";
+import { logout } from "lib/api/user";
+import useDate from "hooks/useDate";
+import useTime from "hooks/useTime";
 import "./style.css";
-import logo from "../../assets/icons/hat.png";
+import logo from "assets/icons/hat.png";
 
 //네비게이션 바 컴포넌트
-function NavBar({ userRole, isLogin, logOut, curUser }) {
+function NavBar() {
+  const { isLogin, userRole, userNickname } = useSelector(state => state.user);
   const date = useDate();
-  const time=useTime();
-  
+  const time = useTime();
+
   return (
     <div id="Navbar">
       <Navbar className="HomeNav">
@@ -61,17 +62,14 @@ function NavBar({ userRole, isLogin, logOut, curUser }) {
         </div>
         {isLogin === true ? (
           <div id="userInfo">
-            <p id="userName">{curUser} 님</p>
+            <p id="userName">{userNickname} 님</p>
             <p
               id="logoutBtn"
               onClick={() => {
-                userLogout(curUser)
-                .then((res) => {
-                  if (res.data.success === true) {
-                    console.log("로그아웃완료");
-                  } else alert("오류발생");
-                });
-                logOut();
+                logout(userNickname).then(res => {
+                  localStorage.clear();
+                  window.location.href = "/"
+                })
               }}
             >
               로그아웃
@@ -87,20 +85,4 @@ function NavBar({ userRole, isLogin, logOut, curUser }) {
   );
 }
 
-function mapStateToProps(state) {
-  return {
-    userRole: state.userRole,
-    isLogin: state.isLogin,
-    curUser: state.curUser,
-  };
-}
-
-function mapDispatchToProps(dispatch, ownProps) {
-  return {
-    logOut: () => {
-      dispatch(logOut());
-    },
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
+export default NavBar;

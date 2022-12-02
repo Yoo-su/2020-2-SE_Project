@@ -1,29 +1,26 @@
 import React, { useState, useEffect, memo } from "react";
 import { Modal, Alert, Spinner } from "react-bootstrap";
-import { alertStyle,StyledButton } from "../../common";
-import { bringTableInfo, enrollNewOrder, changeStateToServed, addOrder, payProcess, orderCancel } from "../../../lib/api/order";
-import { alertOnOff, changeOrderState, clearTable } from "./util";
-import gorgon from "../../../assets/images/menu/고르곤졸라.jpg";
-import carbo from "../../../assets/images/menu/까르보나라.jpg";
-import riso from "../../../assets/images/menu/리조또.jpg";
-import coffee from "../../../assets/images/menu/커피.jpg";
-import toma from "../../../assets/images/menu/토마토파스타.jpg";
+import { alertStyle, StyledButton } from "components/common";
+import { getTableInfo, createNewOrder, updateOrderStateToServed, addOrder, payProcess, orderCancel } from "lib/api/order";
+import { alertOnOff, updateOrderState, clearTable } from "./util";
+import useGetTableInfo from "hooks/api/useGetTableInfo";
+import { menuImgs } from "./imageSamples";
 import "./style.css";
 
 //테이블 주문을 위한 테이블 버튼과 주문모달 컴포넌트
-function Table({ tableId, empty, menu, socket }){
-  const [tableInfo, setTableInfo]=useState({
-    orderIds:[],
-    empty:empty,
-    orderState:"",
-    orderContents:[],
-    addedContents:[],
-    totalPrice:0,
-    addedPrice:0
+function Table({ tableId, empty, menu, socket }) {
+  const [tableInfo, setTableInfo] = useState({
+    orderIds: [],
+    empty: empty,
+    orderState: "",
+    orderContents: [],
+    addedContents: [],
+    totalPrice: 0,
+    addedPrice: 0
   })
-
+  const { loading, error, data, execute } = useGetTableInfo(tableId);
   const [show, setShow] = useState(false);
-  const [menuImgs, setMenuImgs] = useState([gorgon, carbo, riso, coffee, toma]);
+
   let miidx = 0;
 
   const [showOrderAlert, setOrderAlert] = useState(false);
@@ -35,11 +32,11 @@ function Table({ tableId, empty, menu, socket }){
   function applyInfo(data) {
     setTableInfo({
       ...tableInfo,
-      empty:false,
-      orderIds:data.order,
-      orderState:data.state,
-      orderContents:data.content,
-      totalPrice:data.total
+      empty: false,
+      orderIds: data.order,
+      orderState: data.state,
+      orderContents: data.content,
+      totalPrice: data.total
     })
 
   }
@@ -47,28 +44,23 @@ function Table({ tableId, empty, menu, socket }){
   useEffect(() => {
     //컴포넌트 마운트 시 빈 테이블이 아닌 경우 테이블 정보 fetch 함수 호출
     if (tableInfo.empty === false) {
-      bringTableInfo(tableId).then((res) => {
-        if (res.data.success === true) {
-          applyInfo(res.data);
-        } else {
-          console.log(res);
-        }
-      })
+      execute();
+      applyInfo(data);
     }
 
     socket.on("aboutTable", (data) => {
       //주문 준비 이벤트를 감지한 경우 주문 상태를 prepared로 변경
       if (data.what === "orderReady" && data.tableId === tableId) {
-        setTableInfo({...tableInfo, orderState:'prepared'});
-      } 
+        setTableInfo({ ...tableInfo, orderState: 'prepared' });
+      }
       //현 테이블 관련 갱신된 정보를 감지하면 해당 정보를 적용
       else if (data.what === "updatedTableInfo" && Number(data.tableId) === tableId) {
         applyInfo(data);
-      } 
+      }
       //취소 이벤트 감지한 경우 테이블 리셋
       else if (data.what === "cancle" && data.tableId === tableId) {
         resetTable();
-      } 
+      }
       //결제 이벤트 감지한 경우 테이블 리셋
       else if (data.what === "pay" && data.tableId === tableId) {
         resetTable();
@@ -84,20 +76,20 @@ function Table({ tableId, empty, menu, socket }){
   const afterOrder = () => {
     setTableInfo({
       ...tableInfo,
-      empty:false,
-      orderContents:tableInfo.addedContents,
-      addedContents:[],
-      totalPrice:tableInfo.totalPrice+tableInfo.addedPrice,
-      addedPrice:0
+      empty: false,
+      orderContents: tableInfo.addedContents,
+      addedContents: [],
+      totalPrice: tableInfo.totalPrice + tableInfo.addedPrice,
+      addedPrice: 0
     })
-    changeOrderState(tableInfo, setTableInfo);
+    updateOrderState(tableInfo, setTableInfo);
     alertOnOff(setOrderAlert);
   };
 
   //결제 후 처리 함수
   const afterPay = () => {
     setTimeout(() => {
-      clearTable(tableInfo,setTableInfo);
+      clearTable(tableInfo, setTableInfo);
       handleShow()
     }, 1500);
   };
@@ -161,7 +153,7 @@ function Table({ tableId, empty, menu, socket }){
         onHide={() => {
           setShow(false);
           setCancleAlert(false);
-          setTableInfo({...tableInfo, addedContents:[], addedPrice:0});
+          setTableInfo({ ...tableInfo, addedContents: [], addedPrice: 0 });
         }}
       >
         <Modal.Header closeButton>
@@ -193,8 +185,8 @@ function Table({ tableId, empty, menu, socket }){
                         onClick={() => {
                           setTableInfo({
                             ...tableInfo,
-                            addedContents:tableInfo.addedContents.filter((cur) => cur.key !== food.key),
-                            addedPrice:tableInfo.addedPrice-food.price
+                            addedContents: tableInfo.addedContents.filter((cur) => cur.key !== food.key),
+                            addedPrice: tableInfo.addedPrice - food.price
                           });
                         }}
                       >
@@ -253,8 +245,8 @@ function Table({ tableId, empty, menu, socket }){
                         }}
                         onClick={() => {
                           setTableInfo({
-                            addedContents:tableInfo.addedContents.filter((cur) => cur.key !== food.key),
-                            addedPrice:tableInfo.addedPrice-food.price
+                            addedContents: tableInfo.addedContents.filter((cur) => cur.key !== food.key),
+                            addedPrice: tableInfo.addedPrice - food.price
                           });
                         }}
                       >
@@ -291,17 +283,17 @@ function Table({ tableId, empty, menu, socket }){
                       if (menuIdx > -1) {
                         tmpAddedContent[menuIdx].count += 1;
                         tmpAddedContent[menuIdx].price += food.price;
-                        setTableInfo({...tableInfo, addedContents:tmpAddedContent, addedPrice:tableInfo.addedPrice+food.price});
+                        setTableInfo({ ...tableInfo, addedContents: tmpAddedContent, addedPrice: tableInfo.addedPrice + food.price });
                       } else {
                         setTableInfo({
                           ...tableInfo,
-                          addedContents:tableInfo.addedContents.concat({
+                          addedContents: tableInfo.addedContents.concat({
                             key: Math.random(),
                             menuName: food.menuName,
                             count: 1,
                             price: food.price,
                           }),
-                          addedPrice:tableInfo.addedPrice+food.price
+                          addedPrice: tableInfo.addedPrice + food.price
                         })
                       }
                     }}
@@ -353,7 +345,7 @@ function Table({ tableId, empty, menu, socket }){
                   onClick={() => {
                     if (tableInfo.addedContents.length === 0) {
                       alert("선택된 음식이 없습니다");
-                    } 
+                    }
                     else {
                       const orderData = {
                         tableId: tableId,
@@ -362,18 +354,18 @@ function Table({ tableId, empty, menu, socket }){
                         oldContent: tableInfo.orderContents,
                         oldTotal: tableInfo.totalPrice,
                       };
-                      enrollNewOrder(orderData)
-                      .then((res) => {
-                        if (res.data.success === true) {
-                          console.log("success");
-                          socket.emit("orderEvent", {
-                            what: "order",
-                            tableId: tableId,
-                          });
-                        } else {
-                          console.log("server error");
-                        }
-                      })
+                      createNewOrder(orderData)
+                        .then((res) => {
+                          if (res.data.success === true) {
+                            console.log("success");
+                            socket.emit("orderEvent", {
+                              what: "order",
+                              tableId: tableId,
+                            });
+                          } else {
+                            console.log("server error");
+                          }
+                        })
                       afterOrder();
                     }
                   }}
@@ -388,7 +380,7 @@ function Table({ tableId, empty, menu, socket }){
                 <StyledButton
                   bgColor="#FFDB58"
                   onClick={() => {
-                    changeStateToServed(tableId).then((res) => {
+                    updateOrderStateToServed(tableId).then((res) => {
                       if (res.data.success === true) {
                         socket.emit("orderEvent", {
                           what: "served",
@@ -421,12 +413,12 @@ function Table({ tableId, empty, menu, socket }){
 
                     setTableInfo({
                       ...tableInfo,
-                      orderContents:tableInfo.orderContents.concat(tableInfo.addedContents),
-                      totalPrice:tableInfo.totalPrice+tableInfo.addedPrice,
-                      addedContents:[],
-                      addedPrice:0,
+                      orderContents: tableInfo.orderContents.concat(tableInfo.addedContents),
+                      totalPrice: tableInfo.totalPrice + tableInfo.addedPrice,
+                      addedContents: [],
+                      addedPrice: 0,
                     })
-                    changeOrderState(tableInfo.orderState, setTableInfo);
+                    updateOrderState(tableInfo.orderState, setTableInfo);
                     alertOnOff(setAddAlert);
                   }}
                 >
@@ -442,7 +434,7 @@ function Table({ tableId, empty, menu, socket }){
                   color="white"
                   onClick={() => {
                     afterPay();
-                    const {orderContents, totalPrice, orderIds}=tableInfo;
+                    const { orderContents, totalPrice, orderIds } = tableInfo;
                     payProcess(tableId, orderContents, totalPrice, orderIds).then((res) => {
                       if (res.data.success === true) {
                         socket.emit("orderEvent", {

@@ -53,11 +53,15 @@ export default function LoginPage() {
                 })
                 .then((res) => {
                   console.log(res.data);
+
                   if (res.data.success === true) {
-                    localStorage.setItem("userNick", res.data.nickName);
-                    localStorage.setItem("role", res.data.role);
-                    alert("로그인 성공");
-                    window.location.href = "https://yoo-su.github.io/every-gp";
+                    localStorage.setItem("user", JSON.stringify({
+                      userNickname: res.data.nickName,
+                      userRole: res.data.role,
+                    }))
+                    alert("로그인에 성공했습니다");
+                    //window.location.href = "https://yoo-su.github.io/every-gp";
+                    window.location.href = "/";
                   } else {
                     alert("입력 정보를 확인해주세요");
                   }

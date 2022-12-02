@@ -1,25 +1,22 @@
 import apiClient from "./client";
 
-export const newMenu=(formData)=>
-    apiClient.post("/menu/addMenu",formData)
+export const createMenu = (formData) =>
+  apiClient.post("/menu/addMenu", formData);
 
-export const setMenuActivation=(menuName,type)=>
-    apiClient.put("/menu/menuActivate",
-        { params: { menuName: menuName, activate: type } }
-    )
+export const setMenuActivation = (menuName, type) =>
+  apiClient.put("/menu/menuActivate", {
+    params: { menuName: menuName, activate: type },
+  });
 
-export const bringActivatedMenu=()=>
-    apiClient.get("/menu/allActivatedMenu")
+export const getActivatedMenus = () => apiClient.get("/menu/allActivatedMenu");
 
-export const bringAllMenu=()=>
-    apiClient.get("/menu/allMenu")
+export const getAllMenus = () => apiClient.get("/menu/allMenu");
 
-export const addMenuStock=(menuName, newAmount, stockPrice)=>
-    apiClient.get("/menu/fillStock", {
-        params: {
-            menuName: menuName,
-            amount: parseInt(newAmount),
-            stockPrice: parseInt(stockPrice),
-        },
-    })
-
+export const updateMenuStock = (menuName, newAmount, stockPrice) =>
+  apiClient.get("/menu/fillStock", {
+    params: {
+      menuName: menuName,
+      amount: parseInt(newAmount),
+      stockPrice: parseInt(stockPrice),
+    },
+  });

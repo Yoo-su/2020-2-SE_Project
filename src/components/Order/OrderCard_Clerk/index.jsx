@@ -1,18 +1,18 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Spinner } from "react-bootstrap";
 import TakeOutDetailModal from "../TakeOutDetailModal";
-import { bringTakeoutOrderContent } from "../../../lib/api/order";
+import useGetTakeoutOrderInfo from "hooks/api/useGetTakeoutOrderInfo";
 import "./style.css";
 
 //테이크아웃 주문 카드 컴포넌트
 export default function OrderCard_Clerk({ orderId, state, price, socket }) {
   const [showDetail, setShowDetail] = useState(false);
-  const getContentApi = useApi(bringTakeoutOrderContent);
   const [orderState, setOrderState] = useState(state);
+  const { loading, error, data, execute } = useGetTakeoutOrderInfo();
 
   useEffect(() => {
     //컴포넌트 마운트 시 주문id를 통해 해당 주문내용 불러오기
-    getContentApi.request(orderId);
+    execute();
 
     //테이크아웃 주문이 준비되는지 소켓이벤트 주시
     socket.on("takeOutPrepared", (data) => {
@@ -44,22 +44,22 @@ export default function OrderCard_Clerk({ orderId, state, price, socket }) {
         </Card.Header>
         <Card.Body>
           <Card.Text>
-            {content?.length > 3 ? (
+            {data.length > 3 ? (
               <span
                 className="cardInfo"
                 style={{ display: "flex", flexDirection: "column" }}
               >
                 <label>
-                  {content[0].menu_menuName} X {content[0].count}
+                  {data[0].menu_menuName} X {data[0].count}
                 </label>
                 <label>
-                  {content[1].menu_menuName} X {content[1].count}
+                  {data[1].menu_menuName} X {data[1].count}
                 </label>
-                <label>외 {content.length - 2}</label>
+                <label>외 {data.length - 2}</label>
               </span>
             ) : (
               <span>
-                {content?.map((food) => (
+                {data.map((food) => (
                   <span
                     className="cardInfo"
                     key={Math.random()}
@@ -95,10 +95,10 @@ export default function OrderCard_Clerk({ orderId, state, price, socket }) {
           )}
         </Card.Footer>
         <TakeOutDetailModal
-          show={modalOn}
-          setShow={toggleModal}
+          show={showDetail}
+          setShow={setShowDetail}
           orderId={orderId}
-          foods={content}
+          foods={data}
           state={orderState}
           price={price}
           socket={socket}

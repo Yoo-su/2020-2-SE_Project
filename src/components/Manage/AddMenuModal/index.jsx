@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button, Modal } from "react-bootstrap";
-import { newMenu } from "../../../lib/api/menu";
+import { createMenu } from "lib/api/menu";
 
 //메뉴추가 모달 컴포넌트
 export default function AddMenuModal({ show, setShow }) {
@@ -92,13 +92,13 @@ export default function AddMenuModal({ show, setShow }) {
               ) {
                 alert("입력정보를 확인해주세요");
               } else {
-                newMenu(formData)
-                .then((res) => {
-                  if (res.data.success === true) {
-                    alert("메뉴 추가가 완료되었습니다");
-                    window.location.reload();
-                  } else console.log("failed");
-                });
+                createMenu(formData)
+                  .then((res) => {
+                    if (res.data.success === true) {
+                      alert("메뉴 추가가 완료되었습니다");
+                      window.location.reload();
+                    } else console.log("failed");
+                  });
               }
             }}
           >

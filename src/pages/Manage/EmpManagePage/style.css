@@ -3,7 +3,7 @@
     margin:10px;
     border-radius: 10px;
     background-color: white;
-    min-height: 650px;
+    min-height: 100vh;
 }
 
 #mwTitle{

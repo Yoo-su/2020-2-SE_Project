@@ -1,7 +1,7 @@
 #accountPage{
     margin:10px;
     background-color: white;
-    height: 100vh;
+    min-height: 100vh;
     border-radius: 10px;
 }
 

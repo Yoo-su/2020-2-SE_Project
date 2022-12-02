@@ -1,7 +1,5 @@
 import apiClient from "./client";
 
-export const fetchSalesInfo = () =>
-  apiClient.get("/store/sales");
+export const getSalesInfo = () => apiClient.get("/store/sales");
 
-export const fetchAccountInfo=()=>
-  apiClient.get("/store/account")
+export const getAccountInfo = () => apiClient.get("/store/account");

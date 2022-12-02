@@ -1,6 +1,6 @@
 import React, { useState, useLayoutEffect } from "react";
 import { Card, Button } from "react-bootstrap";
-import { bringOrderDetail, setOrderStateToPrepared } from "../../../lib/api/order";
+import { getOrderDetail, updateOrderStateToPrepared } from "lib/api/order";
 import OrderInfoModal from "../OrderInfoModal";
 import "./style.css";
 
@@ -12,7 +12,7 @@ export default function OrderCard_Chef({ orderId, orderTime, socket }) {
 
   useLayoutEffect(() => {
     //주문 관련 상세정보 불러오기
-    bringOrderDetail(orderId).then((res) => {
+    getOrderDetail(orderId).then((res) => {
       if (res.data.success === true) {
         setContent(res.data.content);
         console.log(res.data.content);
@@ -74,15 +74,15 @@ export default function OrderCard_Chef({ orderId, orderTime, socket }) {
             className="completeBtn"
             variant="success"
             onClick={() => {
-              setOrderStateToPrepared(orderId)
-              .then((res) => {
-                if (res.data.success === true) {
-                  socket.emit("cookEvent", {
-                    tableId: tableOrTakeOut,
-                    orderId: orderId,
-                  });
-                }
-              });
+              updateOrderStateToPrepared(orderId)
+                .then((res) => {
+                  if (res.data.success === true) {
+                    socket.emit("cookEvent", {
+                      tableId: tableOrTakeOut,
+                      orderId: orderId,
+                    });
+                  }
+                });
             }}
           >
             완료알림

@@ -3,7 +3,7 @@
     margin:10px;
     background-color: white;
     border-radius: 5px;
-    min-height: 650px;
+    min-height: 100vh;
 }
 
 #Content{

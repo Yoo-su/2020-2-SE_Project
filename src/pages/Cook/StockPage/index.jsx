@@ -1,21 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import StockInfo from "../../../components/Cook/StockInfo";
-import { bringAllMenu } from "../../../lib/api/menu";
+import StockInfo from "components/Cook/StockInfo";
+import useGetAllMenus from "hooks/api/useGetAllMenus";
 import "./style.css";
 
 //메뉴 재고조회 및 관리 페이지 컴포넌트
 export default function StockPage() {
-  const [menu, setMenu] = useState([]);
-  let number = 1;
+  const { loading, error, data, execute } = useGetAllMenus();
 
   useEffect(() => {
-    //모든 메뉴정보 불러오기
-    bringAllMenu().then((res) => {
-      if (res.data.success === true) {
-        setMenu(res.data.menu);
-      }
-    });
+    execute();
   }, []);
   return (
     <div id="stockPage">
@@ -33,18 +27,18 @@ export default function StockPage() {
           </tr>
         </thead>
         <tbody>
-          {menu.map((one) => (
-            <tr key={one.menuName}>
-              <td>{number++}</td>
-              <td>{one.menuName}</td>
+          {data.map((menu, idx) => (
+            <tr key={idx}>
+              <td>{idx}</td>
+              <td>{menu.menuName}</td>
               <td>
                 <StockInfo
-                  menuName={one.menuName}
-                  stockRemain={one.remainStock}
-                  stockPrice={one.stockPrice}
+                  menuName={menu.menuName}
+                  stockRemain={menu.remainStock}
+                  stockPrice={menu.stockPrice}
                 ></StockInfo>
               </td>
-              <td>{one.stockPrice}원</td>
+              <td>{menu.stockPrice}원</td>
             </tr>
           ))}
         </tbody>

@@ -17,6 +17,8 @@ export default function useTime() {
 
   useEffect(() => {
     setInterval(getTime, 1000);
+
+    return () => clearInterval(getTime)
   }, [])
 
   return time;
